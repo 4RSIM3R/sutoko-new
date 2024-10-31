@@ -15,6 +15,9 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^v2.10.0",
         "spatie/laravel-data": "^4.7",
+        "spatie/laravel-medialibrary": "^11.9",
+        "spatie/laravel-permission": "^6.9",
+        "spatie/laravel-query-builder": "^6.2",
         "tightenco/duster": "^v3.0.3",
         "tightenco/ziggy": "^v2.3.1"
     },
