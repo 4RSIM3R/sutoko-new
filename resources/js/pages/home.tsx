@@ -17,7 +17,9 @@ export default function Home() {
                             <Card.Description>Login untuk pegawai klinik</Card.Description>
                         </Card.Header>
                         <Card.Content>
-                            <Button size='small' className="w-full" appearance='outline'>Login Pegawai</Button>
+                            <Link href={route('login')}>
+                                <Button size='small' className="w-full" appearance='outline'>Login Pegawai</Button>
+                            </Link>
                         </Card.Content>
                     </Card>
                     <Card className='lg:col-span-4' >
@@ -26,7 +28,9 @@ export default function Home() {
                             <Card.Description>login untuk owner klinik</Card.Description>
                         </Card.Header>
                         <Card.Content>
-                            <Button size='small' className="w-full" appearance='outline'>Login Super-Admin</Button>
+                            <Link href={route('login')}>
+                                <Button size='small' className="w-full" appearance='outline'>Login Super-Admin</Button>
+                            </Link>
                         </Card.Content>
                     </Card>
                     <Card className='lg:col-span-4' >
@@ -35,7 +39,9 @@ export default function Home() {
                             <Card.Description>Halaman informasi jadwal dokter</Card.Description>
                         </Card.Header>
                         <Card.Content>
-                            <Button size='small' className="w-full" appearance='outline'>Check Jadwal</Button>
+                            <Link href={route('schedule.index')}>
+                                <Button size='small' className="w-full" appearance='outline'>Check Jadwal</Button>
+                            </Link>
                         </Card.Content>
                     </Card>
                     <Card className='lg:col-span-4' >
@@ -44,7 +50,9 @@ export default function Home() {
                             <Card.Description>Form booking nomor antrian berkunjung klinik</Card.Description>
                         </Card.Header>
                         <Card.Content>
-                            <Button size='small' className="w-full" appearance='outline'>Booking Antrian</Button>
+                            <Link href={route('queue.index')}>
+                                <Button size='small' className="w-full" appearance='outline'>Booking Antrian</Button>
+                            </Link>
                         </Card.Content>
                     </Card>
                 </div>

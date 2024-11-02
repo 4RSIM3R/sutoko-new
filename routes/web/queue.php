@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\QueueController;
 use Illuminate\Support\Facades\Route;
 
-Route::group([], function () {});
+Route::group(['prefix' => 'queue', 'as' => 'queue.'], function () {
+    Route::get('/', [QueueController::class, 'index'])->name('index');
+});

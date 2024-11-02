@@ -3,13 +3,9 @@ import { GuestLayout } from 'layouts';
 import React, { useEffect } from 'react';
 import { Button, buttonStyles, Checkbox, Form, Link, TextField } from 'ui';
 
-interface LoginProps {
-    status: string;
-    canResetPassword: boolean;
-}
 
-export default function Login(args: LoginProps) {
-    const { status, canResetPassword } = args;
+export default function Login() {
+
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -56,27 +52,6 @@ export default function Login(args: LoginProps) {
                     errorMessage={errors.password}
                     isRequired
                 />
-
-                <div className="flex items-center justify-between">
-                    <Checkbox name="remember" onChange={(v) => setData('remember', v as any)}>
-                        Remember me
-                    </Checkbox>
-                    {canResetPassword && (
-                        <Link href="/forgot-password" className="text-sm text-fg hover:underline">
-                            Forgot your password?
-                        </Link>
-                    )}
-                </div>
-
-                <div className="flex items-center justify-between">
-                    <Link href={route('register')} className={buttonStyles({ appearance: 'outline' })}>
-                        Register
-                    </Link>
-
-                    <Button isDisabled={processing} type="submit">
-                        Log in
-                    </Button>
-                </div>
             </Form>
         </>
     );
