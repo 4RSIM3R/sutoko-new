@@ -8,6 +8,6 @@ class BackofficeController extends Controller
 {
     public function index()
     {
-        //
+        echo "helloo";
     }
 }

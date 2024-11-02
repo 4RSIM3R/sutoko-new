@@ -12,7 +12,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
         then: function () {
             // include all files, and all files in the subdirectory
-            foreach (glob(base_path('routes/web/*.php')) + glob(base_path('routes/web/**/*.php'), GLOB_BRACE) as $file) {
+            foreach (glob(base_path('routes/web/*.php')) as $file) {
+                Route::middleware('web')
+                    ->group($file);
+            }
+
+            foreach (glob(base_path('routes/web/*/*.php')) as $file) {
                 Route::middleware('web')
                     ->group($file);
             }
