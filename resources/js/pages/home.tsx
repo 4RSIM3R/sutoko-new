@@ -1,123 +1,56 @@
-import { Head } from '@inertiajs/react';
-import { Header } from 'components/header';
-import { Logo } from 'components/logo';
-import {
-    IconBrandGithub,
-    IconBrandJustd,
-    IconBrandKarteil,
-    IconBrandParanoid,
-    IconBrandParsinta,
-    IconCube
-} from 'justd-icons';
 import { AppLayout } from 'layouts';
-import { Card, Container, Grid, Link } from 'ui';
+import { Button, Card, Container, Grid, Link } from 'ui';
 
-const items = [
-    {
-        name: 'Just D.',
-        url: 'https://getjustd.com',
-        icon: IconBrandJustd,
-        description:
-            ' Just D. is a chill set of React components, built on top of React Aria Components, all about keeping the web accessible.'
-    },
-    {
-        name: 'Inertia.ts',
-        url: 'https://github.com/irsyadadl/inertia.ts',
-        icon: IconBrandGithub,
-        description:
-            'This project is developed by IrsyadAdl, if you want to contribute to this project, please visit the Github Repository.'
-    },
-    {
-        name: 'Icons',
-        url: 'https://getjustd.com/icons',
-        icon: IconBrandParanoid,
-        description:
-            'A library of beautifully crafted react icons, perfect for enhancing the visual appeal and user experience of your web applications.'
-    },
-    {
-        name: 'Next.js Template',
-        url: 'https://irsyad.co/s',
-        icon: IconCube,
-        description: 'Explore the next.js templates from web apps to design systems, all here.'
-    },
-    {
-        name: 'Parsinta',
-        url: 'https://parsinta.com',
-        icon: IconBrandParsinta,
-        description:
-            'Improve your skills with Parsinta by pushing your skills to the next level, through the series here such as Laravel, Vue, React, Tailwind CSS and Much more.'
-    },
-    {
-        name: 'Karteil',
-        url: 'https://karteil.com',
-        icon: IconBrandKarteil,
-        description:
-            'Improve your skills with Karteil by pushing your skills to the next level, through the online books here such as Laravel, Vue, React, Tailwind CSS and Much more.'
-    }
-];
 
 export default function Home() {
     return (
         <>
-            <Head title="Welcome to Laravel" />
-            <Header title="Inertia Typescript" />
-            <Container>
-                <div className="overflow-hidden rounded-lg border lg:border-border border-transparent">
-                    <div>
-                        <div className="sm:p-20">
-                            <Link
-                                href="https://getjustd.com"
-                                target="_blank"
-                                className="grid place-content-center size-12 outline-1 outline-border rounded-full"
-                            >
-                                <Logo className="block size-7" />
-                            </Link>
-                            <div className="max-w-2xl mb-8">
-                                <div className="mt-6 text-xl sm:text-2xl">
-                                    Laravel application with Inertia and React Typescript!
-                                </div>
-                                <div className="mt-4 text-muted-fg sm:text-lg">
-                                    This is a Laravel application with Inertia and React Typescript. It is a work in
-                                    progress. If you have any questions or suggestions, please feel free to contact me.
-                                </div>
-                            </div>
-
-                            <Grid
-                                columns={{
-                                    initial: 1,
-                                    sm: 2
-                                }}
-                                gap={4}
-                            >
-                                <Grid.Collection items={items}>
-                                    {(item) => (
-                                        <Grid.Item className="relative" id={item.name}>
-                                            <Link
-                                                className="absolute inset-0 size-full"
-                                                target="_blank"
-                                                href={item.url}
-                                            />
-                                            <Card>
-                                                <div className="px-6 pt-6">
-                                                    <div className="size-8 grid place-content-center rounded-full border">
-                                                        <item.icon />
-                                                    </div>
-                                                </div>
-                                                <Card.Header>
-                                                    <Card.Title>{item.name}</Card.Title>
-                                                    <Card.Description>{item.description}</Card.Description>
-                                                </Card.Header>
-                                            </Card>
-                                        </Grid.Item>
-                                    )}
-                                </Grid.Collection>
-                            </Grid>
-                        </div>
-                    </div>
+            <Container className='h-screen flex flex-col items-center justify-center max-w-5xl mx-auto' >
+                <div className='flex flex-col items-center' >
+                    <p className='text-3xl font-medium' >Selamat Datangg Di RME Sutoko</p>
+                    <p className='' >A Dead Simple RME, satu sehat oriented platform</p>
+                </div>
+                <div className='grid grid-cols-12 gap-4 mt-8' >
+                    <Card className='lg:col-span-4' >
+                        <Card.Header>
+                            <Card.Title>Login Pegawai</Card.Title>
+                            <Card.Description>Login untuk pegawai klinik</Card.Description>
+                        </Card.Header>
+                        <Card.Content>
+                            <Button size='small' className="w-full" appearance='outline'>Login Pegawai</Button>
+                        </Card.Content>
+                    </Card>
+                    <Card className='lg:col-span-4' >
+                        <Card.Header>
+                            <Card.Title>Login Super-Admin</Card.Title>
+                            <Card.Description>login untuk owner klinik</Card.Description>
+                        </Card.Header>
+                        <Card.Content>
+                            <Button size='small' className="w-full" appearance='outline'>Login Super-Admin</Button>
+                        </Card.Content>
+                    </Card>
+                    <Card className='lg:col-span-4' >
+                        <Card.Header>
+                            <Card.Title>Jadwal Dokter</Card.Title>
+                            <Card.Description>Halaman informasi jadwal dokter</Card.Description>
+                        </Card.Header>
+                        <Card.Content>
+                            <Button size='small' className="w-full" appearance='outline'>Check Jadwal</Button>
+                        </Card.Content>
+                    </Card>
+                    <Card className='lg:col-span-4' >
+                        <Card.Header>
+                            <Card.Title>Antrian Online</Card.Title>
+                            <Card.Description>Form booking nomor antrian berkunjung klinik</Card.Description>
+                        </Card.Header>
+                        <Card.Content>
+                            <Button size='small' className="w-full" appearance='outline'>Booking Antrian</Button>
+                        </Card.Content>
+                    </Card>
                 </div>
             </Container>
         </>
     );
 }
 
-Home.layout = (page: any) => <AppLayout children={page} />;
+// Home.layout = (page: any) => <AppLayout children={page} />;

@@ -7,8 +7,8 @@ export function AppLayout({ children }: PropsWithChildren) {
     return (
         <div>
             <FlashMessage />
-            <AppNavbar>{children}</AppNavbar>
-            <Footer />
+            {children}
+            {/* <Footer /> */}
         </div>
     );
 }
