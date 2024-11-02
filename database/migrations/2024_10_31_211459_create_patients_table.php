@@ -13,7 +13,21 @@ return new class extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('nik');
+            $table->date('birth_date')->nullable();
+            $table->enum('gender', ['male', 'female']);
+            $table->string('religion')->nullable();
+            $table->string('blood_group')->nullable();
+            $table->string('education')->nullable();
+            $table->string('marital_status')->nullable();
+            $table->string('occupation')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('address')->nullable();
+            $table->string('satu_sehat_id')->nullable();
+            $table->dateTime('synced_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
