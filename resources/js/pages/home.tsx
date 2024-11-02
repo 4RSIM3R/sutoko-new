@@ -1,4 +1,3 @@
-import { AppLayout } from 'layouts';
 import { Button, Card, Container, Grid, Link } from 'ui';
 
 
@@ -61,4 +60,4 @@ export default function Home() {
     );
 }
 
-// Home.layout = (page: any) => <AppLayout children={page} />;
+// Home.layout = (page: any) => <GuestLayout children={page} />;

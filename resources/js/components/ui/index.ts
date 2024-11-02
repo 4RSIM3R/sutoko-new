@@ -23,3 +23,6 @@ export * from './sheet';
 export * from './table';
 export * from './text-field';
 export * from './toast';
+export * from './sidebar';
+export * from './tooltip';
+export * from './breadcrumbs';
