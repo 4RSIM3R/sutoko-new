@@ -1,5 +1,5 @@
 import { Avatar, Button, Link, Menu, Separator, Sidebar, TextField } from "@/components/ui";
-import { IconBrandApple, IconChevronLgDown, IconCirclePerson, IconCirclePlus, IconDocumentChart, IconLogout, IconMoneybag, IconPeople, IconSearch, IconSettings, IconShield } from "justd-icons";
+import { IconBrandApple, IconCalendar, IconChevronLgDown, IconCirclePerson, IconCirclePlus, IconDevicePhone, IconDocumentChart, IconLogout, IconMoneybag, IconPeople, IconSearch, IconSettings, IconShield } from "justd-icons";
 import { PropsWithChildren } from "react";
 
 export function AppLayout({ children }: PropsWithChildren) {
@@ -17,7 +17,7 @@ export function AppLayout({ children }: PropsWithChildren) {
                 </Sidebar.Header>
                 <Sidebar.Content  >
                     <Sidebar.Section collapsible title="Master Data" className="text-black" >
-                        <Sidebar.Item icon={IconPeople} href="#">
+                        <Sidebar.Item icon={IconPeople} href={route('backoffice.patient.index')}>
                             Pasien
                         </Sidebar.Item>
                         <Sidebar.Item icon={IconCirclePlus} href="#">
@@ -42,6 +42,14 @@ export function AppLayout({ children }: PropsWithChildren) {
                         </Sidebar.Item>
                         <Sidebar.Item icon={IconMoneybag} href="#">
                             Kasir
+                        </Sidebar.Item>
+                    </Sidebar.Section>
+                    <Sidebar.Section collapsible title="Plugns" className="text-black" >
+                        <Sidebar.Item icon={IconCalendar} href="#">
+                            Jadwal Dokter
+                        </Sidebar.Item>
+                        <Sidebar.Item icon={IconDevicePhone} href="#">
+                            Antrian Online
                         </Sidebar.Item>
                     </Sidebar.Section>
                 </Sidebar.Content>

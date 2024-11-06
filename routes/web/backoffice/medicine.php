@@ -3,7 +3,7 @@
 use App\Http\Controllers\Backoffice\MedicineController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'backoffice/medicine', 'as' => 'backoffice.medicine.'], function () {
+Route::group(['prefix' => 'backoffice/medicine', 'as' => 'backoffice.medicine.', 'middleware' => ['auth']], function () {
     Route::get('', [MedicineController::class, 'index'])->name('index');
     Route::get('create', [MedicineController::class, 'create'])->name('create');
     Route::post('store', [MedicineController::class, 'store'])->name('store');

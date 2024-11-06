@@ -2,4 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group([], function () {});
+Route::group(['prefix' => 'backoffice/encounter', 'as' => 'backoffice.encounter.', 'middleware' => ['auth']], function () {
+    
+});

@@ -3,7 +3,7 @@
 use App\Http\Controllers\Backoffice\PractionerController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'backoffice/practioner', 'as' => 'backoffice.practioner.'], function () {
+Route::group(['prefix' => 'backoffice/practioner', 'as' => 'backoffice.practioner.', 'middleware' => ['auth']], function () {
     Route::get('', [PractionerController::class, 'index'])->name('index');
     Route::get('create', [PractionerController::class, 'create'])->name('create');
     Route::post('store', [PractionerController::class, 'store'])->name('store');

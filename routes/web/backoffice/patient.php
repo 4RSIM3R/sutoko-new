@@ -3,7 +3,7 @@
 use App\Http\Controllers\Backoffice\PatientController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'backoffice/patient', 'as' => 'backoffice.patient.'], function () {
+Route::group(['prefix' => 'backoffice/patient', 'as' => 'backoffice.patient.', 'middleware' => ['auth']], function () {
     Route::get('', [PatientController::class, 'index'])->name('index');
     Route::get('create', [PatientController::class, 'create'])->name('create');
     Route::post('store', [PatientController::class, 'store'])->name('store');
