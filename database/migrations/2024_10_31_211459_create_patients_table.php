@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
+            $table->string('nik');
             $table->string('name');
             $table->enum('gender', ['male', 'female']);
-            $table->string('nik')->nullable();
             $table->date('birth_date')->nullable();
             $table->string('religion')->nullable();
             $table->string('blood_group')->nullable();
@@ -28,6 +28,7 @@ return new class extends Migration
             $table->dateTime('synced_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->index(['nik']);
         });
     }
 
