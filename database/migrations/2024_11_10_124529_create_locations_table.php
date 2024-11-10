@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('satu_sehat_id')->nullable();
             $table->dateTime('synced_at')->nullable();
-            $table->timestamps();
             $table->softDeletes();
             $table->timestamps();
         });

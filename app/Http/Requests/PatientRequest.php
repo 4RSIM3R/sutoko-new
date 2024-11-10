@@ -22,16 +22,17 @@ class PatientRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'nik' => ['required', 'size:16'],
             'name' => ['required', 'string', 'max:225'],
-            'nik' => ['nullable', 'size:16'],
-            'birth_date' => ['nullable', 'date'],
-            'religion' => ['nullable', 'string'],
-            'blood_group' => ['nullable', 'string'],
-            'education' => ['nullable', 'string'],
-            'marital_status' => ['nullable', 'string'],
-            'occupation' => ['nullable', 'string'],
-            'phone_number' => ['nullable', 'string'],
-            'address' => ['nullable', 'string'],
+            'gender' => ['required', 'in:male,female'],
+            'birth_date' => ['required', 'date'],
+            'religion' => ['nullable', 'string', 'max:255'],
+            'blood_group' => ['nullable', 'string', 'max:255'],
+            'education' => ['nullable', 'string', 'max:255'],
+            'marital_status' => ['nullable', 'string', 'max:255'],
+            'occupation' => ['nullable', 'string', 'max:255'],
+            'phone_number' => ['nullable', 'string', 'max:255'],
+            'address' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

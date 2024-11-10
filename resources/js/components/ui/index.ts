@@ -26,3 +26,4 @@ export * from './toast';
 export * from './sidebar';
 export * from './tooltip';
 export * from './breadcrumbs';
+export * from './textarea';
