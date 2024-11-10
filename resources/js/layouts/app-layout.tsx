@@ -1,5 +1,5 @@
 import { Avatar, Button, Link, Menu, Separator, Sidebar, TextField } from "@/components/ui";
-import { IconBrandApple, IconCalendar, IconChevronLgDown, IconCirclePerson, IconCirclePlus, IconDevicePhone, IconDocumentChart, IconLogout, IconMoneybag, IconPeople, IconSearch, IconSettings, IconShield } from "justd-icons";
+import { IconBrandApple, IconCalendar, IconChevronLgDown, IconCirclePerson, IconCirclePlus, IconDevicePhone, IconDocumentChart, IconHome2, IconHome2Fill, IconLogout, IconMoneybag, IconMoneybagFill, IconPeople, IconSearch, IconSettings, IconShield, IconSquarePlus } from "justd-icons";
 import { PropsWithChildren } from "react";
 import { Toaster } from "sonner";
 
@@ -24,13 +24,13 @@ export function AppLayout({ children }: PropsWithChildren) {
                         <Sidebar.Item icon={IconCirclePlus} href={route('backoffice.practioner.index')}>
                             Tenaga Kesehatan
                         </Sidebar.Item>
-                        <Sidebar.Item icon={IconDocumentChart} href="#">
+                        <Sidebar.Item icon={IconMoneybag} href={route('backoffice.charge.index')}>
                             Tindakan
                         </Sidebar.Item>
-                        <Sidebar.Item icon={IconDocumentChart} href={route('backoffice.location.index')}>
+                        <Sidebar.Item icon={IconHome2} href={route('backoffice.location.index')}>
                             Ruangan
                         </Sidebar.Item>
-                        <Sidebar.Item icon={IconDocumentChart} href="#">
+                        <Sidebar.Item icon={IconSquarePlus} href={route('backoffice.medicine.index')}>
                             Farmasi & Alkes
                         </Sidebar.Item>
                     </Sidebar.Section>
@@ -86,7 +86,7 @@ export function AppLayout({ children }: PropsWithChildren) {
                 <Sidebar.Rail />
             </Sidebar>
             <Sidebar.Inset>
-                <header className="sticky justify-between sm:justify-start top-0 bg-bg h-[3.57rem] px-4 border-b flex items-center gap-x-2">
+                <header className="sticky justify-between sm:justify-start top-0 bg-bg h-[3.57rem] px-4 border-b flex items-center gap-x-2 bg-white">
                     <span className="flex items-center gap-x-3">
                         <Sidebar.Trigger className="-mx-2" />
                         <Separator className="h-6 sm:block hidden" orientation="vertical" />

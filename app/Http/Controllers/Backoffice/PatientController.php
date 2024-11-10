@@ -56,17 +56,17 @@ class PatientController extends Controller
         }
     }
 
-    public function show(string $id)
+    public function show($id)
     {
         //
     }
 
-    public function update(string $id, PatientRequest $request)
+    public function update($id, PatientRequest $request)
     {
         $payload = $request->validated();
     }
 
-    public function destroy(string $id)
+    public function destroy($id)
     {
         //
     }

@@ -1,0 +1,79 @@
+{
+    "name": "Paracetamol 160 mg/ 5 mL Sirup (BODREXIN DEMAM RASA JERUK)",
+    "kfa_code": "93015510",
+    "active": true,
+    "state": "valid",
+    "image": null,
+    "updated_at": "2022-12-27 01:32:44",
+    "farmalkes_type": {
+        "code": "medicine",
+        "name": "Obat",
+        "group": "farmasi"
+    },
+    "dosage_form": {
+        "code": "BS055",
+        "name": "Sirup"
+    },
+    "produksi_buatan": "lokal",
+    "nie": "DBL9322707337A2",
+    "nama_dagang": "BODREXIN DEMAM (RASA JERUK)",
+    "manufacturer": "TEMPO SCAN PACIFIC",
+    "registrar": "TEMPO SCAN PACIFIC Tbk",
+    "generik": false,
+    "rxterm": 525,
+    "dose_per_unit": 1,
+    "fix_price": null,
+    "het_price": null,
+    "farmalkes_hscode": null,
+    "tayang_lkpp": null,
+    "kode_lkpp": null,
+    "net_weight": null,
+    "net_weight_uom_name": "g",
+    "volume": null,
+    "volume_uom_name": "mL",
+    "med_dev_jenis": null,
+    "med_dev_subkategori": null,
+    "med_dev_kategori": null,
+    "med_dev_kelas_risiko": null,
+    "klasifikasi_izin": null,
+    "uom": {
+        "name": "Botol Plastik"
+    },
+    "product_template": {
+        "name": "Paracetamol 160 mg/ 5 mL Sirup",
+        "state": "valid",
+        "active": true,
+        "kfa_code": "92004056",
+        "updated_at": "2024-10-29 08:05:45",
+        "display_name": "Paracetamol 160 mg/ 5 mL Sirup"
+    },
+    "active_ingredients": [
+        {
+            "state": "valid",
+            "active": true,
+            "kfa_code": "91000101",
+            "zat_aktif": "Paracetamol",
+            "updated_at": "2022-12-27 01:31:22",
+            "kekuatan_zat_aktif": "160 mg/5 mL"
+        }
+    ],
+    "tags": [
+        {
+            "code": null,
+            "name": null
+        }
+    ],
+    "replacement": {
+        "product": {
+            "name": null,
+            "reason": null,
+            "kfa_code": null
+        },
+        "template": {
+            "name": null,
+            "reason": null,
+            "kfa_code": null
+        }
+    },
+    "total_data": 29
+}
