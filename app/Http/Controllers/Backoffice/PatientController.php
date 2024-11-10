@@ -7,7 +7,6 @@ use App\Http\Requests\PatientRequest;
 use App\Models\Patient;
 use App\Utils\SatuSehat\SatuSehatAuth;
 use App\Utils\SatuSehat\SatuSehatPatient;
-use App\Utils\SatuSehatClient;
 use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,7 +17,7 @@ class PatientController extends Controller
     {
 
         $page = $request->get('page', 1);
-        $perPage = $request->get('perPage', 10);
+        $perPage = $request->get('perPage', 1);
 
         $patiens = Patient::query()->paginate(perPage: $perPage, page: $page);
 

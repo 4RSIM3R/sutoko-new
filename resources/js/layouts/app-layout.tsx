@@ -1,6 +1,7 @@
 import { Avatar, Button, Link, Menu, Separator, Sidebar, TextField } from "@/components/ui";
 import { IconBrandApple, IconCalendar, IconChevronLgDown, IconCirclePerson, IconCirclePlus, IconDevicePhone, IconDocumentChart, IconLogout, IconMoneybag, IconPeople, IconSearch, IconSettings, IconShield } from "justd-icons";
 import { PropsWithChildren } from "react";
+import { Toaster } from "sonner";
 
 export function AppLayout({ children }: PropsWithChildren) {
     return (
@@ -121,7 +122,10 @@ export function AppLayout({ children }: PropsWithChildren) {
                         </Menu>
                     </div>
                 </header>
-                <div className="p-4 lg:p-6">{children}</div>
+                <div className="p-4 lg:p-6">
+                    <Toaster />
+                    {children}
+                </div>
             </Sidebar.Inset>
         </Sidebar.Provider>
     );
