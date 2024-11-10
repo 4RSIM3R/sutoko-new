@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MedicineRequest;
 use App\Utils\SatuSehat\SatuSehatAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -42,7 +43,7 @@ class MedicineController extends Controller
         ]);
     }
 
-    public function store()
+    public function store(MedicineRequest $request)
     {
         //
     }

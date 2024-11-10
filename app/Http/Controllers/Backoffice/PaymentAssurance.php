@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
 
-class ChargeController extends Controller
+class PaymentAssurance extends Controller
 {
     public function index() {}
 

@@ -61,10 +61,13 @@ export default function MedicineForm({ medicines }: MedicineFormProps) {
                                     <Table.Cell>{medicine.uom?.name}</Table.Cell>
                                     <Table.Cell>{medicine.nie}</Table.Cell>
                                     <Table.Cell>
-                                        <Button appearance="outline">
-                                            <IconPlus />
-                                            Tambahkan
-                                        </Button>
+                                        <form action={route('backoffice.medicine.store')} method="post">
+                                            <input type="hidden" name="medicine" value={medicine.kfa_code} />
+                                            <Button type="submit" appearance="outline">
+                                                <IconPlus />
+                                                Tambahkan
+                                            </Button>
+                                        </form>
                                     </Table.Cell>
                                 </Table.Row>
                             )) : (
