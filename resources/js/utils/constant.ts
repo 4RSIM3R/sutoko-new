@@ -158,4 +158,23 @@ export const occupation = [
         id: 'other',
         name: "Lainnya",
     }
-]
+];
+
+export const practioner_role = [
+    {
+        id: 'doctor',
+        name: "Dokter",
+    },
+    {
+        id: 'pharmacist',
+        name: "Farmasi",
+    },
+    {
+        id: 'nurse',
+        name: "Perawat",
+    },
+    {
+        id: 'midwife',
+        name: "Bidan",
+    }
+];

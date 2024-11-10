@@ -4,7 +4,9 @@ namespace App\Utils\SatuSehat;
 
 class SatuSehatLocation {
 
-    public static function create() {
+    public static function create($payload) {
+
+        
 
     }
 

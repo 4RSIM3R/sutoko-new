@@ -21,7 +21,7 @@ export function AppLayout({ children }: PropsWithChildren) {
                         <Sidebar.Item icon={IconPeople} href={route('backoffice.patient.index')}>
                             Pasien
                         </Sidebar.Item>
-                        <Sidebar.Item icon={IconCirclePlus} href="#">
+                        <Sidebar.Item icon={IconCirclePlus} href={route('backoffice.practioner.index')}>
                             Tenaga Kesehatan
                         </Sidebar.Item>
                         <Sidebar.Item icon={IconDocumentChart} href="#">

@@ -16,8 +16,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('nik');
             $table->enum('role', ['doctor', 'pharmacist', 'nurse', 'midwife']);
+            $table->enum('gender', ['male', 'female']);
+            $table->date('birth_date')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('address')->nullable();
             $table->string('satu_sehat_id')->nullable();
-            $table->dateTime('synced_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

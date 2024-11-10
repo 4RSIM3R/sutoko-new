@@ -18,7 +18,7 @@ export default function Login() {
             },
             onError: (error) => {
                 toast("Whoopsss....", {
-                    description: Object.keys(error)[0],
+                    description: JSON.stringify(error),
                     important: true,
                 });
             }

@@ -27,7 +27,7 @@ export default function PatientForm({ patient }: PatientFormProps) {
                 },
                 onError: (error) => {
                     toast("Whoopsss....", {
-                        description: Object.keys(error)[0],
+                        description: JSON.stringify(error),
                         important: true,
                     });
                 }
@@ -42,7 +42,7 @@ export default function PatientForm({ patient }: PatientFormProps) {
                 },
                 onError: (error) => {
                     toast("Whoopsss....", {
-                        description: Object.keys(error)[0],
+                        description: JSON.stringify(error),
                         important: true,
                     });
                 }
