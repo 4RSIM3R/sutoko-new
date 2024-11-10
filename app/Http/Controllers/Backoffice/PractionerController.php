@@ -16,9 +16,8 @@ class PractionerController extends Controller
     public function index(Request $request)
     {
         $page = $request->get('page', 1);
-        $perPage = $request->get('perPage', 1);
 
-        $practioners = Practioner::query()->paginate(perPage: $perPage, page: $page);
+        $practioners = Practioner::query()->paginate(perPage: 10, page: $page);
 
         $practioners = [
             "prev_page" => $practioners->currentPage() > 1 ? $practioners->currentPage() - 1 : null,

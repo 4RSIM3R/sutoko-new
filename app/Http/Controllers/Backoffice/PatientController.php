@@ -15,11 +15,9 @@ class PatientController extends Controller
 {
     public function index(Request $request)
     {
-
         $page = $request->get('page', 1);
-        $perPage = $request->get('perPage', 1);
 
-        $patiens = Patient::query()->paginate(perPage: $perPage, page: $page);
+        $patiens = Patient::query()->paginate(perPage: 10, page: $page);
 
         $patiens = [
             "prev_page" => $patiens->currentPage() > 1 ? $patiens->currentPage() - 1 : null,

@@ -1,6 +1,6 @@
 import { Button, Pagination, Table, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { IconPlus } from "justd-icons";
 import { useState } from "react";
 
@@ -18,6 +18,8 @@ type MedicineFormProps = {
 export default function MedicineForm({ medicines }: MedicineFormProps) {
 
     const [search, setSearh] = useState("");
+
+    const page = usePage<any>();
 
     const onSearch = (e: { preventDefault: () => void }) => {
         e.preventDefault();
@@ -61,8 +63,13 @@ export default function MedicineForm({ medicines }: MedicineFormProps) {
                                     <Table.Cell>{medicine.uom?.name}</Table.Cell>
                                     <Table.Cell>{medicine.nie}</Table.Cell>
                                     <Table.Cell>
-                                        <form action={route('backoffice.medicine.store')} method="post">
-                                            <input type="hidden" name="medicine" value={medicine.kfa_code} />
+                                        <form onSubmit={(e) => {
+                                            e.preventDefault();
+                                            router.post(route('backoffice.medicine.store'), {
+                                                kfa_code: medicine.kfa_code,
+                                            })
+                                        }}>
+                                            <input type="hidden" name="kfa_code" value={medicine.kfa_code} />
                                             <Button type="submit" appearance="outline">
                                                 <IconPlus />
                                                 Tambahkan
