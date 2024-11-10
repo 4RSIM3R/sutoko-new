@@ -15,6 +15,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             PermissionSeeder::class,
+            Icd9Seeder::class,
+            Icd10Seeder::class,
+            RegionSeeder::class,
             UserSeeder::class,
             PatientSeeder::class,
         ]);

@@ -23,6 +23,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^v1.23.1",
+        "jeroenzwart/laravel-csv-seeder": "^1.6",
         "laravel/pint": "^1.13",
         "laravel/sail": "^v1.37.1",
         "mockery/mockery": "^1.6",
