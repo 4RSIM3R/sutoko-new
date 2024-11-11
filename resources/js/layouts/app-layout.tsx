@@ -1,5 +1,23 @@
 import { Avatar, Button, Link, Menu, Separator, Sidebar, TextField } from "@/components/ui";
-import { IconBrandApple, IconCalendar, IconChevronLgDown, IconCirclePerson, IconCirclePlus, IconDevicePhone, IconDocumentChart, IconHome2, IconHome2Fill, IconLogout, IconMoneybag, IconMoneybagFill, IconPeople, IconSearch, IconSettings, IconShield, IconSquarePlus } from "justd-icons";
+import {
+    IconBrandApple, 
+    IconCalendar, 
+    IconChevronLgDown, 
+    IconCirclePerson, 
+    IconCirclePlus,
+    IconDevicePhone, 
+    IconDocumentChart, 
+    IconGear, 
+    IconGiroCard, 
+    IconHome2, 
+    IconLogout,
+    IconMoneybag, 
+    IconPeople, 
+    IconSearch, 
+    IconSettings, 
+    IconShield,
+    IconSquarePlus
+} from "justd-icons";
 import { PropsWithChildren } from "react";
 import { Toaster } from "sonner";
 
@@ -16,13 +34,16 @@ export function AppLayout({ children }: PropsWithChildren) {
                         <strong className="font-medium group-data-[collapsible=dock]:hidden">SUTOKO</strong>
                     </Link>
                 </Sidebar.Header>
-                <Sidebar.Content  >
-                    <Sidebar.Section collapsible title="Master Data" className="text-black" >
+                <Sidebar.Content>
+                    <Sidebar.Section isExpanded={true} title="Master Data" className="text-black" >
                         <Sidebar.Item icon={IconPeople} href={route('backoffice.patient.index')}>
                             Pasien
                         </Sidebar.Item>
                         <Sidebar.Item icon={IconCirclePlus} href={route('backoffice.practioner.index')}>
                             Tenaga Kesehatan
+                        </Sidebar.Item>
+                        <Sidebar.Item icon={IconGiroCard} href={route('backoffice.charge.index')}>
+                            Metode Pembayaran
                         </Sidebar.Item>
                         <Sidebar.Item icon={IconMoneybag} href={route('backoffice.charge.index')}>
                             Tindakan
@@ -34,7 +55,7 @@ export function AppLayout({ children }: PropsWithChildren) {
                             Farmasi & Alkes
                         </Sidebar.Item>
                     </Sidebar.Section>
-                    <Sidebar.Section collapsible title="Operasional" className="text-black" >
+                    <Sidebar.Section isExpanded={true} title="Operasional" className="text-black" >
                         <Sidebar.Item icon={IconDocumentChart} href="#">
                             Kunjungan Pasien
                         </Sidebar.Item>
@@ -48,7 +69,15 @@ export function AppLayout({ children }: PropsWithChildren) {
                             Kasir
                         </Sidebar.Item>
                     </Sidebar.Section>
-                    <Sidebar.Section collapsible title="Plugns" className="text-black" >
+                    <Sidebar.Section isExpanded={true} title="Setting" className="text-black" >
+                        <Sidebar.Item icon={IconPeople} href={route('backoffice.setting.profile.index')}>
+                            Profil
+                        </Sidebar.Item>
+                        <Sidebar.Item icon={IconGear} href={route('backoffice.setting.application.index')}>
+                            Aplikasi
+                        </Sidebar.Item>
+                    </Sidebar.Section>
+                    <Sidebar.Section isExpanded={true} title="Plugins" className="text-black" >
                         <Sidebar.Item icon={IconCalendar} href="#">
                             Jadwal Dokter
                         </Sidebar.Item>

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Models\Region;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
 class RegionController extends Controller
@@ -36,7 +35,7 @@ class RegionController extends Controller
                 $query->where('nama_wilayah', 'like', '%' . $name . '%');
             })
             ->when($province_id, function ($query) use ($province_id) {
-                $query->where('parent', $province_id);
+                $query->where('parent', 'like', '%' . $province_id . '%');
             })
             ->get();
 
@@ -54,7 +53,7 @@ class RegionController extends Controller
                 $query->where('nama_wilayah', 'like', '%' . $name . '%');
             })
             ->when($regency_id, function ($query) use ($regency_id) {
-                $query->where('parent', $regency_id);
+                $query->where('parent', 'like', '%' . $regency_id . '%');
             })
             ->get();
 
@@ -72,7 +71,7 @@ class RegionController extends Controller
                 $query->where('nama_wilayah', 'like', '%' . $name . '%');
             })
             ->when($district_id, function ($query) use ($district_id) {
-                $query->where('parent', $district_id);
+                $query->where('parent', 'like', '%' . $district_id . '%');
             })
             ->get();
 

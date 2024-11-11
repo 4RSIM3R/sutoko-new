@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
+            $table->boolean('enable_satu_sehat')->default(false);
+            $table->boolean('enable_pcare')->default(false);
             $table->timestamps();
         });
     }
