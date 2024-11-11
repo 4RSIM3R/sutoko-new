@@ -27,3 +27,4 @@ export * from './sidebar';
 export * from './tooltip';
 export * from './breadcrumbs';
 export * from './textarea';
+export * from './combo-box';
