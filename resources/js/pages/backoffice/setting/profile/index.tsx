@@ -52,8 +52,12 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
         village: profile?.village,
     } satisfies ProfileFormSchema);
 
-    const fetchProvinces = async () => {
-        const response = await axios.get(route('backoffice.region.province'));
+    const fetchProvinces = async (search: any) => {
+        const response = await axios.get(route('backoffice.region.province'), {
+            params: {
+                name: search
+            }
+        });
         return response.data;
     };
 
@@ -158,7 +162,7 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                     onChange={(value) => {
                         setRegion((data) => ({
                             ...data,
-                            province: value,
+                            province: value.kode_wilayah,
                             regency: null,
                             district: null,
                             village: null,
@@ -166,18 +170,18 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
 
                         setData((data) => ({
                             ...data,
-                            province: value,
+                            province: value.kode_wilayah,
                             regency: null,
                             district: null,
                             village: null,
                         }));
                     }}
-                    fetchFunction={fetchProvinces}
+                    fetchFunction={(search) => fetchProvinces(search)}
                     queryKey={["province"]}
                     enabled={true}
                     disabled={false}
                     getItemLabel={(item) => item.nama_wilayah!}
-                    getItemKey={(item) => item.id!}
+                    getItemKey={(item) => item.kode_wilayah!}
                 />
                 <ComboQuery<Region>
                     label="Kabupaten"
@@ -187,14 +191,14 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                     onChange={(value) => {
                         setRegion((data) => ({
                             ...data,
-                            regency: value,
+                            regency: value.kode_wilayah,
                             district: null,
                             village: null,
                         }))
 
                         setData((data) => ({
                             ...data,
-                            regency: value,
+                            regency: value.kode_wilayah,
                             district: null,
                             village: null,
                         }))
@@ -205,7 +209,7 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                     enabled={!!region.province}
                     disabled={!region.province}
                     getItemLabel={(item) => item.nama_wilayah!}
-                    getItemKey={(item) => item.id!}
+                    getItemKey={(item) => item.kode_wilayah!}
                 />
                 <ComboQuery<Region>
                     label="Kecamatan"
@@ -215,13 +219,13 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                     onChange={(value) => {
                         setRegion((data) => ({
                             ...data,
-                            district: value,
+                            district: value.kode_wilayah,
                             village: null,
                         }))
 
                         setData((data) => ({
                             ...data,
-                            district: value,
+                            district: value.kode_wilayah,
                             village: null,
                         }))
                     }}
@@ -230,7 +234,7 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                     enabled={!!region.regency}
                     disabled={!region.regency}
                     getItemLabel={(item) => item.nama_wilayah!}
-                    getItemKey={(item) => item.id!}
+                    getItemKey={(item) => item.kode_wilayah!}
                 />
                 <ComboQuery<Region>
                     label="Desa"
@@ -240,12 +244,12 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                     onChange={(value) => {
                         setRegion((prev) => ({
                             ...prev,
-                            village: value,
+                            village: value.kode_wilayah,
                         }))
 
                         setData((prev) => ({
                             ...prev,
-                            village: value,
+                            village: value.kode_wilayah,
                         }))
                     }}
                     fetchFunction={() => fetchVillages(region.district)}
@@ -253,7 +257,7 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                     enabled={!!region.district}
                     disabled={!region.district}
                     getItemLabel={(item) => item.nama_wilayah!}
-                    getItemKey={(item) => item.id!}
+                    getItemKey={(item) => item.kode_wilayah!}
                 />
                 <div>
                     <Button type="submit" >

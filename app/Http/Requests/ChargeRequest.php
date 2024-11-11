@@ -22,7 +22,9 @@ class ChargeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'max:255'],
+            'payment_assurance_id' => ['required', 'exists:payment_assurances,id'],
         ];
     }
 }

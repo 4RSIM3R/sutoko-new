@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('manufacturer');
             $table->string('unit_of_meassurement');
             $table->json('payload')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

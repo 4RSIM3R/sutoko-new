@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChargeRequest;
 use App\Models\Charge;
+use App\Models\PaymentAssurance;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ChargeController extends Controller
@@ -14,7 +17,7 @@ class ChargeController extends Controller
     {
         $page = $request->get('page', 1);
 
-        $charges = Charge::query()->paginate(perPage: 10, page: $page);
+        $charges = Charge::query()->with(['payment_assurance'])->paginate(perPage: 10, page: $page);
 
         $charges = [
             "prev_page" => $charges->currentPage() > 1 ? $charges->currentPage() - 1 : null,
@@ -29,12 +32,26 @@ class ChargeController extends Controller
 
     public function create()
     {
-        return Inertia::render('backoffice/master/charge/form');
+        $payment = PaymentAssurance::query()->get(['id', 'name']);
+
+        return Inertia::render('backoffice/master/charge/form', [
+            "payment" => $payment,
+        ]);
     }
 
     public function store(ChargeRequest $request)
     {
         $payload = $request->validated();
+
+        try {
+            DB::beginTransaction();
+            Charge::create($payload);
+            DB::commit();
+            return Inertia::location(route('backoffice.charge.index'));
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return back()->withErrors('errors', $exception->getMessage());
+        }
     }
 
     public function show($id) {}

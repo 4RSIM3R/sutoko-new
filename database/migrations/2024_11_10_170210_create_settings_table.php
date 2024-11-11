@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('enable_satu_sehat')->default(false);
             $table->boolean('enable_pcare')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

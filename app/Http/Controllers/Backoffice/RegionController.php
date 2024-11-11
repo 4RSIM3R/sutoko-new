@@ -35,7 +35,7 @@ class RegionController extends Controller
                 $query->where('nama_wilayah', 'like', '%' . $name . '%');
             })
             ->when($province_id, function ($query) use ($province_id) {
-                $query->where('parent', 'like', '%' . $province_id . '%');
+                $query->where('kode_wilayah', 'like', $province_id . '%');
             })
             ->get();
 
@@ -53,7 +53,7 @@ class RegionController extends Controller
                 $query->where('nama_wilayah', 'like', '%' . $name . '%');
             })
             ->when($regency_id, function ($query) use ($regency_id) {
-                $query->where('parent', 'like', '%' . $regency_id . '%');
+                $query->where('kode_wilayah', 'like',  $regency_id . '%');
             })
             ->get();
 
@@ -71,7 +71,7 @@ class RegionController extends Controller
                 $query->where('nama_wilayah', 'like', '%' . $name . '%');
             })
             ->when($district_id, function ($query) use ($district_id) {
-                $query->where('parent', 'like', '%' . $district_id . '%');
+                $query->where('kode_wilayah', 'like', $district_id . '%');
             })
             ->get();
 

@@ -25,10 +25,10 @@ class ProfileController extends Controller
     {
         $payload = $request->validated();
 
-        $province = Region::where('nama_wilayah', $payload['province'])->first();
-        $regency = Region::where('nama_wilayah', $payload['regency'])->first();
-        $district = Region::where('nama_wilayah', $payload['district'])->first();
-        $village = Region::where('nama_wilayah', $payload['village'])->first();
+        $province = Region::where('kode_wilayah', $payload['province'])->first();
+        $regency = Region::where('kode_wilayah', $payload['regency'])->first();
+        $district = Region::where('kode_wilayah', $payload['district'])->first();
+        $village = Region::where('kode_wilayah', $payload['village'])->first();
 
         $payload['province_id'] = $province->id;
         $payload['city_id'] = $regency->id;
@@ -47,7 +47,7 @@ class ProfileController extends Controller
 
         try {
             DB::beginTransaction();
-           
+
             $count = Profile::query()->count();
 
             if ($count > 0) {
