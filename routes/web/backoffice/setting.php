@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'backoffice/setting', 'as' => 'backoffice.setting.', 'middleware' => ['auth']], function () {
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::get('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::get('application', [SettingController::class, 'index'])->name('application.index');
-    Route::get('application/update', [SettingController::class, 'update'])->name('application.update');
+    Route::post('application/update', [SettingController::class, 'update'])->name('application.update');
 });
