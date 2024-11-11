@@ -1,20 +1,20 @@
 import { Avatar, Button, Link, Menu, Separator, Sidebar, TextField } from "@/components/ui";
 import {
-    IconBrandApple, 
-    IconCalendar, 
-    IconChevronLgDown, 
-    IconCirclePerson, 
+    IconBrandApple,
+    IconCalendar,
+    IconChevronLgDown,
+    IconCirclePerson,
     IconCirclePlus,
-    IconDevicePhone, 
-    IconDocumentChart, 
-    IconGear, 
-    IconGiroCard, 
-    IconHome2, 
+    IconDevicePhone,
+    IconDocumentChart,
+    IconGear,
+    IconGiroCard,
+    IconHome2,
     IconLogout,
-    IconMoneybag, 
-    IconPeople, 
-    IconSearch, 
-    IconSettings, 
+    IconMoneybag,
+    IconPeople,
+    IconSearch,
+    IconSettings,
     IconShield,
     IconSquarePlus
 } from "justd-icons";
@@ -42,7 +42,7 @@ export function AppLayout({ children }: PropsWithChildren) {
                         <Sidebar.Item icon={IconCirclePlus} href={route('backoffice.practioner.index')}>
                             Tenaga Kesehatan
                         </Sidebar.Item>
-                        <Sidebar.Item icon={IconGiroCard} href={route('backoffice.charge.index')}>
+                        <Sidebar.Item icon={IconGiroCard} href={route('backoffice.payment-assurance.index')}>
                             Metode Pembayaran
                         </Sidebar.Item>
                         <Sidebar.Item icon={IconMoneybag} href={route('backoffice.charge.index')}>

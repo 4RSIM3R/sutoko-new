@@ -9,4 +9,6 @@ class PaymentAssurance extends Model
 {
     /** @use HasFactory<\Database\Factories\PaymentAssuranceFactory> */
     use HasFactory;
+
+    protected $guarded = [];
 }

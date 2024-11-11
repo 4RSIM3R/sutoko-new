@@ -7,7 +7,7 @@ Route::group(['prefix' => 'backoffice/charge', 'as' => 'backoffice.charge.', 'mi
     Route::get('', [ChargeController::class, 'index'])->name('index');
     Route::get('create', [ChargeController::class, 'create'])->name('create');
     Route::post('store', [ChargeController::class, 'store'])->name('store');
-    Route::get('{medicine}', [ChargeController::class, 'show'])->name('show');
-    Route::put('{medicine}', [ChargeController::class, 'update'])->name('update');
-    Route::delete('{medicine}', [ChargeController::class, 'destroy'])->name('destroy');
+    Route::get('{id}', [ChargeController::class, 'show'])->name('show');
+    Route::put('{id}', [ChargeController::class, 'update'])->name('update');
+    Route::delete('{id}', [ChargeController::class, 'destroy'])->name('destroy');
 });
