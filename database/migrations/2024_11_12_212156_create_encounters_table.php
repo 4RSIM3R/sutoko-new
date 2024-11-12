@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Location;
+use App\Models\Patient;
+use App\Models\Practioner;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,20 +14,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('practioners', function (Blueprint $table) {
+        Schema::create('encounters', function (Blueprint $table) {
             $table->id();
-            $table->string('satu_sehat_id')->nullable();
-            $table->string('name');
-            $table->string('nik');
-            $table->enum('role', ['doctor', 'pharmacist', 'nurse', 'midwife']);
-            $table->enum('gender', ['male', 'female']);
-            $table->date('birth_date')->nullable();
-            $table->string('phone_number')->nullable();
-            $table->string('address')->nullable();
+            $table->foreignIdFor(Patient::class);
+            $table->foreignIdFor(Practioner::class);
+            $table->foreignIdFor(Location::class);
+            $table->string('satu_sehat_id');
+            $table->string('status');
             $table->json('request')->nullable();
             $table->json('response')->nullable();
             $table->timestamps();
+            $table->dateTime('synced_at')->nullable();
             $table->softDeletes();
+            $table->index(['patient_id', 'practicer_id', 'location_id']);
         });
     }
 
@@ -33,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('practioners');
+        Schema::dropIfExists('encounters');
     }
 };

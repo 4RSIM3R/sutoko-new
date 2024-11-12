@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignIdFor(PaymentAssurance::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name');
             $table->decimal('price');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
             $table->index(['payment_assurance_id']);
         });
     }

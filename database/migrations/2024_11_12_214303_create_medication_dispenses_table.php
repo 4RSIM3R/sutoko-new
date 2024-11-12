@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('medication_dispenses', function (Blueprint $table) {
             $table->id();
-            $table->boolean('enable_satu_sehat')->default(false);
-            $table->boolean('enable_pcare')->default(false);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('medication_dispenses');
     }
 };

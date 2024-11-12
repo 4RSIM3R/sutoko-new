@@ -26,8 +26,8 @@ return new class extends Migration
             $table->string('district_name');
             $table->string('village_id');
             $table->string('village_name');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
