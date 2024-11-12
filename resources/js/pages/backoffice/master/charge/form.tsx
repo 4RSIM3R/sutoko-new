@@ -3,7 +3,7 @@ import { AppLayout } from "@/layouts/app-layout";
 import { Charge } from "@/types/charge";
 import { PaymentAssurance } from "@/types/payment-assurance";
 import { Link, useForm } from "@inertiajs/react";
-import { IconPlus } from "justd-icons";
+import { IconCircleQuestionmarkFill, IconPlus } from "justd-icons";
 import { toast } from "sonner";
 
 type ChargeFormProps = {
@@ -60,12 +60,9 @@ export default function ChargeForm({ payment, charge }: ChargeFormProps) {
                     <p className="text-sm text-gray-500" >Add new charge book</p>
                 </div>
                 <div>
-                    <Link href={route('backoffice.patient.create')}>
-                        <Button appearance="outline" >
-                            <IconPlus />
-                            Add New
-                        </Button>
-                    </Link>
+                    <Button appearance="outline" >
+                        <IconCircleQuestionmarkFill />
+                    </Button>
                 </div>
             </div>
             <form onSubmit={onSubmit} className="grid grid-cols-12 gap-4 mt-4">

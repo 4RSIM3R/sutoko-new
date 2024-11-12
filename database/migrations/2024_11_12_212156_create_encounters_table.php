@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
             $table->dateTime('synced_at')->nullable();
             $table->softDeletes();
-            $table->index(['patient_id', 'practicer_id', 'location_id']);
+            $table->index(['patient_id', 'practioner_id', 'location_id']);
         });
     }
 

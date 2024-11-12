@@ -56,7 +56,7 @@ export function AppLayout({ children }: PropsWithChildren) {
                         </Sidebar.Item>
                     </Sidebar.Section>
                     <Sidebar.Section isExpanded={true} title="Operasional" className="text-black" >
-                        <Sidebar.Item icon={IconDocumentChart} href="#">
+                        <Sidebar.Item icon={IconDocumentChart} href={route('backoffice.encounter.index')}>
                             Kunjungan Pasien
                         </Sidebar.Item>
                         <Sidebar.Item icon={IconDocumentChart} href="#">
