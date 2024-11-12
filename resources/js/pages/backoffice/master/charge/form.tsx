@@ -13,13 +13,13 @@ type ChargeFormProps = {
 
 export default function ChargeForm({ payment, charge }: ChargeFormProps) {
 
-    const { data, errors, processing, setData, post } = useForm<Charge>(charge);
+    const { data, errors, processing, setData, post, put } = useForm<Charge>(charge);
 
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         if (charge) {
-            post(route('backoffice.patient.store', charge), {
+            put(route('backoffice.patient.store', charge), {
                 onSuccess: (_) => {
                     toast("Data berhasil disimpan", {
                         description: "Data berhasil disimpan",
@@ -56,8 +56,8 @@ export default function ChargeForm({ payment, charge }: ChargeFormProps) {
         <div className="w-full" >
             <div className="flex flex-row justify-between" >
                 <div className="" >
-                    <h1 className="text-xl font-semibold" >Charge Book</h1>
-                    <p className="text-sm text-gray-500" >Manage all payment method</p>
+                    <h1 className="text-xl font-semibold" >Charge Book Form</h1>
+                    <p className="text-sm text-gray-500" >Add new charge book</p>
                 </div>
                 <div>
                     <Link href={route('backoffice.patient.create')}>
