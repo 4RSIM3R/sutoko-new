@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class LocationRequest extends FormRequest
 {
@@ -23,6 +24,8 @@ class LocationRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'physical_type_code' => ['required', Rule::in(['bu', 'wi', 'co', 'ro', 've', 'ho', 'ca', 'rd', 'area'])],
+            'description' => ['required', 'string', 'max:255'],
         ];
     }
 }

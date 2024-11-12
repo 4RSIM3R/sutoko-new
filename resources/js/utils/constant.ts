@@ -178,3 +178,42 @@ export const practioner_role = [
         name: "Bidan",
     }
 ];
+
+export const location_type = [
+    {
+        type: 'bu',
+        name: 'Building',
+    },
+    {
+        type: 'wi',
+        name: 'Wing',
+    },
+    {
+        type: 'co',
+        name: 'Corridor',
+    },
+    {
+        type: 'ro',
+        name: 'Room',
+    },
+    {
+        type: 've',
+        name: 'Vehicle',
+    },
+    {
+        type: 'ho',
+        name: 'House',
+    },
+    {
+        type: 'ca',
+        name: 'Cabinet',
+    },
+    {
+        type: 'rd',
+        name: 'Road',
+    },
+    {
+        type: 'area',
+        name: 'Area',
+    },
+];
