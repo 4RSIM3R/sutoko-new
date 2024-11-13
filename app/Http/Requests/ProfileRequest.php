@@ -27,10 +27,10 @@ class ProfileRequest extends FormRequest
             'phone_number' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'kode_faskes' => ['required', 'string', 'max:255'],
-            'province' => ['required', 'string', 'max:255'],
-            'regency' => ['required', 'string', 'max:255'],
-            'district' => ['required', 'string', 'max:255'],
-            'village' => ['required', 'string', 'max:255'],
+            'province_id' => ['required', 'string', 'max:255'],
+            'city_id' => ['required', 'string', 'max:255'],
+            'district_id' => ['required', 'string', 'max:255'],
+            'village_id' => ['required', 'string', 'max:255'],
         ];
     }
 

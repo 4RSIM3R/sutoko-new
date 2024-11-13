@@ -25,25 +25,15 @@ class ProfileController extends Controller
     {
         $payload = $request->validated();
 
-        $province = Region::where('kode_wilayah', $payload['province'])->first();
-        $regency = Region::where('kode_wilayah', $payload['regency'])->first();
-        $district = Region::where('kode_wilayah', $payload['district'])->first();
-        $village = Region::where('kode_wilayah', $payload['village'])->first();
-
-        $payload['province_id'] = $province->id;
-        $payload['city_id'] = $regency->id;
-        $payload['district_id'] = $district->id;
-        $payload['village_id'] = $village->id;
+        $province = Region::where('kode_wilayah', $payload['province_id'])->first();
+        $regency = Region::where('kode_wilayah', $payload['city_id'])->first();
+        $district = Region::where('kode_wilayah', $payload['district_id'])->first();
+        $village = Region::where('kode_wilayah', $payload['village_id'])->first();
 
         $payload['province_name'] = $province->nama_wilayah;
         $payload['city_name'] = $regency->nama_wilayah;
         $payload['district_name'] = $district->nama_wilayah;
         $payload['village_name'] = $village->nama_wilayah;
-
-        unset($payload['province']);
-        unset($payload['regency']);
-        unset($payload['district']);
-        unset($payload['village']);
 
         try {
             DB::beginTransaction();

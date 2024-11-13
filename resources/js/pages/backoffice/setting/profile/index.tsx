@@ -1,89 +1,55 @@
 import { ComboQuery } from "@/components/combo-query";
-import { Button, Textarea, TextField } from "@/components/ui";
+import { Button, Label, Textarea, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
-import { Region } from "@/types/region";
+import { Profile } from "@/types/profile";
+import { fetchDistricts, fetchProvinces, fetchRegencies, fetchVillages } from "@/utils/select";
 import { useForm } from "@inertiajs/react";
 import axios from "axios";
+import { IconTrash } from "justd-icons";
 import React from "react";
+import AsyncSelect from "react-select/async";
 import { toast } from "sonner";
 
-
-type ProfileFormSchema = {
-    name: string;
-    kode_faskes: string;
-    email: string;
-    phone_number: string;
-    address: string;
-    province: any;
-    regency: any;
-    district: any;
-    village: any;
-};
-
 type ProfileSettingProps = {
-    profile?: ProfileFormSchema | null;
+    profile?: Profile;
+}
+
+type Region = {
+    province_id?: any;
+    province_name?: any;
+    city_id?: any;
+    city_name?: any;
+    district_id?: any;
+    district_name?: any;
+    village_id?: any;
+    village_name?: any;
 }
 
 export default function ProfileSetting({ profile }: ProfileSettingProps) {
 
-    const [region, setRegion] = React.useState<{
-        province: any;
-        regency: any;
-        district: any;
-        village: any;
-    }>({
-        province: profile?.province,
-        regency: profile?.regency,
-        district: profile?.district,
-        village: profile?.village,
+    const [region, setRegion] = React.useState<Region>({
+        province_id: profile?.province_id,
+        province_name: profile?.province_name,
+        city_id: profile?.city_id,
+        city_name: profile?.city_name,
+        district_id: profile?.district_id,
+        district_name: profile?.district_name,
+        village_id: profile?.village_id,
+        village_name: profile?.village_name,
     });
 
 
-
-    const { data, setData, post, processing } = useForm<ProfileFormSchema>({
+    const { data, setData, post, processing } = useForm<Profile>({
         name: profile?.name ?? "",
         kode_faskes: profile?.kode_faskes ?? "",
         email: profile?.email ?? "",
         phone_number: profile?.phone_number ?? "",
         address: profile?.address ?? "",
-        province: profile?.province,
-        regency: profile?.regency,
-        district: profile?.district,
-        village: profile?.village,
-    } satisfies ProfileFormSchema);
-
-    const fetchProvinces = async (search: any) => {
-        const response = await axios.get(route('backoffice.region.province'), {
-            params: {
-                name: search
-            }
-        });
-        return response.data;
-    };
-
-    const fetchRegencies = async (provinceId: any) => {
-        if (!provinceId) return [];
-        const response = await axios.get(route("backoffice.region.regency"), {
-            params: { province_id: provinceId },
-        });
-        return response.data;
-    };
-
-    const fetchDistricts = async (regencyId: any) => {
-        if (!regencyId) return [];
-        const response = await axios.get(route("backoffice.region.district"), {
-            params: { regency_id: regencyId },
-        });
-        return response.data;
-    };
-
-    const fetchVillages = async (districtId: any) => {
-        if (!districtId) return [];
-        const response = await axios.get(route("backoffice.region.village"), {
-            params: { district_id: districtId },
-        });
-        return response.data;
-    };
+        province_id: profile?.province_id,
+        city_id: profile?.city_id,
+        district_id: profile?.district_id,
+        village_id: profile?.village_id,
+    });
 
     const onSubmit = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -101,13 +67,18 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
         });
     }
 
-
     return (
         <div className="w-full" >
             <div className="flex flex-row justify-between" >
                 <div className="" >
                     <h1 className="text-xl font-semibold" >Profile</h1>
                     <p className="text-sm text-gray-500" >Clinic profile form</p>
+                </div>
+                <div>
+                    <Button intent="danger" size="small">
+                        <IconTrash className="fill-white" />
+                        Reset Profile
+                    </Button>
                 </div>
             </div>
             <form onSubmit={onSubmit} className="mt-4 grid grid-cols-12 gap-4">
@@ -116,7 +87,7 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                     name="name"
                     placeholder="Nama Klinik"
                     label="Nama"
-                    value={data.name}
+                    value={data?.name}
                     onChange={(e) => setData("name", e)}
                 />
                 <TextField
@@ -150,116 +121,123 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                     name="address"
                     value={data.address}
                     autoComplete="off"
-                    autoFocus
                     onChange={(v) => setData("address", v)}
                     isRequired
                 />
-                <ComboQuery<Region>
-                    className="col-span-6"
-                    label="Provinsi"
-                    placeholder="Pilih Provinsi"
-                    selectedValue={data.province ?? region.province}
-                    onChange={(value) => {
-                        setRegion((data) => ({
-                            ...data,
-                            province: value.kode_wilayah,
-                            regency: null,
-                            district: null,
-                            village: null,
-                        }));
+                <div className="col-span-6" >
+                    <Label className="mb-1.5">Provinsi</Label>
+                    <AsyncSelect
+                        className="col-span-6 text-black"
+                        cacheOptions
+                        loadOptions={fetchProvinces}
+                        defaultOptions
+                        defaultValue={{ value: region?.province_id, label: region?.province_name }}
+                        isClearable
+                        onChange={(value) => {
+                            setRegion((data) => ({
+                                province_id: value?.value,
+                                province_name: value?.label,
+                                city_id: null,
+                                district_id: null,
+                                village_id: null
+                            }))
 
-                        setData((data) => ({
-                            ...data,
-                            province: value.kode_wilayah,
-                            regency: null,
-                            district: null,
-                            village: null,
-                        }));
-                    }}
-                    fetchFunction={(search) => fetchProvinces(search)}
-                    queryKey={["province"]}
-                    enabled={true}
-                    disabled={false}
-                    getItemLabel={(item) => item.nama_wilayah!}
-                    getItemKey={(item) => item.kode_wilayah!}
-                />
-                <ComboQuery<Region>
-                    label="Kabupaten"
-                    className="col-span-6"
-                    placeholder="Pilih Kabupaten"
-                    selectedValue={data.regency ?? region.regency}
-                    onChange={(value) => {
-                        setRegion((data) => ({
-                            ...data,
-                            regency: value.kode_wilayah,
-                            district: null,
-                            village: null,
-                        }))
+                            setData((data) => ({
+                                ...data,
+                                province_id: value?.value,
+                                province_name: value?.label,
+                                city_id: null,
+                                district_id: null,
+                                village_id: null
+                            }))
+                        }}
+                        placeholder="Search for a province..."
+                    />
+                </div>
+                <div className="col-span-6" >
+                    <Label className="mb-1.5">Kabupaten / Kota</Label>
+                    <AsyncSelect
+                        className="col-span-6 text-black"
+                        cacheOptions
+                        isDisabled={!region.province_id}
+                        defaultValue={{ value: region?.city_id, label: region?.city_name }}
+                        loadOptions={(value) => fetchRegencies(region.province_id, value)}
+                        defaultOptions
+                        isClearable
+                        onChange={(value) => {
+                            setRegion((data) => ({
+                                ...data,
+                                city_id: value?.value,
+                                city_name: value?.label,
+                                district_id: null,
+                                village_id: null
+                            }))
 
-                        setData((data) => ({
-                            ...data,
-                            regency: value.kode_wilayah,
-                            district: null,
-                            village: null,
-                        }))
+                            setData((data) => ({
+                                ...data,
+                                city_id: value?.value,
+                                city_name: value?.label,
+                                district_id: null,
+                                village_id: null
+                            }))
+                        }}
+                        placeholder="Search for a regency..."
+                    />
+                </div>
+                <div className="col-span-6" >
+                    <Label className="mb-1.5">Kecamatan</Label>
+                    <AsyncSelect
+                        className="col-span-6 text-black"
+                        cacheOptions
+                        isDisabled={!region.city_id}
+                        defaultValue={{ value: region?.district_id, label: region?.district_name }}
+                        loadOptions={(value) => fetchDistricts(region.city_id, value)}
+                        defaultOptions
+                        isClearable
+                        onChange={(value) => {
+                            setRegion((data) => ({
+                                ...data,
+                                district_id: value?.value,
+                                district_name: value?.label,
+                                village_id: null
+                            }))
 
-                    }}
-                    fetchFunction={() => fetchRegencies(region.province)}
-                    queryKey={["regencies", region.province]}
-                    enabled={!!region.province}
-                    disabled={!region.province}
-                    getItemLabel={(item) => item.nama_wilayah!}
-                    getItemKey={(item) => item.kode_wilayah!}
-                />
-                <ComboQuery<Region>
-                    label="Kecamatan"
-                    className="col-span-6"
-                    placeholder="Pilih Kecamatan"
-                    selectedValue={data.district ?? region.district}
-                    onChange={(value) => {
-                        setRegion((data) => ({
-                            ...data,
-                            district: value.kode_wilayah,
-                            village: null,
-                        }))
+                            setData((data) => ({
+                                ...data,
+                                district_id: value?.value,
+                                village_id: null
+                            }))
+                        }}
+                        placeholder="Search for a district..."
+                    />
+                </div>
+                <div className="col-span-6" >
+                    <Label className="mb-1.5">Desa / Kelurahan</Label>
+                    <AsyncSelect
+                        className="col-span-6 text-black"
+                        cacheOptions
+                        isDisabled={!region.district_id}
+                        defaultValue={{ value: region?.village_id, label: region?.village_name }}
+                        loadOptions={(value) => fetchVillages(region.district_id, value)}
+                        defaultOptions
+                        isClearable
+                        onChange={(value) => {
+                            setRegion((data) => ({
+                                ...data,
+                                village_id: value?.value,
+                                village_name: value?.label
+                            }))
 
-                        setData((data) => ({
-                            ...data,
-                            district: value.kode_wilayah,
-                            village: null,
-                        }))
-                    }}
-                    fetchFunction={() => fetchDistricts(region.regency)}
-                    queryKey={["districts", region.regency]}
-                    enabled={!!region.regency}
-                    disabled={!region.regency}
-                    getItemLabel={(item) => item.nama_wilayah!}
-                    getItemKey={(item) => item.kode_wilayah!}
-                />
-                <ComboQuery<Region>
-                    label="Desa"
-                    className="col-span-6"
-                    placeholder="Pilih Desa"
-                    selectedValue={data.village ?? region.village}
-                    onChange={(value) => {
-                        setRegion((prev) => ({
-                            ...prev,
-                            village: value.kode_wilayah,
-                        }))
-
-                        setData((prev) => ({
-                            ...prev,
-                            village: value.kode_wilayah,
-                        }))
-                    }}
-                    fetchFunction={() => fetchVillages(region.district)}
-                    queryKey={["villages", region.district]}
-                    enabled={!!region.district}
-                    disabled={!region.district}
-                    getItemLabel={(item) => item.nama_wilayah!}
-                    getItemKey={(item) => item.kode_wilayah!}
-                />
-                <div>
+                            setData((data) => ({
+                                ...data,
+                                village_id: value?.value,
+                                village_name: value?.label
+                            }))
+                        }}
+                        placeholder="Search for a village..."
+                    />
+                </div>
+                <div className="col-span-6" >
                     <Button type="submit" >
                         Submit
                     </Button>
