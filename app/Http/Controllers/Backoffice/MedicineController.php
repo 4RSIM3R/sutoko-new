@@ -32,6 +32,20 @@ class MedicineController extends Controller
         ]);
     }
 
+    public function fetch(Request $request)
+    {
+        $name = $request->get('name');
+        if ($name) {
+            $name = Medicine::select('*')->where('name', 'like', '%' . $name . '%')->limit(10);
+            $trademark = Medicine::select('*')->where('trademark', 'like', '%' . $name . '%')->limit(10);
+            $code = Medicine::select('*')->where('kfa_code', 'like', '%' . $name . '%')->limit(10);
+            $result = $name->union($code)->union($trademark)->get();
+        } else {
+            $result = Medicine::limit(10)->get();
+        }
+        return response()->json($result);
+    }
+
 
     public function create(Request $request)
     {

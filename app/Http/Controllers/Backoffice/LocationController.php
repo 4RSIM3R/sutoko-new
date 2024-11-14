@@ -32,6 +32,18 @@ class LocationController extends Controller
         ]);
     }
 
+    public function fetch(Request $request)
+    {
+        $search = $request->get('name');
+        if ($search) {
+            $name = Location::select('*')->where('name', 'like', '%' . $search . '%');
+            $result = $name->get();
+        } else {
+            $result = Location::limit(10)->get();
+        }
+        return response()->json($result);
+    }
+
     public function create()
     {
         return Inertia::render('backoffice/master/location/form');

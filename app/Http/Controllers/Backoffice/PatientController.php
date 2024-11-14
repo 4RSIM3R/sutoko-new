@@ -10,6 +10,7 @@ use App\Utils\SatuSehat\SatuSehatPatient;
 use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Response;
 
 class PatientController extends Controller
 {
@@ -30,6 +31,18 @@ class PatientController extends Controller
         ]);
     }
 
+    public function fetch(Request $request)
+    {
+        $search = $request->get('name');
+        if ($search) {
+            $name = Patient::select(['nik', 'name', 'id'])->where('name', 'like', '%' . $search . '%');
+            $nik = Patient::select(['nik', 'name', 'id'])->where('nik', 'like', '%' . $search . '%');
+            $result = $name->union($nik)->get();
+        } else {
+            $result = Patient::limit(10)->get();
+        }
+        return response()->json($result);
+    }
 
     public function create()
     {

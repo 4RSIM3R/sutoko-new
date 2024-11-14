@@ -2,6 +2,7 @@
 
 use App\Models\Location;
 use App\Models\Patient;
+use App\Models\PaymentAssurance;
 use App\Models\Practioner;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,6 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(Patient::class);
             $table->foreignIdFor(Practioner::class);
             $table->foreignIdFor(Location::class);
+            $table->foreignIdFor(PaymentAssurance::class);
             $table->string('satu_sehat_id');
             $table->string('status');
             $table->json('request')->nullable();
@@ -26,7 +28,7 @@ return new class extends Migration
             $table->timestamps();
             $table->dateTime('synced_at')->nullable();
             $table->softDeletes();
-            $table->index(['patient_id', 'practioner_id', 'location_id']);
+            $table->index(['patient_id', 'practioner_id', 'location_id', 'payment_assurance_id']);
         });
     }
 

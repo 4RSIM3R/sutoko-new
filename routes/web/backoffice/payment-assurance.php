@@ -7,6 +7,7 @@ Route::group(['prefix' => 'backoffice/payment-assurance', 'as' => 'backoffice.pa
     Route::get('', [PaymentAssuranceController::class, 'index'])->name('index');
     Route::get('create', [PaymentAssuranceController::class, 'create'])->name('create');
     Route::post('store', [PaymentAssuranceController::class, 'store'])->name('store');
+    Route::get('fetch', [PaymentAssuranceController::class, 'fetch'])->name('fetch');
     Route::get('{id}', [PaymentAssuranceController::class, 'show'])->name('show');
     Route::put('{id}', [PaymentAssuranceController::class, 'update'])->name('update');
     Route::delete('{id}', [PaymentAssuranceController::class, 'destroy'])->name('destroy');

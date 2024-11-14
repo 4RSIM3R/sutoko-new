@@ -57,3 +57,48 @@ export const fetchVillages = async (district_id: any, search: string): Promise<S
     }));
 
 };
+
+export const fetchPractioner = async (search: any): Promise<SelectOption[]> => {
+    const response = await axios.get(route("backoffice.practioner.fetch"), {
+        params: { name: search },
+    });
+
+    return response.data.map((e: any) => ({
+        value: e.id,
+        label: `${e.name} - ${e.nik}`,
+    }));
+};
+
+export const fetchPatient = async (search: any): Promise<SelectOption[]> => {
+    const response = await axios.get(route("backoffice.patient.fetch"), {
+        params: { name: search },
+    });
+
+    return response.data.map((e: any) => ({
+        value: e.id,
+        label: `${e.name} - ${e.nik}`,
+    }));
+};
+
+export const fetchLocation = async (search: any): Promise<SelectOption[]> => {
+
+    const response = await axios.get(route("backoffice.location.fetch"), {
+        params: { name: search },
+    });
+
+    return response.data.map((e: any) => ({
+        value: e.id,
+        label: e.name,
+    }));
+};
+
+export const fetchPaymentAssurance = async (search: any): Promise<SelectOption[]> => {
+    const response = await axios.get(route("backoffice.payment-assurance.fetch"), {
+        params: { name: search },
+    });
+
+    return response.data.map((e: any) => ({
+        value: e.id,
+        label: e.name,
+    }));
+};

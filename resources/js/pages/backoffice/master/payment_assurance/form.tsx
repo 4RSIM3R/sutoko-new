@@ -54,7 +54,7 @@ export default function PaymentAssuranceForm({ payment }: PaymentAssuranceFormPr
         <div className="w-full" >
             <div className="flex flex-row justify-between" >
                 <div className="" >
-                    <h1 className="text-xl font-semibold" >Payment Method Form</h1>
+                    <h1 className="text-xl font-semibold" >Payment Assurance Form</h1>
                     <p className="text-sm text-gray-500" >Add new payment method</p>
                 </div>
                 <div>
@@ -83,7 +83,6 @@ export default function PaymentAssuranceForm({ payment }: PaymentAssuranceFormPr
                     name="description"
                     value={data.description}
                     autoComplete="off"
-                    autoFocus
                     onChange={(v) => setData("description", v)}
                     errorMessage={errors.description}
                     isRequired

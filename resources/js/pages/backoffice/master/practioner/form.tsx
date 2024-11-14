@@ -162,7 +162,6 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                     name="address"
                     value={data.address}
                     autoComplete="off"
-                    autoFocus
                     onChange={(v) => setData("address", v)}
                     errorMessage={errors.address}
                     isRequired
