@@ -5,8 +5,14 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EncounterRequest;
 use App\Models\Encounter;
+use App\Models\Patient;
+use App\Utils\SatuSehat\SatuSehatAuth;
+use App\Utils\SatuSehat\SatuSehatEncounter;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class EncounterController extends Controller
 {
@@ -33,5 +39,33 @@ class EncounterController extends Controller
         return Inertia::render('backoffice/operational/encounter/form');
     }
 
-    public function store(EncounterRequest $request) {}
+    public function store(EncounterRequest $request)
+    {
+        $payload = $request->validated();
+        $payload["satu_sehat_id"] = (string) Str::uuid();
+
+        $encounter = new SatuSehatEncounter();
+        $compose = $encounter->compose_arrived($payload);
+
+        try {
+
+            DB::beginTransaction();
+
+            $token = SatuSehatAuth::token();
+            $encounter->create($token, $compose);
+
+            $payload["status"] = "arrived";
+
+            Encounter::query()->create($payload);
+
+            DB::commit();
+            return Inertia::location(route('backoffice.encounter.index'));
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return back()->withErrors('errors', $exception->getMessage());
+        }
+
+
+        dd($payload);
+    }
 }

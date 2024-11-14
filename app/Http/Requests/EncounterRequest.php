@@ -11,7 +11,7 @@ class EncounterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class EncounterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'patient_id' => ['required', 'exists:patients,id'],
+            'practioner_id' => ['required', 'exists:practioners,id'],
+            'location_id' => ['required', 'exists:locations,id'],
+            'payment_assurance_id' => ['required', 'exists:payment_assurances,id'],
+            'send_questionnaire' => ['required', 'boolean'],
         ];
     }
 }
