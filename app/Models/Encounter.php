@@ -18,7 +18,7 @@ class Encounter extends Model
         return $this->belongsTo(Patient::class);
     }
 
-    public function practicer(): BelongsTo
+    public function practioner(): BelongsTo
     {
         return $this->belongsTo(Practioner::class);
     }

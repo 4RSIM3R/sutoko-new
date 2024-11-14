@@ -21,7 +21,7 @@ class EncounterController extends Controller
     {
         $page = $request->get('page', 1);
 
-        $encounters = Encounter::query()->paginate(page: $page);
+        $encounters = Encounter::query()->with(['patient', 'location', 'practioner'])->paginate(page: $page);
 
         $encounters = [
             "prev_page" => $encounters->currentPage() > 1 ? $encounters->currentPage() - 1 : null,
@@ -48,14 +48,12 @@ class EncounterController extends Controller
         $compose = $encounter->compose_arrived($payload);
 
         try {
-
             DB::beginTransaction();
 
             $token = SatuSehatAuth::token();
             $encounter->create($token, $compose);
 
             $payload["status"] = "arrived";
-
             Encounter::query()->create($payload);
 
             DB::commit();
@@ -64,8 +62,6 @@ class EncounterController extends Controller
             DB::rollBack();
             return back()->withErrors('errors', $exception->getMessage());
         }
-
-
-        dd($payload);
     }
+
 }
