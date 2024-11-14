@@ -28,3 +28,5 @@ export * from './tooltip';
 export * from './breadcrumbs';
 export * from './textarea';
 export * from './combo-box';
+export * from './tree';
+export * from './tabs';
