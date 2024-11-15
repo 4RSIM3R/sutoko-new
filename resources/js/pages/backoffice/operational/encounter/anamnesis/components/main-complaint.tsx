@@ -3,6 +3,7 @@ import { fetchSnomed } from "@/utils/select";
 import { useForm } from "@inertiajs/react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useEffect } from "react";
 import AsyncSelect from "react-select/async";
 import { toast } from "sonner";
 
@@ -31,13 +32,23 @@ export const MainComplaint = ({ id }: MainComplaintProps) => {
 
     const { post, errors, data, setData } = useForm<MainComplaintSchema>();
 
-    // when query is loaded, setData("by-key")
+    useEffect(() => {
+        if (query.isSuccess && query.data) {
+            setData({
+                primary_code: query.data.data.primary_code,
+                primary_display: query.data.data.primary_display,
+                secondary_code: query.data.data.secondary_code,
+                secondary_display: query.data.data.secondary_display,
+                notes: query.data.data.notes,
+            });
+        }
+    }, [query.isSuccess, query.data, setData]);
 
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         // console.log(data);
-        
+
         post(route('backoffice.encounter.complaint', { id: id }), {
             onSuccess: (_) => {
                 toast("Data berhasil disimpan", {
@@ -63,7 +74,6 @@ export const MainComplaint = ({ id }: MainComplaintProps) => {
                     <form onSubmit={onSubmit} className="py-2 grid grid-cols-12 gap-4">
                         <div className="col-span-12 flex flex-col" >
                             <Label className="mb-2">Keluhan Utama</Label>
-                            {JSON.stringify(query.data?.data)}
                             <AsyncSelect
                                 className="col-span-6 text-black"
                                 cacheOptions
@@ -94,6 +104,7 @@ export const MainComplaint = ({ id }: MainComplaintProps) => {
                         </div>
                         <Textarea
                             label="Keterangan"
+                            value={data.notes}
                             placeholder="keterangan keluhan pasien selain di masukkan anamnesis di masukkan juga di 06. riwayat perjalan penyakit"
                             className="col-span-12"
                             errorMessage={errors.notes}
@@ -102,9 +113,11 @@ export const MainComplaint = ({ id }: MainComplaintProps) => {
                             }}
                         />
                         <div className="col-span-12" >
-                            <Button type="submit" >
-                                Submit
-                            </Button>
+                            {
+                                !query.data?.data.primary_code && <Button type="submit" >
+                                    Submit
+                                </Button>
+                            }
                         </div>
                     </form>
                 )

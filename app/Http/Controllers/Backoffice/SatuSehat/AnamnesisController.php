@@ -56,15 +56,18 @@ class AnamnesisController extends Controller
             ]);
         }
 
-        // dd($primary, $secondary);
-
         try {
             DB::beginTransaction();
 
             $token = SatuSehatAuth::token();
 
             $primary = $client->create($token, $primary);
-            $secondary = $client->create($token, $secondary);
+            $payload["primary_satu_sehat_id"] = $primary;
+
+            if ($payload["secondary_code"] !=  null) {
+                $secondary = $client->create($token, $secondary);
+                $payload["secondary_satu_sehat_id"] = $primary;
+            }
 
             Anamnesis::query()->create($payload);
 

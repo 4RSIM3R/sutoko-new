@@ -15,8 +15,10 @@ return new class extends Migration
         Schema::create('anamneses', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Encounter::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('primary_satu_sehat_id');
             $table->string('primary_code');
             $table->string('primary_display');
+            $table->string('secondary_satu_sehat_id')->nullable();
             $table->string('secondary_code')->nullable();
             $table->string('secondary_display')->nullable();
             $table->text('notes');
