@@ -51,9 +51,11 @@ class EncounterController extends Controller
             DB::beginTransaction();
 
             $token = SatuSehatAuth::token();
-            $encounter->create($token, $compose);
+            $id =  $encounter->create($token, $compose);
 
             $payload["status"] = "arrived";
+            $payload["satu_sehat_id"] = $id;
+            
             Encounter::query()->create($payload);
 
             DB::commit();

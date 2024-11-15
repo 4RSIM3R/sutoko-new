@@ -10,6 +10,8 @@ class Anamnesis extends Model
     /** @use HasFactory<\Database\Factories\AnamnesisFactory> */
     use HasFactory;
 
+    protected $guarded = [];
+
     public function encounter()
     {
         return $this->belongsTo(Encounter::class);

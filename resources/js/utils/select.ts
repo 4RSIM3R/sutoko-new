@@ -115,7 +115,7 @@ export const fetchSnomed = async (search: any): Promise<SelectOption[]> => {
 
     return response.data.items.map((e: any) => ({
         value: e.id,
-        label: `${e.idAndFsnTerm}`,
+        label: `${e.pt.term}`,
     }));
 };
 

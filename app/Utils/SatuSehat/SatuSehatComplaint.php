@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 class SatuSehatComplaint
 {
 
-    public function composer_primary($payload)
+    public function compose_primary($payload)
     {
 
         return [
@@ -23,11 +23,13 @@ class SatuSehatComplaint
                 ]
             ],
             "category" => [
-                "coding" => [
-                    [
-                        "system" => "http://terminology.kemkes.go.id",
-                        "code" => "chief-complaint",
-                        "display" => "Chief Complaint",
+                [
+                    "coding" => [
+                        [
+                            "system" => "http://terminology.kemkes.go.id",
+                            "code" => "chief-complaint",
+                            "display" => "Chief Complaint",
+                        ]
                     ]
                 ]
             ],
@@ -54,15 +56,18 @@ class SatuSehatComplaint
                 "display" => $payload["practioner_name"],
             ],
             "note" => [
-                "text" => $payload["notes"],
+                [
+                    "text" => $payload["notes"],
+                ]
             ],
         ];
     }
 
-    public function composer_secondary($payload)
+    public function compose_secondary($payload)
     {
         return [
             "resourceType" => "Condition",
+            "id" => $payload["encounter_id"],
             "clinicalStatus" => [
                 "coding" => [
                     [
@@ -73,11 +78,13 @@ class SatuSehatComplaint
                 ]
             ],
             "category" => [
-                "coding" => [
-                    [
-                        "system" => "http://terminology.hl7.org/CodeSystem/condition-category",
-                        "code" => "problem-list-item",
-                        "display" => "Problem List Item",
+                [
+                    "coding" => [
+                        [
+                            "system" => "http://terminology.hl7.org/CodeSystem/condition-category",
+                            "code" => "problem-list-item",
+                            "display" => "Problem List Item",
+                        ]
                     ]
                 ]
             ],
@@ -104,7 +111,9 @@ class SatuSehatComplaint
                 "display" => $payload["practioner_name"],
             ],
             "note" => [
-                "text" => $payload["notes"],
+                [
+                    "text" => $payload["notes"],
+                ]
             ],
         ];
     }
@@ -114,7 +123,7 @@ class SatuSehatComplaint
         $response = Http::withHeaders([
             "Content-Type" => "application/json",
             "Authorization" => "Bearer $token",
-        ])->put(sprintf("%s/Condition", config('satu_sehat.base_url')), $payload);
+        ])->post(sprintf("%s/Condition", config('satu_sehat.base_url')), $payload);
 
         return $response->json()["id"];
     }

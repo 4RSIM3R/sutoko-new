@@ -1,22 +1,58 @@
 import { Button, Checkbox, Label, Textarea } from "@/components/ui"
 import { fetchSnomed } from "@/utils/select";
+import { useForm } from "@inertiajs/react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import AsyncSelect from "react-select/async";
+import { toast } from "sonner";
 
 type MainComplaintProps = {
     id: any;
 }
 
+type MainComplaintSchema = {
+    primary_code: any;
+    primary_display: any;
+    secondary_code: any;
+    secondary_display: any;
+    notes: any;
+}
+
 export const MainComplaint = ({ id }: MainComplaintProps) => {
+
 
     const query = useQuery({
         queryKey: ["anamnesis"],
         queryFn: async () => {
-            const response = await axios.get(route('backoffice.encounter.anamnesis', { id: id }));
+            const response = await axios.get(route('backoffice.encounter.complaint', { id: id }));
             return response;
         }
     });
+
+    const { post, errors, data, setData } = useForm<MainComplaintSchema>();
+
+    // when query is loaded, setData("by-key")
+
+    const onSubmit = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+
+        // console.log(data);
+        
+        post(route('backoffice.encounter.complaint', { id: id }), {
+            onSuccess: (_) => {
+                toast("Data berhasil disimpan", {
+                    description: "Data berhasil disimpan",
+                    important: true,
+                });
+            },
+            onError: (error) => {
+                toast("Whoopsss....", {
+                    description: JSON.stringify(error),
+                    important: true,
+                });
+            }
+        });
+    }
 
     return (
         <div>
@@ -24,19 +60,19 @@ export const MainComplaint = ({ id }: MainComplaintProps) => {
                 query.isLoading ? (
                     <div>Loading...</div>
                 ) : (
-                    <form className="py-2 grid grid-cols-12 gap-4">
+                    <form onSubmit={onSubmit} className="py-2 grid grid-cols-12 gap-4">
                         <div className="col-span-12 flex flex-col" >
                             <Label className="mb-2">Keluhan Utama</Label>
+                            {JSON.stringify(query.data?.data)}
                             <AsyncSelect
                                 className="col-span-6 text-black"
                                 cacheOptions
                                 loadOptions={fetchSnomed}
                                 defaultOptions
-                                // defaultValue={{ value: encounter?.patient_id, label: encounter?.patient_name }}
+                                value={{ value: data?.primary_code, label: data?.primary_display }}
                                 isClearable
                                 onChange={(value) => {
-                                    // setEncounter({ ...encounter, patient_id: value?.value, patient_name: value?.label });
-                                    // setData({ ...data, patient_id: value?.value });
+                                    setData({ ...data, primary_code: value?.value, primary_display: value?.label });
                                 }}
                                 placeholder="Search for by type name"
                             />
@@ -48,19 +84,22 @@ export const MainComplaint = ({ id }: MainComplaintProps) => {
                                 cacheOptions
                                 loadOptions={fetchSnomed}
                                 defaultOptions
-                                // defaultValue={{ value: encounter?.patient_id, label: encounter?.patient_name }}
+                                value={{ value: data?.secondary_code, label: data?.secondary_display }}
                                 isClearable
                                 onChange={(value) => {
-                                    // setEncounter({ ...encounter, patient_id: value?.value, patient_name: value?.label });
-                                    // setData({ ...data, patient_id: value?.value });
+                                    setData({ ...data, secondary_code: value?.value, secondary_display: value?.label });
                                 }}
-                                placeholder="Search for a patient..."
+                                placeholder="Search for by type name"
                             />
                         </div>
                         <Textarea
                             label="Keterangan"
                             placeholder="keterangan keluhan pasien selain di masukkan anamnesis di masukkan juga di 06. riwayat perjalan penyakit"
                             className="col-span-12"
+                            errorMessage={errors.notes}
+                            onChange={(value) => {
+                                setData({ ...data, notes: value })
+                            }}
                         />
                         <div className="col-span-12" >
                             <Button type="submit" >
