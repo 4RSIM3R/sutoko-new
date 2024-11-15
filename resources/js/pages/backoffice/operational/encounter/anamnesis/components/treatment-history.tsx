@@ -1,32 +1,12 @@
-import { Button, Checkbox, Label, Select, Textarea } from "@/components/ui"
-import { allergy_type } from "@/utils/constant"
-import { fetchSnomed } from "@/utils/select"
+import { Button, Label, Textarea, TextField } from "@/components/ui"
 import AsyncSelect from "react-select/async"
 
-export const AllergyHistory = () => {
+export const TreatmentHistory = () => {
 
     return (
         <form className="py-2 grid grid-cols-12 gap-4">
             <div className="col-span-12" >
-                <Select
-                    label="Jenis Alergi"
-                    placeholder="Select Payment Method"
-                    onSelectionChange={(val) => {}}
-                >
-                    <Select.Trigger />
-                    <Select.List items={allergy_type}>
-                        {
-                            allergy_type.map(e => (
-                                <Select.Option id={e.id} textValue={e.name}>
-                                    {e.name}
-                                </Select.Option>
-                            ))
-                        }
-                    </Select.List>
-                </Select>
-            </div>
-            <div className="col-span-12" >
-                <Label className="mb-2">Alergen</Label>
+                <Label className="mb-2">Obat</Label>
                 <AsyncSelect
                     className="col-span-6 text-black"
                     cacheOptions
@@ -41,16 +21,31 @@ export const AllergyHistory = () => {
                     placeholder="Search for by type name"
                 />
             </div>
+            <div className="col-span-6" >
+                <TextField
+                    label="Dosis / Minum"
+                    placeholder="Dosis sekali minum"
+                    type="number"
+                />
+            </div>
+            <div className="col-span-6" >
+                <TextField
+                    label="Dosis / Hari"
+                    placeholder="Dosis dalam 1 hari"
+                    type="number"
+                />
+            </div>
             <Textarea
                 label="Keterangan"
-                placeholder="keterangan alergi"
+                placeholder="keterangan riwayat pengobatan"
                 className="col-span-12"
             />
-            <div className="col-span-6" >
+            <div className="col-span-12" >
                 <Button type="submit" >
                     Submit
                 </Button>
             </div>
         </form>
     )
+
 }

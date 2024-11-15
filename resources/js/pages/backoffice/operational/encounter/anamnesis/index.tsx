@@ -47,8 +47,7 @@ export default function AnamnesisIndex({ encounter }: AnamnesisIndexProps) {
                     <AllergyHistory />
                 </Tabs.Panel>
                 <Tabs.Panel id="medication" >
-                    {/* <MedicalHistory /> */}
-                    <p>Eiyata Pengobatan</p>
+                    <p>Soon...</p>
                 </Tabs.Panel>
             </Tabs>
         </div>

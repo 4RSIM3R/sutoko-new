@@ -5,7 +5,7 @@ import AsyncSelect from "react-select/async"
 export const FamilyHistory = () => {
 
     return (
-        <form className="p-4" >
+        <form className="py-2 grid grid-cols-12 gap-4">
             <div className="col-span-12" >
                 <Label className="mb-2">Penyakit</Label>
                 <AsyncSelect

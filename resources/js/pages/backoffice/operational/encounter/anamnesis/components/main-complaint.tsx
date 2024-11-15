@@ -5,8 +5,8 @@ import AsyncSelect from "react-select/async";
 export const MainComplaint = () => {
 
     return (
-        <form className="py-4 grid grid-cols-12 gap-4">
-            <div className="col-span-12" >
+        <form className="py-2 grid grid-cols-12 gap-4">
+            <div className="col-span-12 flex flex-col" >
                 <Label className="mb-2">Keluhan Utama</Label>
                 <AsyncSelect
                     className="col-span-6 text-black"
@@ -22,7 +22,7 @@ export const MainComplaint = () => {
                     placeholder="Search for by type name"
                 />
             </div>
-            <div className="col-span-12" >
+            <div className="col-span-12 flex flex-col" >
                 <Label className="mb-2">Keluhan Penyerta</Label>
                 <AsyncSelect
                     className="col-span-6 text-black"

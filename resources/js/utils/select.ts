@@ -118,3 +118,19 @@ export const fetchSnomed = async (search: any): Promise<SelectOption[]> => {
         label: `${e.idAndFsnTerm}`,
     }));
 };
+
+export const fetchKfa = async (search: any): Promise<SelectOption[]> => {
+    const response = await axios.get('https://api-satusehat.kemkes.go.id/fhir-r4/v1/kfa-v2/products/all', {
+        params: {
+            page: 1,
+            size: 50,
+            product_type: 'farmasi',
+            keyword: search,
+        },
+    });
+
+    return response.data.items.map((e: any) => ({
+        value: e.id,
+        label: `${e.idAndFsnTerm}`,
+    }));
+};
