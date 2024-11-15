@@ -1,4 +1,4 @@
-import { Button, Label, Textarea } from "@/components/ui"
+import { Button, Checkbox, Label, Textarea } from "@/components/ui"
 import { fetchSnomed } from "@/utils/select";
 import AsyncSelect from "react-select/async";
 
@@ -19,7 +19,7 @@ export const MainComplaint = () => {
                         // setEncounter({ ...encounter, patient_id: value?.value, patient_name: value?.label });
                         // setData({ ...data, patient_id: value?.value });
                     }}
-                    placeholder="Search for a patient..."
+                    placeholder="Search for by type name"
                 />
             </div>
             <div className="col-span-12" >
@@ -40,10 +40,11 @@ export const MainComplaint = () => {
             </div>
             <Textarea
                 label="Keterangan"
-                placeholder="keterangan keluhan utama pasien"
+                placeholder="keterangan keluhan pasien"
                 className="col-span-12"
             />
-            <div className="col-span-6" >
+           
+            <div className="col-span-12" >
                 <Button type="submit" >
                     Submit
                 </Button>

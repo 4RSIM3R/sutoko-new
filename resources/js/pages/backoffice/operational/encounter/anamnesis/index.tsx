@@ -2,8 +2,7 @@ import { Button, Tabs } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Encounter } from "@/types/encounter";
 import { IconCircleQuestionmarkFill } from "justd-icons";
-import { MainComplaint } from "./components/main";
-import { AccompanyComplain } from "./components/accompany";
+import { MainComplaint } from "./components/main-complaint";
 import { MedicalHistory } from "./components/medical-history";
 import { FamilyHistory } from "./components/family-history";
 import { AllergyHistory } from "./components/allergy-history";
@@ -48,7 +47,8 @@ export default function AnamnesisIndex({ encounter }: AnamnesisIndexProps) {
                     <AllergyHistory />
                 </Tabs.Panel>
                 <Tabs.Panel id="medication" >
-                    <MedicalHistory />
+                    {/* <MedicalHistory /> */}
+                    <p>Eiyata Pengobatan</p>
                 </Tabs.Panel>
             </Tabs>
         </div>

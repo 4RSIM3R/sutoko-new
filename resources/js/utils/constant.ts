@@ -217,3 +217,18 @@ export const location_type = [
         name: 'Area',
     },
 ];
+
+export const allergy_type = [
+    {
+        id: 'food',
+        name: 'Makanan',
+    },
+    {
+        id: 'environment',
+        name: 'Lingkungan',
+    },
+    {
+        id: 'medication',
+        name: 'Obat / Medikasi',
+    },
+]
