@@ -3,7 +3,11 @@ import { allergy_type } from "@/utils/constant"
 import { fetchSnomed } from "@/utils/select"
 import AsyncSelect from "react-select/async"
 
-export const AllergyHistory = () => {
+type AllergyHistoryProps = {
+    id: any;
+}
+
+export const AllergyHistory = ({ id }: AllergyHistoryProps) => {
 
     return (
         <form className="py-2 grid grid-cols-12 gap-4">
@@ -11,7 +15,7 @@ export const AllergyHistory = () => {
                 <Select
                     label="Jenis Alergi"
                     placeholder="Select Payment Method"
-                    onSelectionChange={(val) => {}}
+                    onSelectionChange={(val) => { }}
                 >
                     <Select.Trigger />
                     <Select.List items={allergy_type}>

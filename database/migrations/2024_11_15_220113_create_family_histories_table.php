@@ -12,14 +12,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('anamneses', function (Blueprint $table) {
+        Schema::create('family_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Encounter::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('primary_code');
-            $table->string('primary_display');
-            $table->string('secondary_code')->nullable();
-            $table->string('secondary_display')->nullable();
-            $table->text('notes');
             $table->timestamps();
         });
     }
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('anamneses');
+        Schema::dropIfExists('family_histories');
     }
 };

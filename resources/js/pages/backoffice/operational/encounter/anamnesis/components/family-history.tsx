@@ -2,7 +2,11 @@ import { Button, Checkbox, Label, Textarea } from "@/components/ui"
 import { fetchSnomed } from "@/utils/select"
 import AsyncSelect from "react-select/async"
 
-export const FamilyHistory = () => {
+type FamilyHistoryProps = {
+    id: any;
+}
+
+export const FamilyHistory = ({ id }: FamilyHistoryProps) => {
 
     return (
         <form className="py-2 grid grid-cols-12 gap-4">

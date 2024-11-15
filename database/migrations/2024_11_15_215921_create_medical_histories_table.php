@@ -12,13 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('anamneses', function (Blueprint $table) {
+        Schema::create('medical_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Encounter::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('primary_code');
-            $table->string('primary_display');
-            $table->string('secondary_code')->nullable();
-            $table->string('secondary_display')->nullable();
+            $table->enum('type', ['food', 'medicine', 'environment']);
+            $table->string('code');
+            $table->string('display');
             $table->text('notes');
             $table->timestamps();
         });
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('anamneses');
+        Schema::dropIfExists('medical_histories');
     }
 };

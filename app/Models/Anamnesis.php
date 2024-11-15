@@ -9,4 +9,9 @@ class Anamnesis extends Model
 {
     /** @use HasFactory<\Database\Factories\AnamnesisFactory> */
     use HasFactory;
+
+    public function encounter()
+    {
+        return $this->belongsTo(Encounter::class);
+    }
 }

@@ -150,7 +150,6 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                     type="tel"
                     value={data.phone_number}
                     autoComplete="off"
-                    autoFocus
                     onChange={(v) => setData("phone_number", v)}
                     errorMessage={errors.phone_number}
                     isRequired

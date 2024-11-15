@@ -2,7 +2,11 @@ import { Button, Checkbox, Label, Textarea } from "@/components/ui"
 import { fetchSnomed } from "@/utils/select"
 import AsyncSelect from "react-select/async"
 
-export const MedicalHistory = () => {
+type MedicalHistoryProps = {
+    id: any;
+}
+
+export const MedicalHistory = ({ id }: MedicalHistoryProps) => {
 
     return (
         <form className="py-2 grid grid-cols-12 gap-4">
@@ -27,7 +31,7 @@ export const MedicalHistory = () => {
                 placeholder="keterangan riwayat penyakit"
                 className="col-span-12"
             />
-             <div className="col-span-12" >
+            <div className="col-span-12" >
                 <Checkbox
                     onChange={(val) => { }}
                 >

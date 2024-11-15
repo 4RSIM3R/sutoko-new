@@ -32,23 +32,23 @@ export default function AnamnesisIndex({ encounter }: AnamnesisIndexProps) {
                     <Tabs.Tab id="history">Riwayat Penyakit</Tabs.Tab>
                     <Tabs.Tab id="family-history">Riwayat Penyakit Keluarga</Tabs.Tab>
                     <Tabs.Tab id="allergy">Riwayat Alergi</Tabs.Tab>
-                    <Tabs.Tab id="medication">Riwayat Pengobatan</Tabs.Tab>
+                    {/* <Tabs.Tab id="medication">Riwayat Pengobatan</Tabs.Tab> */}
                 </Tabs.List>
                 <Tabs.Panel id="main" >
-                    <MainComplaint />
+                    <MainComplaint id={encounter.id} />
                 </Tabs.Panel>
                 <Tabs.Panel id="history" >
-                    <MedicalHistory />
+                    <MedicalHistory id={encounter.id} />
                 </Tabs.Panel>
                 <Tabs.Panel id="family-history" >
-                    <FamilyHistory />
+                    <FamilyHistory id={encounter.id} />
                 </Tabs.Panel>
                 <Tabs.Panel id="allergy" >
-                    <AllergyHistory />
+                    <AllergyHistory id={encounter.id} />
                 </Tabs.Panel>
-                <Tabs.Panel id="medication" >
+                {/* <Tabs.Panel id="medication" >
                     <p>Soon...</p>
-                </Tabs.Panel>
+                </Tabs.Panel> */}
             </Tabs>
         </div>
     )
