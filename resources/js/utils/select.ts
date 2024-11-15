@@ -102,3 +102,19 @@ export const fetchPaymentAssurance = async (search: any): Promise<SelectOption[]
         label: e.name,
     }));
 };
+
+export const fetchSnomed = async (search: any): Promise<SelectOption[]> => {
+    const response = await axios.get('https://browser.ihtsdotools.org/snowstorm/snomed-ct/MAIN/2019-07-31/concepts', {
+        params: {
+            term: search,
+            activeFilter: true,
+            offset: 0,
+            limit: 10,
+        },
+    });
+
+    return response.data.items.map((e: any) => ({
+        value: e.id,
+        label: `${e.idAndFsnTerm}`,
+    }));
+};

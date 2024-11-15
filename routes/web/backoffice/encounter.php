@@ -7,4 +7,5 @@ Route::group(['prefix' => 'backoffice/encounter', 'as' => 'backoffice.encounter.
     Route::get('', [EncounterController::class, 'index'])->name('index');
     Route::get('create', [EncounterController::class, 'create'])->name('create');
     Route::post('store', [EncounterController::class, 'store'])->name('store');
+    Route::get('{id}/anamnesis', [EncounterController::class, 'anamnesis'])->name('anamnesis');
 });

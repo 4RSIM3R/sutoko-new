@@ -64,4 +64,10 @@ class EncounterController extends Controller
         }
     }
 
+    public function anamnesis($id)
+    {
+        return Inertia::render('backoffice/operational/encounter/anamnesis/index', [
+            'encounter' => Encounter::find($id),
+        ]);
+    }
 }

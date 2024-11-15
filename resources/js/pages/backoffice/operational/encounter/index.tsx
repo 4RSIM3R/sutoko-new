@@ -54,17 +54,31 @@ export default function EncounterIndex({ encounters }: EncounterIndexProps) {
                                         <Menu>
                                             <Menu.Trigger className={buttonStyles({ appearance: "outline", size: "extra-small" })}>ACTION</Menu.Trigger>
                                             <Menu.Content placement="bottom" className="sm:min-w-48">
-                                                <Menu.Item>Riwayat Kunjungan</Menu.Item>
-                                                <Menu.Item>Daftarkan Kunjungan</Menu.Item>
-                                                <Menu.Separator />
-                                                <Menu.Submenu>
-                                                    <Menu.Item>Cetak</Menu.Item>
-                                                    <Menu.Content>
-                                                        <Menu.Item>Gelang Pasien</Menu.Item>
-                                                        <Menu.Item>Kartu Pasien</Menu.Item>
-                                                        <Menu.Item>General Consent</Menu.Item>
-                                                    </Menu.Content>
-                                                </Menu.Submenu>
+                                                <Menu.Item>
+                                                    <Link href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
+                                                        Anamnesis
+                                                    </Link>
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    <Link href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
+                                                        Pemeriksaan Fisik
+                                                    </Link>
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    <Link href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
+                                                        Diagnosis
+                                                    </Link>
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    <Link href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
+                                                        Resep Obat
+                                                    </Link>
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    <Link href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
+                                                        Tindakan
+                                                    </Link>
+                                                </Menu.Item>
                                             </Menu.Content>
                                         </Menu>
                                     </Table.Cell>
