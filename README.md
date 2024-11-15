@@ -10,23 +10,23 @@ Boleh di pakai secara gratis, tapi ngga boleh di komersialisasi. dalam bentuk SA
 2. Supaya kita semua sehat wal-afiat
 3. Bismillah, saya jadi Staff Menteri :D
 
-## Supported Satu Sehat : 
+## Supported Satu Sehat Component :
 
-- Kunjungan Pasien [x]
-- Kondisi (ICD 10) [x]
-- Observasi [x]
-- Tindakan (ICD 9) [x]
-- Resep Obat [ ]
-- Tebus Obat [ ]
-- Service Request [x]
-- Spesimen [ ]
-- Laporan Diagnostik [x]
-- Resume Diet [x]
-- Alergi Intoleran [x]
-- Impresi Klinis [x]
-- Rencana Tindak Lanjut [x]
-- Respon Kuisioner [x]
-- Catatan Pengobatan [x]
+- [x] Kunjungan Pasien
+- [x] Kondisi (ICD 10)
+- [x] Observasi
+- [x] Tindakan (ICD 9)
+- [ ] Resep Obat
+- [ ] Tebus Obat
+- [x] Service Request
+- [ ] Spesimen
+- [x] Laporan Diagnostik
+- [x] Resume Diet
+- [x] Alergi Intoleran
+- [x] Impresi Klinis
+- [x] Rencana Tindak Lanjut
+- [x] Respon Kuisioner
+- [x] Catatan Pengobatan
 
 ## License
 
