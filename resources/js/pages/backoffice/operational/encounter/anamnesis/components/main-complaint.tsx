@@ -40,7 +40,7 @@ export const MainComplaint = () => {
             </div>
             <Textarea
                 label="Keterangan"
-                placeholder="keterangan keluhan pasien"
+                placeholder="keterangan keluhan pasien selain di masukkan anamnesis di masukkan juga di 06. riwayat perjalan penyakit"
                 className="col-span-12"
             />
            

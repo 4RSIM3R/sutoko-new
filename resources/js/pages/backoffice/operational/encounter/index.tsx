@@ -3,7 +3,13 @@ import { AppLayout } from "@/layouts/app-layout";
 import { Base } from "@/types/base";
 import { Encounter } from "@/types/encounter";
 import { Link } from "@inertiajs/react";
-import { IconPlus } from "justd-icons";
+import {
+    IconCheck,
+    IconGlasses,
+    IconPencilBox,
+    IconPlus,
+    IconSearchSketchbook
+} from "justd-icons";
 
 type EncounterIndexProps = {
     encounters: Base<Encounter[]>
@@ -18,7 +24,8 @@ export default function EncounterIndex({ encounters }: EncounterIndexProps) {
                     <h1 className="text-xl font-semibold" >Encounter</h1>
                     <p className="text-sm text-gray-500" >Manage encounter and medical record</p>
                 </div>
-                <div>
+                <div className="flex" >
+                    
                     <Link href={route('backoffice.encounter.create')}>
                         <Button appearance="outline" >
                             <IconPlus />
@@ -55,28 +62,33 @@ export default function EncounterIndex({ encounters }: EncounterIndexProps) {
                                             <Menu.Trigger className={buttonStyles({ appearance: "outline", size: "extra-small" })}>ACTION</Menu.Trigger>
                                             <Menu.Content placement="bottom" className="sm:min-w-48">
                                                 <Menu.Item>
-                                                    <Link href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
+                                                    <Link className="flex flex-row items-center gap-2" href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
+                                                        <IconPencilBox />
                                                         Anamnesis
                                                     </Link>
                                                 </Menu.Item>
                                                 <Menu.Item>
-                                                    <Link href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
-                                                        Pemeriksaan Fisik
+                                                    <Link className="flex flex-row items-center gap-2" href={`${route('backoffice.encounter.observation', { id: e.id })}`}>
+                                                        <IconGlasses />
+                                                        Observasi
                                                     </Link>
                                                 </Menu.Item>
                                                 <Menu.Item>
-                                                    <Link href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
+                                                    <Link className="flex flex-row items-center gap-2" href={`${route('backoffice.encounter.diagnose', { id: e.id })}`}>
+                                                        <IconSearchSketchbook />
                                                         Diagnosis
                                                     </Link>
                                                 </Menu.Item>
                                                 <Menu.Item>
-                                                    <Link href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
+                                                    <Link className="flex flex-row items-center gap-2" href={`${route('backoffice.encounter.medication', { id: e.id })}`}>
+                                                        <IconPlus />
                                                         Resep Obat
                                                     </Link>
                                                 </Menu.Item>
                                                 <Menu.Item>
-                                                    <Link href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
-                                                        Tindakan
+                                                    <Link className="flex flex-row items-center gap-2 font-medium" href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
+                                                        <IconCheck />
+                                                        Selesai
                                                     </Link>
                                                 </Menu.Item>
                                             </Menu.Content>
