@@ -24,10 +24,8 @@ return new class extends Migration
             $table->string('satu_sehat_id');
             $table->string('status');
             $table->boolean('send_questionnaire')->default(false);
-            $table->json('request')->nullable();
             $table->json('response')->nullable();
             $table->timestamps();
-            $table->dateTime('synced_at')->nullable();
             $table->softDeletes();
             $table->index(['patient_id', 'practioner_id', 'payment_assurance_id']);
         });
