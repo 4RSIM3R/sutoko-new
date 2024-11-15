@@ -12,8 +12,8 @@ Boleh di pakai secara gratis, tapi ngga boleh di komersialisasi. dalam bentuk SA
 
 ## Supported Satu Sehat Component :
 
-- [x] Kunjungan Pasien
-- [x] Kondisi (ICD 10)
+- [x] Kunjungan Pasien (Done)
+- [x] Kondisi (ICD 10) (Done)
 - [x] Observasi
 - [x] Tindakan (ICD 9)
 - [ ] Resep Obat
