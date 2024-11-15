@@ -10,5 +10,4 @@ Route::group(['prefix' => 'backoffice/encounter', 'as' => 'backoffice.encounter.
     Route::get('{id}/anamnesis', [EncounterController::class, 'anamnesis'])->name('anamnesis');
     Route::get('{id}/observation', [EncounterController::class, 'observation'])->name('observation');
     Route::get('{id}/diagnose', [EncounterController::class, 'diagnose'])->name('diagnose');
-    Route::get('{id}/medication', [EncounterController::class, 'medication'])->name('medication');
 });

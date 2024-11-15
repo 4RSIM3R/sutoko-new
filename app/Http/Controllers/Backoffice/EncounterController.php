@@ -80,14 +80,7 @@ class EncounterController extends Controller
 
     public function diagnose($id)
     {
-        return Inertia::render('backoffice/operational/encounter/observation/index', [
-            'encounter' => Encounter::find($id),
-        ]);
-    }
-
-    public function medication($id)
-    {
-        return Inertia::render('backoffice/operational/encounter/observation/index', [
+        return Inertia::render('backoffice/operational/encounter/condition/index', [
             'encounter' => Encounter::find($id),
         ]);
     }

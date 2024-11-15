@@ -79,12 +79,12 @@ export default function EncounterIndex({ encounters }: EncounterIndexProps) {
                                                         Diagnosis
                                                     </Link>
                                                 </Menu.Item>
-                                                <Menu.Item>
+                                                {/* <Menu.Item>
                                                     <Link className="flex flex-row items-center gap-2" href={`${route('backoffice.encounter.medication', { id: e.id })}`}>
                                                         <IconPlus />
                                                         Resep Obat
                                                     </Link>
-                                                </Menu.Item>
+                                                </Menu.Item> */}
                                                 <Menu.Item>
                                                     <Link className="flex flex-row items-center gap-2 font-medium" href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
                                                         <IconCheck />

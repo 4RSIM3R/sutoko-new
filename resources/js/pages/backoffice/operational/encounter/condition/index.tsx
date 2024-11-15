@@ -31,8 +31,8 @@ export default function ConditionIndex({ encounter }: ObservationIndexProps) {
             <Tabs className="mt-4" aria-label="Anamnesis Form" >
                 <Tabs.List>
                     <Tabs.Tab id="diagnose">Diagnosa</Tabs.Tab>
-                    <Tabs.Tab id="risk-assessment">Penilaian Resiko</Tabs.Tab>
                     <Tabs.Tab id="service">Tindakan</Tabs.Tab>
+                    {/* <Tabs.Tab id="risk-assessment">Penilaian Resiko</Tabs.Tab> */}
                     <Tabs.Tab id="nutrition">Nutrisi / Diet</Tabs.Tab>
                     <Tabs.Tab id="medication">Peresepan Obat</Tabs.Tab>
                     <Tabs.Tab id="follow-up">Rencana Tindak Lanjut</Tabs.Tab>
@@ -40,9 +40,9 @@ export default function ConditionIndex({ encounter }: ObservationIndexProps) {
                 <Tabs.Panel id="diagnose" >
                     <Diagnose />
                 </Tabs.Panel>
-                <Tabs.Panel id="risk-assessment" >
+                {/* <Tabs.Panel id="risk-assessment" >
                     <RiskAssessment />
-                </Tabs.Panel>
+                </Tabs.Panel> */}
                 <Tabs.Panel id="service" >
                     <Service />
                 </Tabs.Panel>
