@@ -10,8 +10,8 @@ export const FamilyHistory = ({ id }: FamilyHistoryProps) => {
 
     return (
         <form className="py-2 grid grid-cols-12 gap-4">
-            <div className="col-span-12" >
-                <Label className="mb-2">Penyakit</Label>
+            <div className="col-span-12 flex flex-col" >
+                <Label className="mb-1.5">Penyakit</Label>
                 <AsyncSelect
                     className="col-span-6 text-black"
                     cacheOptions

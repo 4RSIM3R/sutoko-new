@@ -29,8 +29,8 @@ export const AllergyHistory = ({ id }: AllergyHistoryProps) => {
                     </Select.List>
                 </Select>
             </div>
-            <div className="col-span-12" >
-                <Label className="mb-2">Alergen</Label>
+            <div className="col-span-12 flex flex-col" >
+                <Label className="mb-1.5">Alergen</Label>
                 <AsyncSelect
                     className="col-span-6 text-black"
                     cacheOptions

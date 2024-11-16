@@ -1,4 +1,4 @@
-import { Button, Checkbox, Label, Textarea } from "@/components/ui"
+import { Button, Checkbox, Label, Textarea, TextField } from "@/components/ui"
 import { fetchSnomed } from "@/utils/select";
 import { useForm } from "@inertiajs/react";
 import { useQuery } from "@tanstack/react-query";
@@ -73,7 +73,7 @@ export const MainComplaint = ({ id }: MainComplaintProps) => {
                 ) : (
                     <form onSubmit={onSubmit} className="py-2 grid grid-cols-12 gap-4">
                         <div className="col-span-12 flex flex-col" >
-                            <Label className="mb-2">Keluhan Utama</Label>
+                            <Label className="mb-1.5">Keluhan Utama</Label>
                             <AsyncSelect
                                 className="col-span-6 text-black"
                                 cacheOptions
@@ -88,7 +88,7 @@ export const MainComplaint = ({ id }: MainComplaintProps) => {
                             />
                         </div>
                         <div className="col-span-12 flex flex-col" >
-                            <Label className="mb-2">Keluhan Penyerta</Label>
+                            <Label className="mb-1.5">Keluhan Penyerta</Label>
                             <AsyncSelect
                                 className="col-span-6 text-black"
                                 cacheOptions
@@ -102,6 +102,12 @@ export const MainComplaint = ({ id }: MainComplaintProps) => {
                                 placeholder="Search for by type name"
                             />
                         </div>
+                        {/* <div className="col-span-12 flex flex-col" >
+                            <TextField
+                                label="Onset"
+                                placeholder="terjadi sejak kapan keluhan?"
+                            />
+                        </div> */}
                         <Textarea
                             label="Keterangan"
                             value={data.notes}
