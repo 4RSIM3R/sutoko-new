@@ -16,7 +16,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Encounter::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('satu_sehat_id');
-            $table->string('satu_sehat_id');
             $table->enum('type', ['food', 'medicine', 'environment']);
             $table->string('code');
             $table->string('display');

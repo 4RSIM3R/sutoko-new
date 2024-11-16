@@ -8,7 +8,25 @@ use Illuminate\Support\Facades\Http;
 class SatuSehatMedicalHistory
 {
 
-    public function compose($payload)
+    /**
+     * Compose a condition payload.
+     *
+     * @param array{
+     *     active: bool,
+     *     code: string,
+     *     display: string,
+     *     patient_id: string,
+     *     patient_name: string,
+     *     encounter_id: string,
+     *     onset_start: string,
+     *     onset_end: string,
+     *     practioner_id: string,
+     *     practioner_name: string,
+     *     notes: string
+     * } $payload
+     * @return array
+     */
+    public function compose(array $payload): array
     {
         return [
             "resourceType" => "Condition",
@@ -64,6 +82,7 @@ class SatuSehatMedicalHistory
             ],
         ];
     }
+
 
     public function create($token, $payload)
     {

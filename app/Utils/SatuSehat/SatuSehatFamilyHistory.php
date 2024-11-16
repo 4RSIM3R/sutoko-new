@@ -7,7 +7,25 @@ use Illuminate\Support\Facades\Http;
 
 class SatuSehatFamilyHistory
 {
-    public function compose($payload)
+    
+    /**
+     * Compose a family member history payload.
+     *
+     * @param array{
+     *     relation_code: string,
+     *     relation_display: string,
+     *     contributed_to_death: bool,
+     *     patient_id: string,
+     *     patient_name: string,
+     *     disease_code: string,
+     *     disease_display: string,
+     *     outcome_code: string,
+     *     outcome_display: string,
+     *     notes: string
+     * } $payload
+     * @return array
+     */
+    public function compose(array $payload): array
     {
         return [
             "resourceType" => "FamilyMemberHistory",
