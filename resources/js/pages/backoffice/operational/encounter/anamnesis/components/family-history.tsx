@@ -1,4 +1,5 @@
-import { Button, Checkbox, Label, Textarea } from "@/components/ui"
+import { Button, Checkbox, Label, Select, Textarea } from "@/components/ui"
+import { family_member } from "@/utils/constant/hl7";
 import { fetchSnomed } from "@/utils/select"
 import AsyncSelect from "react-select/async"
 
@@ -26,6 +27,23 @@ export const FamilyHistory = ({ id }: FamilyHistoryProps) => {
                     placeholder="Search for by type name"
                 />
             </div>
+            <Select
+                className="col-span-12"
+                label="Payment Method"
+                placeholder="Select Payment Method"
+                onSelectionChange={(val) => {}}
+            >
+                <Select.Trigger />
+                <Select.List items={family_member}>
+                    {
+                        family_member.map(e => (
+                            <Select.Option id={e.id} textValue={e.name}>
+                                {e.name}
+                            </Select.Option>
+                        ))
+                    }
+                </Select.List>
+            </Select>
             <Textarea
                 label="Keterangan"
                 placeholder="keterangan riwayat penyakit keluarga"

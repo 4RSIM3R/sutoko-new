@@ -15,9 +15,14 @@ return new class extends Migration
         Schema::create('family_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Encounter::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('code');
-            $table->string('display');
-            $table->boolean('contributed_to_death')->default(false);
+            $table->string('satu_sehat_id');
+            $table->string('relation_code');
+            $table->string('relation_display');
+            $table->string('disease_code');
+            $table->string('disease_display');
+            $table->string('outcome_code');
+            $table->string('outcome_display');
+            $table->boolean('contributed_to_death');
             $table->text('notes');
             $table->timestamps();
         });

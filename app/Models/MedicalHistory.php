@@ -9,4 +9,7 @@ class MedicalHistory extends Model
 {
     /** @use HasFactory<\Database\Factories\MedicalHistoryFactory> */
     use HasFactory;
+
+    protected $guarded  = [];
+
 }

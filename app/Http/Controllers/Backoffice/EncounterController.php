@@ -55,7 +55,7 @@ class EncounterController extends Controller
 
             $payload["status"] = "arrived";
             $payload["satu_sehat_id"] = $id;
-            
+
             Encounter::query()->create($payload);
 
             DB::commit();
@@ -69,21 +69,21 @@ class EncounterController extends Controller
     public function anamnesis($id)
     {
         return Inertia::render('backoffice/operational/encounter/anamnesis/index', [
-            'encounter' => Encounter::find($id),
+            'encounter' => Encounter::query()->with(['patient', 'practioner'])->find($id),
         ]);
     }
 
     public function observation($id)
     {
         return Inertia::render('backoffice/operational/encounter/observation/index', [
-            'encounter' => Encounter::find($id),
+            'encounter' => Encounter::query()->with(['patient', 'practioner'])->find($id),
         ]);
     }
 
     public function diagnose($id)
     {
         return Inertia::render('backoffice/operational/encounter/condition/index', [
-            'encounter' => Encounter::find($id),
+            'encounter' => Encounter::query()->with(['patient', 'practioner'])->find($id),
         ]);
     }
 }

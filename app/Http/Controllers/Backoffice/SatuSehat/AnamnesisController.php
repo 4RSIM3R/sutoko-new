@@ -3,9 +3,15 @@
 namespace App\Http\Controllers\Backoffice\SatuSehat;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SatuSehat\AllergyRequest;
 use App\Http\Requests\SatuSehat\ComplaintRequest;
+use App\Http\Requests\SatuSehat\FamilyHistoryRequest;
+use App\Http\Requests\SatuSehat\MedicalHistoryRequest;
+use App\Models\Allergy;
 use App\Models\Anamnesis;
 use App\Models\Encounter;
+use App\Models\FamilyHistory;
+use App\Models\MedicalHistory;
 use App\Utils\SatuSehat\SatuSehatAuth;
 use App\Utils\SatuSehat\SatuSehatComplaint;
 use Exception;
@@ -15,7 +21,7 @@ use Inertia\Inertia;
 
 class AnamnesisController extends Controller
 {
-    public function anamnesis_form($id, Request $request)
+    public function anamnesis_form($id)
     {
         $anamnesis = Anamnesis::query()->where('encounter_id', $id)->first();
         return response()->json($anamnesis);
@@ -79,12 +85,49 @@ class AnamnesisController extends Controller
         }
     }
 
-    public function medical_form($id, Request $request) {
-
+    public function medical_form($id)
+    {
+        $medical_history = MedicalHistory::query()->where('encounter_id', $id)->get();
+        return response()->json($medical_history);
     }
 
-    public function medical_store($id, Request $request) {
-        
+    public function medical_store($id, MedicalHistoryRequest $request)
+    {
+        $payload = $request->validated();
+
+        try {
+            DB::beginTransaction();
+
+            $token = SatuSehatAuth::token();
+
+            
+
+            return Inertia::location(route('backoffice.encounter.index'));
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return back()->withErrors('errors', $exception->getMessage());
+        }
     }
 
+    public function family_form($id)
+    {
+        $family_history = FamilyHistory::query()->where('encounter_id', $id)->get();
+        return response()->json($family_history);
+    }
+
+    public function family_store($id, FamilyHistoryRequest $request)
+    {
+        $payload = $request->validated();
+    }
+
+    public function allergy_form($id)
+    {
+        $allergy = Allergy::query()->where('encounter_id', $id)->get();
+        return response()->json($allergy);
+    }
+
+    public function allergy_store($id, AllergyRequest $request)
+    {
+        $payload = $request->validated();
+    }
 }

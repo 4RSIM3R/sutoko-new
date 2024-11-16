@@ -9,4 +9,6 @@ class Allergy extends Model
 {
     /** @use HasFactory<\Database\Factories\AllergyFactory> */
     use HasFactory;
+
+    protected $guarded = [];
 }

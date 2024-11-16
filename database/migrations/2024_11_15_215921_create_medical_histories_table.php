@@ -15,9 +15,12 @@ return new class extends Migration
         Schema::create('medical_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Encounter::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('satu_sehat_id');
             $table->string('code');
             $table->string('display');
             $table->boolean('active');
+            $table->date('onset_start');
+            $table->date('onset_end');
             $table->text('notes');
             $table->timestamps();
         });
