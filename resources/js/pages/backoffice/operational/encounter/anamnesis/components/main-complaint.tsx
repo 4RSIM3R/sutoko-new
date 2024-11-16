@@ -31,7 +31,7 @@ export const MainComplaint = ({ encounter }: MainComplaintProps) => {
     });
 
     const query = useQuery({
-        queryKey: ["anamnesis"],
+        queryKey: ["main-complaint", encounter.id],
         queryFn: async () => {
             const response = await axios.get(route('backoffice.encounter.complaint', { id: encounter.id }));
             return response;
@@ -61,7 +61,7 @@ export const MainComplaint = ({ encounter }: MainComplaintProps) => {
                 notes: response.notes,
             });
         }
-    }, [query.isSuccess, query.data, setData]);
+    }, [query.isSuccess, query.data]);
 
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();

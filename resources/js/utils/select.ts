@@ -104,7 +104,7 @@ export const fetchPaymentAssurance = async (search: any): Promise<SelectOption[]
 };
 
 export const fetchSnomed = async (search: any): Promise<SelectOption[]> => {
-    const response = await axios.get('https://browser.ihtsdotools.org/snowstorm/snomed-ct/MAIN', {
+    const response = await axios.get('https://browser.ihtsdotools.org/snowstorm/snomed-ct/MAIN/2023-09-01/concepts', {
         params: {
             term: search,
             activeFilter: true,

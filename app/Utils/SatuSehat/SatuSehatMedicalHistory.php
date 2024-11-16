@@ -66,9 +66,9 @@ class SatuSehatMedicalHistory
             "encounter" => [
                 "reference" => sprintf("Encounter/%s", $payload["encounter_id"]),
             ],
-            "onSetPeriod" => [
-                "start" => $payload["onset_start"],
-                "end" => $payload["onset_end"],
+            "onsetPeriod" => [
+                "start" => Carbon::parse($payload["onset_start"])->toIso8601String(),
+                "end" => Carbon::parse($payload["onset_end"])->toIso8601String(),
             ],
             "recordedDate" => Carbon::now()->toIso8601String(),
             "recorder" => [
@@ -82,7 +82,6 @@ class SatuSehatMedicalHistory
             ],
         ];
     }
-
 
     public function create($token, $payload)
     {

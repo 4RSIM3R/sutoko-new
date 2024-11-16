@@ -96,19 +96,22 @@ class AnamnesisController extends Controller
     public function medical_store($id, MedicalHistoryRequest $request)
     {
         $payload = $request->validated();
+        $encounter = Encounter::query()->with(['patient', 'practioner'])->find($id);
+        $payload["encounter_id"] = $encounter->id;
+
         $client = new SatuSehatMedicalHistory();
 
         $body = $client->compose([
             "active" => $payload["active"],
             "code" => $payload["code"],
             "display" => $payload["display"],
-            "patient_id" => $payload["patient_id"],
-            "patient_name" => $payload["patient_name"],
-            "encounter_id" => $payload["encounter_id"],
+            "patient_id" => $encounter->patient->satu_sehat_id,
+            "patient_name" => $encounter->patient->name,
+            "encounter_id" => $encounter->satu_sehat_id,
             "onset_start" => $payload["onset_start"],
             "onset_end" => $payload["onset_end"],
-            "practioner_id" => $payload["practioner_id"],
-            "practioner_name" => $payload["practioner_name"],
+            "practioner_id" => $encounter->practioner->satu_sehat_id,
+            "practioner_name" => $encounter->practioner->name,
             "notes" => $payload["notes"],
         ]);
 
@@ -170,7 +173,6 @@ class AnamnesisController extends Controller
             DB::rollBack();
             return back()->withErrors('errors', $exception->getMessage());
         }
-
     }
 
     public function allergy_form($id)
