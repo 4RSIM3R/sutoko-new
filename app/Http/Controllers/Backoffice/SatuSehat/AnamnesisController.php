@@ -78,4 +78,13 @@ class AnamnesisController extends Controller
             return back()->withErrors('errors', $exception->getMessage());
         }
     }
+
+    public function medical_form($id, Request $request) {
+
+    }
+
+    public function medical_store($id, Request $request) {
+        
+    }
+
 }
