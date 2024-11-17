@@ -30,10 +30,10 @@ export default function AnamnesisIndex({ encounter }: AnamnesisIndexProps) {
                     <MedicalHistory encounter={encounter} />
                 </Tabs.Panel>
                 <Tabs.Panel id="family-history" >
-                    <FamilyHistory id={encounter.id} />
+                    <FamilyHistory encounter={encounter} />
                 </Tabs.Panel>
                 <Tabs.Panel id="allergy" >
-                    <AllergyHistory id={encounter.id} />
+                    <AllergyHistory encounter={encounter} />
                 </Tabs.Panel>
             </Tabs>
         </div>

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 
 class SatuSehatFamilyHistory
 {
-    
+
     /**
      * Compose a family member history payload.
      *
@@ -77,7 +77,7 @@ class SatuSehatFamilyHistory
         $response = Http::withHeaders([
             "Content-Type" => "application/json",
             "Authorization" => "Bearer $token",
-        ])->post(sprintf("%s/Condition", config('satu_sehat.base_url')), $payload);
+        ])->post(sprintf("%s/FamilyMemberHistory", config('satu_sehat.base_url')), $payload);
 
         return $response->json()["id"];
     }

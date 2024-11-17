@@ -22,7 +22,14 @@ class FamilyHistoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'disease_code' => ['required', 'string'],
+            'disease_display' => ['required', 'string'],
+            'relation_code' => ['required', 'string'],
+            'relation_display' => ['required', 'string'],
+            'outcome_code' => ['required', 'string'],
+            'outcome_display' => ['required', 'string'],
+            'contributed_to_death' => ['required', 'boolean'],
+            'notes' => ['required', 'string'],
         ];
     }
 }

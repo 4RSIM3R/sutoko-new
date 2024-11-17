@@ -1,13 +1,14 @@
 import { Button, Checkbox, Label, Select, Textarea } from "@/components/ui"
+import { Encounter } from "@/types/encounter"
 import { allergy_type } from "@/utils/constant"
 import { fetchSnomed } from "@/utils/select"
 import AsyncSelect from "react-select/async"
 
 type AllergyHistoryProps = {
-    id: any;
+    encounter: Encounter
 }
 
-export const AllergyHistory = ({ id }: AllergyHistoryProps) => {
+export const AllergyHistory = ({ encounter }: AllergyHistoryProps) => {
 
     return (
         <form className="py-2 grid grid-cols-12 gap-4">

@@ -142,14 +142,17 @@ class AnamnesisController extends Controller
     public function family_store($id, FamilyHistoryRequest $request)
     {
         $payload = $request->validated();
+        $encounter = Encounter::query()->with(['patient', 'practioner'])->find($id);
+        $payload["encounter_id"] = $encounter->id;
+
         $client = new SatuSehatFamilyHistory();
 
         $body = $client->compose([
             "relation_code" => $payload["relation_code"],
             "relation_display" => $payload["relation_display"],
             "contributed_to_death" => $payload["contributed_to_death"],
-            "patient_id" => $payload["patient_id"],
-            "patient_name" => $payload["patient_name"],
+            "patient_id" => $encounter->patient->satu_sehat_id,
+            "patient_name" => $encounter->patient->name,
             "disease_code" => $payload["disease_code"],
             "disease_display" => $payload["disease_display"],
             "outcome_code" => $payload["outcome_code"],
@@ -165,7 +168,7 @@ class AnamnesisController extends Controller
 
             $payload["satu_sehat_id"] = $id;
 
-            MedicalHistory::query()->create($payload);
+            FamilyHistory::query()->create($payload);
 
             DB::commit();
             return Inertia::location(route('backoffice.encounter.index'));

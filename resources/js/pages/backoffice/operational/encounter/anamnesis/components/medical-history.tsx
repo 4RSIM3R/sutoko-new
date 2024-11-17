@@ -4,7 +4,7 @@ import { fetchSnomed } from "@/utils/select"
 import { useForm } from "@inertiajs/react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { IconCircleQuestionmarkFill, IconEye } from "justd-icons";
+import { IconEye } from "justd-icons";
 import { useState } from "react";
 import AsyncSelect from "react-select/async"
 import { toast } from "sonner";
