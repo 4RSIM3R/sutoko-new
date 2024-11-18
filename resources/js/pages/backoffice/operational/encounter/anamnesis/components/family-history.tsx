@@ -28,6 +28,7 @@ type FamilyHistorySchema = {
 export const FamilyHistory = ({ encounter }: FamilyHistoryProps) => {
 
     const [local, setLocal] = useState<FamilyHistorySchema>();
+    
     const { setData, post, data } = useForm<FamilyHistorySchema>({
         contributed_to_death: false,
     } satisfies FamilyHistorySchema);
