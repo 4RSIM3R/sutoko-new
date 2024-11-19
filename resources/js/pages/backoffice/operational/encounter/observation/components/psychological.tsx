@@ -12,11 +12,8 @@ export const Psychological = () => {
                     cacheOptions
                     loadOptions={fetchSnomed}
                     defaultOptions
-                    // defaultValue={{ value: encounter?.patient_id, label: encounter?.patient_name }}
                     isClearable
                     onChange={(value) => {
-                        // setEncounter({ ...encounter, patient_id: value?.value, patient_name: value?.label });
-                        // setData({ ...data, patient_id: value?.value });
                     }}
                     placeholder="Search for by type name"
                 />
