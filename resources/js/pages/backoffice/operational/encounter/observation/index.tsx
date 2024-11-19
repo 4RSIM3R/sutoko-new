@@ -15,18 +15,8 @@ export default function ObservationIndex({ encounter }: ObservationIndexProps) {
 
     return (
         <div className="w-full" >
-            <div className="flex flex-row justify-between" >
-                <div className="" >
-                    <h1 className="text-xl font-semibold" >Observation Form</h1>
-                    <p className="text-sm text-gray-500" >Observation for patient {encounter.patient?.name}</p>
-                </div>
-                <div>
-                    <Button appearance="outline" >
-                        <IconCircleQuestionmarkFill />
-                    </Button>
-                </div>
-            </div>
-            <Tabs className="mt-4" aria-label="Observation Form" >
+
+            <Tabs className="" aria-label="Observation Form" >
                 <Tabs.List>
                     <Tabs.Tab id="ttv">Tanda Vital (Vital Sign)</Tabs.Tab>
                     <Tabs.Tab id="psychological">Psikologis</Tabs.Tab>
@@ -34,7 +24,7 @@ export default function ObservationIndex({ encounter }: ObservationIndexProps) {
                     <Tabs.Tab id="summary">Kesimpulan</Tabs.Tab>
                 </Tabs.List>
                 <Tabs.Panel id="ttv" >
-                    <TTV />
+                    <TTV encounter={encounter} />
                 </Tabs.Panel>
                 <Tabs.Panel id="psychological" >
                     <Psychological />
