@@ -15,4 +15,3 @@ Route::group(['prefix' => 'backoffice/encounter', 'as' => 'backoffice.encounter.
     Route::get('{id}/follow-up', [ConditionController::class, 'follow_up_form'])->name('follow-up');
     Route::post('{id}/follow-up', [ConditionController::class, 'follow_up_store'])->name('follow-up');
 });
-
