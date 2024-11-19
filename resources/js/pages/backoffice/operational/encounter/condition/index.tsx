@@ -3,8 +3,7 @@ import { AppLayout } from "@/layouts/app-layout";
 import { Encounter } from "@/types/encounter";
 import { IconCircleQuestionmarkFill } from "justd-icons";
 import { Diagnose } from "./components/diagnose";
-import { RiskAssessment } from "./components/risk-assessment";
-import { Service } from "./components/service";
+import { Treatment } from "./components/treatment";
 import { Nutrition } from "./components/nutrition";
 import { Medication } from "./components/medication";
 import { FollowUp } from "./components/follow-up";
@@ -40,7 +39,7 @@ export default function ConditionIndex({ encounter }: ObservationIndexProps) {
                     <Diagnose />
                 </Tabs.Panel>
                 <Tabs.Panel id="service" >
-                    <Service />
+                    <Treatment />
                 </Tabs.Panel>
                 <Tabs.Panel id="nutrition" >
                     <Nutrition />

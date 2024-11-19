@@ -1,8 +1,8 @@
 import { Button, Label, Textarea } from "@/components/ui"
-import { fetchSnomed } from "@/utils/select"
+import { fetchIcd9, fetchSnomed } from "@/utils/select"
 import AsyncSelect from "react-select/async"
 
-export const Service = () => {
+export const Treatment = () => {
 
     return (
         <form className="py-2 grid grid-cols-12 gap-4">
@@ -11,13 +11,10 @@ export const Service = () => {
                 <AsyncSelect
                     className="col-span-6 text-black"
                     cacheOptions
-                    loadOptions={fetchSnomed}
+                    loadOptions={fetchIcd9}
                     defaultOptions
-                    // defaultValue={{ value: encounter?.patient_id, label: encounter?.patient_name }}
                     isClearable
                     onChange={(value) => {
-                        // setEncounter({ ...encounter, patient_id: value?.value, patient_name: value?.label });
-                        // setData({ ...data, patient_id: value?.value });
                     }}
                     placeholder="Search for by type name"
                 />

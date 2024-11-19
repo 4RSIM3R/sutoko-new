@@ -103,6 +103,28 @@ export const fetchPaymentAssurance = async (search: any): Promise<SelectOption[]
     }));
 };
 
+export const fetchIcd10 = async (search: any): Promise<SelectOption[]> => {
+    const response = await axios.get(route("backoffice.encounter.icd_10"), {
+        params: { name: search },
+    });
+
+    return response.data.map((e: any) => ({
+        value: e.id,
+        label: `${e.code} - ${e.english}`,
+    }));
+};
+
+export const fetchIcd9 = async (search: any): Promise<SelectOption[]> => {
+    const response = await axios.get(route("backoffice.encounter.icd_9"), {
+        params: { name: search },
+    });
+
+    return response.data.map((e: any) => ({
+        value: e.id,
+        label: `${e.code} - ${e.english}`,
+    }));
+};
+
 export const fetchSnomed = async (search: any): Promise<SelectOption[]> => {
     const response = await axios.get('https://browser.ihtsdotools.org/snowstorm/snomed-ct/MAIN/2023-09-01/concepts', {
         params: {
