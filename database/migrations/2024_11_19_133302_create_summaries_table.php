@@ -15,6 +15,8 @@ return new class extends Migration
         Schema::create('summaries', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Encounter::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('satu_sehat_id');
+            $table->string('summary');
             $table->timestamps();
         });
     }

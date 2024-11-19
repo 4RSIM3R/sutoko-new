@@ -15,6 +15,16 @@ return new class extends Migration
         Schema::create('vital_signs', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Encounter::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('satu_sehat_id');
+            $table->float('systolic');
+            $table->float('diastolic');
+            $table->float('body_temperature');
+            $table->float('heart_rate');
+            $table->float('breathing_rate');
+            $table->string('consciousness_code');
+            $table->string('consciousness_display');
+            $table->float('weight');
+            $table->float('height');
             $table->timestamps();
         });
     }

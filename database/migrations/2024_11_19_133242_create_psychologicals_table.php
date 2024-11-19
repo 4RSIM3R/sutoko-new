@@ -15,6 +15,9 @@ return new class extends Migration
         Schema::create('psychologicals', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Encounter::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('satu_sehat_id');
+            $table->string('code');
+            $table->string('display');
             $table->timestamps();
         });
     }
