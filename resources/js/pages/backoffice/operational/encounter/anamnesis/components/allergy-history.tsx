@@ -3,6 +3,8 @@ import { Encounter } from "@/types/encounter"
 import { allergy_type } from "@/utils/constant"
 import { fetchSnomed } from "@/utils/select"
 import { useForm } from "@inertiajs/react"
+import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
 import { IconEye } from "justd-icons"
 import { useState } from "react"
 import AsyncSelect from "react-select/async"
@@ -24,6 +26,14 @@ export const AllergyHistory = ({ encounter }: AllergyHistoryProps) => {
     const [local, setLocal] = useState<AllergyHistorySchema>();
     const { data, setData, post } = useForm<AllergyHistorySchema>();
 
+    const query = useQuery({
+        queryKey: ["allergy-history", encounter.id],
+        queryFn: async () => {
+            const response = await axios.get(route('backoffice.encounter.allergy-history', { id: encounter.id }));
+            return response;
+        }
+    });
+
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
@@ -44,7 +54,7 @@ export const AllergyHistory = ({ encounter }: AllergyHistoryProps) => {
     }
 
     return (
-        <div className="w-full" >
+        <div className="w-full flex flex-col gap-4" >
             <div className="flex flex-row justify-between" >
                 <div className="" >
                     <h1 className="text-xl font-semibold">Riwayat Alergi {encounter.patient?.name}</h1>
@@ -63,10 +73,10 @@ export const AllergyHistory = ({ encounter }: AllergyHistoryProps) => {
                                 </Modal.Description>
                             </Modal.Header>
                             <Modal.Body>
-                                {/* <Table className="my-4" >
+                                <Table className="my-4" >
                                     <Table.Header className="w-full" >
                                         <Table.Column isRowHeader >Tanggal Rekam</Table.Column>
-                                        <Table.Column>Relation</Table.Column>
+                                        <Table.Column>Jenis</Table.Column>
                                         <Table.Column>Code</Table.Column>
                                         <Table.Column>Display</Table.Column>
                                         <Table.Column>Notes</Table.Column>
@@ -76,15 +86,15 @@ export const AllergyHistory = ({ encounter }: AllergyHistoryProps) => {
                                             query.data?.data.map((e: any) => (
                                                 <Table.Row key={e.id} >
                                                     <Table.Cell>{e.created_at}</Table.Cell>
-                                                    <Table.Cell>{e.relation_code}</Table.Cell>
-                                                    <Table.Cell>{e.disease_code}</Table.Cell>
-                                                    <Table.Cell>{e.disease_display}</Table.Cell>
+                                                    <Table.Cell>{e.type}</Table.Cell>
+                                                    <Table.Cell>{e.code}</Table.Cell>
+                                                    <Table.Cell>{e.display}</Table.Cell>
                                                     <Table.Cell>{e.notes}</Table.Cell>
                                                 </Table.Row>
                                             ))
                                         }
                                     </Table.Body>
-                                </Table> */}
+                                </Table>
                             </Modal.Body>
                             <Modal.Footer>
                                 <Modal.Close appearance="outline">Tutup</Modal.Close>

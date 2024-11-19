@@ -104,7 +104,7 @@ export const MedicalHistory = ({ encounter }: MedicalHistoryProps) => {
                     </Modal>
                 </div>
             </div>
-            <form onSubmit={onSubmit} className="mt-4 grid grid-cols-12 gap-4">
+            <form onSubmit={onSubmit} className="grid grid-cols-12 gap-4">
                 <div className="col-span-12 flex flex-col" >
                     <Label className="mb-1.5">Penyakit</Label>
                     <AsyncSelect
