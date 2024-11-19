@@ -22,7 +22,10 @@ class AllergyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'type' => ['required', 'in:food,medicine,environment'],
+            'code' => ['required', 'string'],
+            'display' => ['required', 'string'],
+            'notes' => ['required', 'string'],
         ];
     }
 }

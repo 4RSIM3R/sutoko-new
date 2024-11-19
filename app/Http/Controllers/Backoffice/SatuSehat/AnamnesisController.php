@@ -12,14 +12,16 @@ use App\Models\Anamnesis;
 use App\Models\Encounter;
 use App\Models\FamilyHistory;
 use App\Models\MedicalHistory;
+use App\Utils\SatuSehat\SatuSehatAllergy;
 use App\Utils\SatuSehat\SatuSehatAuth;
 use App\Utils\SatuSehat\SatuSehatComplaint;
 use App\Utils\SatuSehat\SatuSehatFamilyHistory;
 use App\Utils\SatuSehat\SatuSehatMedicalHistory;
 use Exception;
-use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class AnamnesisController extends Controller
 {
@@ -187,5 +189,42 @@ class AnamnesisController extends Controller
     public function allergy_store($id, AllergyRequest $request)
     {
         $payload = $request->validated();
+
+        $encounter = Encounter::query()->with(['patient', 'practioner'])->find($id);
+        $payload["encounter_id"] = $encounter->id;
+        $payload["satu_sehat_id"] = (string) Str::uuid();
+
+        $client = new SatuSehatAllergy();
+
+        $body = $client->compose([
+            "satu_sehat_id" => $payload["satu_sehat_id"],
+            "type" => $payload["type"],
+            "code" => $payload["code"],
+            "display" => $payload["display"],
+            "patient_id" => $encounter->patient->satu_sehat_id,
+            "patient_name" => $encounter->patient->name,
+            "encounter_id" => $encounter->satu_sehat_id,
+            "onset_start" => Carbon::now()->toIso8601String(),
+            "practioner_id" => $encounter->practioner->satu_sehat_id,
+            "practioner_name" => $encounter->practioner->name,
+            "notes" => $payload["notes"],
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $token = SatuSehatAuth::token();
+            $id = $client->create($token, $body);
+
+            $payload["satu_sehat_id"] = $id;
+
+            Allergy::query()->create($payload);
+
+            DB::commit();
+            return Inertia::location(route('backoffice.encounter.index'));
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return back()->withErrors('errors', $exception->getMessage());
+        }
     }
 }

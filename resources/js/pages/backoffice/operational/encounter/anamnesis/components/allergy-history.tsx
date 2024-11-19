@@ -6,6 +6,7 @@ import { useForm } from "@inertiajs/react"
 import { IconEye } from "justd-icons"
 import { useState } from "react"
 import AsyncSelect from "react-select/async"
+import { toast } from "sonner"
 
 type AllergyHistoryProps = {
     encounter: Encounter
@@ -26,7 +27,20 @@ export const AllergyHistory = ({ encounter }: AllergyHistoryProps) => {
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
-        console.log(data);
+        post(route('backoffice.encounter.allergy-history', { id: encounter.id }), {
+            onSuccess: (_) => {
+                toast("Data berhasil disimpan", {
+                    description: "Data berhasil disimpan",
+                    important: true,
+                });
+            },
+            onError: (error) => {
+                toast("Whoopsss....", {
+                    description: JSON.stringify(error),
+                    important: true,
+                });
+            }
+        });
     }
 
     return (
