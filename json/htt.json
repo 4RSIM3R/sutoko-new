@@ -1,0 +1,40 @@
+{
+    "resourceType": "Observation",
+    "status": "final",
+    "category": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "exam",
+                    "display": "Exam"
+                }
+            ]
+        }
+    ],
+    "code": {
+        "coding": [
+            {
+                "system": "http://loinc.org",
+                "code": "10199-8",
+                "display": "Physical findings of Head Narrative"
+            }
+        ]
+    },
+    "subject": {
+        "reference": "Patient/{{Patient_id}}",
+        "display": "{{Patient_Name}}"
+    },
+    "encounter": {
+        "reference": "Encounter/{{Encounter_id}}"
+    },
+    "effectiveDateTime": "2023-06-04T05:55:00+00:00",
+    "issued": "2023-06-04T05:55:00+00:00",
+    "performer": [
+        {
+            "reference": "Practitioner/{{Practitioner_id}}",
+            "display": "{{Practitioner_Name}}"
+        }
+    ],
+    "valueString" : "Bentuk kepala simetris"
+}

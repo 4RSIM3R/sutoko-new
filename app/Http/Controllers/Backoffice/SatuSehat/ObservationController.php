@@ -3,16 +3,34 @@
 namespace App\Http\Controllers\Backoffice\SatuSehat;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SatuSehat\PsychologicalRequest;
+use App\Http\Requests\SatuSehat\VitalSignRequest;
+use App\Models\Psychological;
+use App\Models\VitalSign;
 
 class ObservationController extends Controller
 {
-    public function ttv_form($id) {}
+    public function ttv_form($id)
+    {
+        $result = VitalSign::query()->where('encounter_id', $id)->first();
+        return response()->json($result);
+    }
 
-    public function ttv_store($id) {}
+    public function ttv_store($id, VitalSignRequest $request)
+    {
+        $payload = $request->validated();
+    }
 
-    public function psychological_form($id) {}
+    public function psychological_form($id)
+    {
+        $result = Psychological::query()->where('encounter_id', $id)->first();
+        return response()->json($result);
+    }
 
-    public function psychological_store($id) {}
+    public function psychological_store($id, PsychologicalRequest $request)
+    {
+        $payload = $request->validated();
+    }
 
     public function htt_form($id) {}
 

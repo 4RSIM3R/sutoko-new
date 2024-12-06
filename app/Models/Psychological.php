@@ -9,4 +9,6 @@ class Psychological extends Model
 {
     /** @use HasFactory<\Database\Factories\PsychologicalFactory> */
     use HasFactory;
+
+    protected $guarded  = [];
 }
