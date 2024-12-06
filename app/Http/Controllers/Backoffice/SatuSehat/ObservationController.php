@@ -7,6 +7,9 @@ use App\Http\Requests\SatuSehat\PsychologicalRequest;
 use App\Http\Requests\SatuSehat\VitalSignRequest;
 use App\Models\Psychological;
 use App\Models\VitalSign;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class ObservationController extends Controller
 {
@@ -19,6 +22,17 @@ class ObservationController extends Controller
     public function ttv_store($id, VitalSignRequest $request)
     {
         $payload = $request->validated();
+        $payload["satu_sehat_id"] = "-";
+        $payload["encounter_id"] = $id;
+        try {
+            DB::beginTransaction();
+            VitalSign::query()->create($payload);
+            DB::commit();
+            return Inertia::location(route('backoffice.encounter.index'));
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return back()->withErrors('errors', $exception->getMessage());
+        }
     }
 
     public function psychological_form($id)

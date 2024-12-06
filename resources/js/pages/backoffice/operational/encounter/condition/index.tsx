@@ -16,18 +16,8 @@ export default function ConditionIndex({ encounter }: ObservationIndexProps) {
 
     return (
         <div className="w-full" >
-            <div className="flex flex-row justify-between" >
-                <div className="" >
-                    <h1 className="text-xl font-semibold" >Diagnose Form</h1>
-                    <p className="text-sm text-gray-500" >Diagnose for patient {encounter.patient?.name}</p>
-                </div>
-                <div>
-                    <Button appearance="outline" >
-                        <IconCircleQuestionmarkFill />
-                    </Button>
-                </div>
-            </div>
-            <Tabs className="mt-4" aria-label="Anamnesis Form" >
+
+            <Tabs className="" aria-label="Anamnesis Form" >
                 <Tabs.List>
                     <Tabs.Tab id="diagnose">Diagnosa</Tabs.Tab>
                     <Tabs.Tab id="service">Tindakan</Tabs.Tab>
@@ -36,19 +26,19 @@ export default function ConditionIndex({ encounter }: ObservationIndexProps) {
                     <Tabs.Tab id="follow-up">Rencana Tindak Lanjut</Tabs.Tab>
                 </Tabs.List>
                 <Tabs.Panel id="diagnose" >
-                    <Diagnose />
+                    <Diagnose encounter={encounter} />
                 </Tabs.Panel>
                 <Tabs.Panel id="service" >
-                    <Treatment />
+                    <Treatment encounter={encounter} />
                 </Tabs.Panel>
                 <Tabs.Panel id="nutrition" >
-                    <Nutrition />
+                    <Nutrition encounter={encounter} />
                 </Tabs.Panel>
                 <Tabs.Panel id="medication" >
-                    <Medication />
+                    <Medication encounter={encounter} />
                 </Tabs.Panel>
                 <Tabs.Panel id="follow-up" >
-                    <FollowUp />
+                    <FollowUp encounter={encounter} />
                 </Tabs.Panel>
             </Tabs>
         </div>

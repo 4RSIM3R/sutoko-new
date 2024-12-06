@@ -31,6 +31,7 @@ class AnamnesisController extends Controller
         return response()->json($anamnesis);
     }
 
+    // TODO: Implement satu sehat here
     public function anamnesis_store($id, ComplaintRequest $request)
     {
         $encounter = Encounter::query()->with(['patient', 'practioner'])->find($id);

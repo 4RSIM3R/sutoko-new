@@ -27,13 +27,13 @@ export default function ObservationIndex({ encounter }: ObservationIndexProps) {
                     <TTV encounter={encounter} />
                 </Tabs.Panel>
                 <Tabs.Panel id="psychological" >
-                    <Psychological />
+                    <Psychological encounter={encounter} />
                 </Tabs.Panel>
                 <Tabs.Panel id="htt" >
-                    <HTT />
+                    <HTT encounter={encounter} />
                 </Tabs.Panel>
                 <Tabs.Panel id="summary" >
-                    <Summary />
+                    <Summary encounter={encounter} />
                 </Tabs.Panel>
             </Tabs>
         </div>
