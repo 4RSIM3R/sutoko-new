@@ -33,6 +33,7 @@ class PractionerController extends Controller
     public function fetch(Request $request)
     {
         $name = $request->get('name');
+        
         if ($name) {
             $name = Practioner::select(['nik', 'name', 'id'])->where('name', 'like', '%' . $name . '%')->limit(10);
             $nik = Practioner::select(['nik', 'name', 'id'])->where('nik', 'like', '%' . $name . '%')->limit(10);

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('day', ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']);
             $table->time('start_time');
             $table->time('end_time');
+            $table->enum('hour_type', ['work', 'rest', 'off']);
             $table->timestamps();
         });
     }
