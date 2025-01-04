@@ -33,19 +33,28 @@ class ChargeController extends Controller
     public function create()
     {
         $payment = PaymentAssurance::query()->get(['id', 'name']);
-
-        return Inertia::render('backoffice/master/charge/form', [
-            "payment" => $payment,
-        ]);
+        return Inertia::render('backoffice/master/charge/form', ["payment" => $payment]);
     }
 
     public function store(ChargeRequest $request)
     {
         $payload = $request->validated();
 
+        $data = [];
+
+        foreach ($payload['charges'] as $charge) {
+            $price = [
+                "name" => $payload['name'],
+                "payment_assurance_id" => $charge['payment_assurance_id'],
+                "price" => $charge['price'],
+            ];
+
+            $data[] = $price;
+        }
+
         try {
             DB::beginTransaction();
-            Charge::create($payload);
+            Charge::insert($data);
             DB::commit();
             return Inertia::location(route('backoffice.charge.index'));
         } catch (Exception $exception) {

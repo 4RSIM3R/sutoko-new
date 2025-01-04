@@ -71,7 +71,7 @@ export default function LocationForm({ location }: LocationFormProps) {
                     name="name"
                     value={data.name}
                     autoComplete="off"
-                    autoFocus
+                    
                     onChange={(v) => setData("name", v)}
                     errorMessage={errors.name}
                     isRequired

@@ -71,7 +71,7 @@ export default function PaymentAssuranceForm({ payment }: PaymentAssuranceFormPr
                     name="name"
                     value={data.name}
                     autoComplete="off"
-                    autoFocus
+                    
                     onChange={(v) => setData("name", v)}
                     errorMessage={errors.name}
                     isRequired

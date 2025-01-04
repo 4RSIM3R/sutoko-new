@@ -2,8 +2,10 @@ import { Button, Select, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Charge } from "@/types/charge";
 import { PaymentAssurance } from "@/types/payment-assurance";
+import { toats_error, toats_success } from "@/utils/toast";
 import { Link, useForm } from "@inertiajs/react";
 import { IconCircleQuestionmarkFill, IconPlus } from "justd-icons";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type ChargeFormProps = {
@@ -13,40 +15,36 @@ type ChargeFormProps = {
 
 export default function ChargeForm({ payment, charge }: ChargeFormProps) {
 
-    const { data, errors, processing, setData, post, put } = useForm<Charge>(charge);
+    // []{ payment_assurance_id: string, price: string }
+    const [paymentCharge, setPaymentCharge] = useState<{ payment_assurance_id: any; price: any }[]>([]);
+    const { data, errors, processing, setData, post, put } = useForm<any>(charge);
+
+    const handlePriceChange = (id: any, price: any) => {
+        setPaymentCharge((prev) => {
+            const existingIndex = prev.findIndex((item) => item.payment_assurance_id === id);
+            if (existingIndex > -1) {
+                const updated = [...prev];
+                updated[existingIndex].price = price;
+                return updated;
+            }
+            return [...prev, { payment_assurance_id: id, price }];
+        });
+    };
 
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
+        data['charges'] = paymentCharge;
+
         if (charge) {
             put(route('backoffice.patient.store', charge), {
-                onSuccess: (_) => {
-                    toast("Data berhasil disimpan", {
-                        description: "Data berhasil disimpan",
-                        important: true,
-                    });
-                },
-                onError: (error) => {
-                    toast("Whoopsss....", {
-                        description: JSON.stringify(error),
-                        important: true,
-                    });
-                }
+                onSuccess: (_) => toats_success(),
+                onError: (error) => toats_error(JSON.stringify(error)),
             });
         } else {
             post(route('backoffice.charge.store'), {
-                onSuccess: (_) => {
-                    toast("Data berhasil disimpan", {
-                        description: "Data berhasil disimpan",
-                        important: true,
-                    });
-                },
-                onError: (error) => {
-                    toast("Whoopsss....", {
-                        description: JSON.stringify(error),
-                        important: true,
-                    });
-                }
+                onSuccess: (_) => toats_success(),
+                onError: (error) => toats_error(JSON.stringify(error)),
             });
         }
 
@@ -73,40 +71,30 @@ export default function ChargeForm({ payment, charge }: ChargeFormProps) {
                     name="name"
                     value={data.name}
                     autoComplete="off"
-                    autoFocus
+
                     onChange={(v) => setData("name", v)}
                     errorMessage={errors.name}
                     isRequired
                 />
-                <Select
-                    className="col-span-12"
-                    label="Payment Method"
-                    placeholder="Select Payment Method"
-                    onSelectionChange={(val) => setData("payment_assurance_id", val.toString())}
-                >
-                    <Select.Trigger />
-                    <Select.List items={payment}>
-                        {
-                            payment.map(e => (
-                                <Select.Option id={e.id} textValue={e.name}>
-                                    {e.name}
-                                </Select.Option>
-                            ))
-                        }
-                    </Select.List>
-                </Select>
-                <TextField
-                    className="col-span-12"
-                    label="Harga"
-                    placeholder="Harga"
-                    name="price"
-                    value={data.price}
-                    autoComplete="off"
-                    autoFocus
-                    onChange={(v) => setData("price", v)}
-                    errorMessage={errors.price}
-                    isRequired
-                />
+                {
+                    payment.map(e => (
+                        <>
+                            <TextField
+                                className="col-span-6"
+                                label="Payment Method"
+                                value={e.name.toUpperCase()}
+                                isReadOnly
+                            />
+                            <TextField
+                                className="col-span-6"
+                                label="Price"
+                                inputMode="numeric"
+                                onChange={(v) => handlePriceChange(e.id, v)}
+                            />
+                        </>
+                    ))
+                }
+
                 <div className="col-span-12" >
                     <Button isDisabled={processing} type="submit">Submit</Button>
                 </div>

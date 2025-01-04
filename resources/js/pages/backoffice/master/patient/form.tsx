@@ -76,7 +76,7 @@ export default function PatientForm({ patient }: PatientFormProps) {
                     type="text"
                     value={data.nik}
                     autoComplete="off"
-                    autoFocus
+                    
                     onChange={(v) => setData("nik", v)}
                     errorMessage={errors.nik}
                     isRequired
@@ -88,7 +88,7 @@ export default function PatientForm({ patient }: PatientFormProps) {
                     name="name"
                     value={data.name}
                     autoComplete="off"
-                    autoFocus
+                    
                     onChange={(v) => setData("name", v)}
                     errorMessage={errors.name}
                     isRequired
@@ -119,7 +119,7 @@ export default function PatientForm({ patient }: PatientFormProps) {
                     name="birth_date"
                     value={data.birth_date}
                     autoComplete="off"
-                    autoFocus
+                    
                     onChange={(v) => setData("birth_date", v.toString())}
                     errorMessage={errors.birth_date}
                     isRequired
@@ -221,7 +221,7 @@ export default function PatientForm({ patient }: PatientFormProps) {
                     type="tel"
                     value={data.phone_number}
                     autoComplete="off"
-                    autoFocus
+                    
                     onChange={(v) => setData("phone_number", v)}
                     errorMessage={errors.phone_number}
                     isRequired
@@ -233,7 +233,7 @@ export default function PatientForm({ patient }: PatientFormProps) {
                     name="address"
                     value={data.address}
                     autoComplete="off"
-                    autoFocus
+                    
                     onChange={(v) => setData("address", v)}
                     errorMessage={errors.address}
                     isRequired

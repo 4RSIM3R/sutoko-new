@@ -60,7 +60,7 @@ export default function Login() {
                             name="email"
                             value={data.email}
                             autoComplete="off"
-                            autoFocus
+                            
                             onChange={(v) => setData("email", v)}
                             errorMessage={errors.email}
                             isRequired
@@ -72,7 +72,7 @@ export default function Login() {
                             name="password"
                             value={data.password}
                             autoComplete="off"
-                            autoFocus
+                            
                             onChange={(v) => setData("password", v)}
                             errorMessage={errors.password}
                             isRequired

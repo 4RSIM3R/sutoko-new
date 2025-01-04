@@ -76,7 +76,7 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                     type="text"
                     value={data.nik}
                     autoComplete="off"
-                    autoFocus
+                    
                     onChange={(v) => setData("nik", v)}
                     errorMessage={errors.nik}
                     isRequired
@@ -88,7 +88,7 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                     name="name"
                     value={data.name}
                     autoComplete="off"
-                    autoFocus
+                    
                     onChange={(v) => setData("name", v)}
                     errorMessage={errors.name}
                     isRequired
@@ -137,7 +137,7 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                     name="birth_date"
                     value={data.birth_date}
                     autoComplete="off"
-                    autoFocus
+                    
                     onChange={(v) => setData("birth_date", v.toString())}
                     errorMessage={errors.birth_date}
                     isRequired
