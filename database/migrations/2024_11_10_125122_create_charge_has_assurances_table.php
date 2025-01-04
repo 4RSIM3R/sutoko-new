@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Charge;
 use App\Models\PaymentAssurance;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,10 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('charges', function (Blueprint $table) {
+        Schema::create('charge_has_assurances', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
+            $table->foreignIdFor(PaymentAssurance::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(Charge::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->decimal('price');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('charges');
+        Schema::dropIfExists('charge_has_assurances');
     }
 };
