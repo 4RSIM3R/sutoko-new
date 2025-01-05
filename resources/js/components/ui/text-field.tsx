@@ -56,7 +56,12 @@ const TextField = ({
     };
     return (
         <TextFieldPrimitive type={inputType} {...props} className={ctr(className, 'group flex flex-col gap-1')}>
-            {label && <Label>{label}</Label>}
+            {label &&
+                <Label>
+                    {label}
+                    {props.isRequired && <span className="text-red-500 ml-0.5">*</span>}
+                </Label>
+            }
             <FieldGroup data-loading={isLoading ? 'true' : undefined} className={fieldGroupPrefixStyles({ className })}>
                 {isLoading && indicatorPlace === 'prefix' ? (
                     <IconLoader className="animate-spin isPfx" />

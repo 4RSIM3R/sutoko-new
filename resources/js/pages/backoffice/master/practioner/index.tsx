@@ -92,8 +92,8 @@ export default function PractionerIndex() {
             />
             <div className="flex justify-between" >
                 <div>
-                    <h1 className="text-xl font-semibold" >Bank</h1>
-                    <p className="text-sm text-gray-600" >Master Data Bank</p>
+                    <h1 className="text-xl font-semibold" >Practioner</h1>
+                    <p className="text-sm text-gray-600" >Manage All Practioner</p>
                 </div>
                 <div className="flex gap-4" >
                     <TextField
