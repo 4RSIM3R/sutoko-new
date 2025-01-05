@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreignIdFor(Location::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->time('start_time');
             $table->time('end_time');
+            $table->string('unique_code');
             $this->base_fields($table);
         });
     }
