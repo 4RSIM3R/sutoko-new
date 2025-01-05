@@ -1,11 +1,16 @@
 <?php
 
+use App\Traits\BaseMigration;
+use App\Traits\SatuSehatMigration;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
+    use BaseMigration;
+
     /**
      * Run the migrations.
      */
@@ -13,18 +18,21 @@ return new class extends Migration
     {
         Schema::create('practioners', function (Blueprint $table) {
             $table->id();
-            $table->string('satu_sehat_id')->nullable();
-            $table->string('name');
             $table->string('nik');
-            $table->enum('role', ['doctor', 'pharmacist', 'nurse', 'midwife']);
+            $table->string('employee_id');
+            $table->string('prefix');
+            $table->string('title');
+            $table->string('suffix');
+            $table->string('birth_place');
+            $table->date('birth_date');
             $table->enum('gender', ['male', 'female']);
-            $table->date('birth_date')->nullable();
-            $table->string('phone_number')->nullable();
-            $table->string('address')->nullable();
-            $table->json('request')->nullable();
-            $table->json('response')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
+            $table->string('religion');
+            $table->string('occupation');
+            $table->string('specialty');
+            $this->contact_fields($table);
+            $this->address_fields($table);
+            $this->satu_sehat_fields($table);
+            $this->base_fields($table);
         });
     }
 

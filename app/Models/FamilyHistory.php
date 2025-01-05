@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class FamilyHistory extends Model
 {
-    /** @use HasFactory<\Database\Factories\FamilyHistoryFactory> */
     use HasFactory;
 
     protected $guarded = [];
