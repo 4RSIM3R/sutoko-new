@@ -1,33 +1,30 @@
-## Sutoko New
+## Maklumat
 
-Sutoko New sebuah platform Rekam Medis Elektronik (RME) yang ber-orientasi pada SATU SEHAT (soon, will be  another kemenkes service)
+Halo para pengguna SUTOKO! Aplikasi ini merupakan RME versi tidak resmi (kami bukan penyedia RME). Tujuan utamanya adalah menggantikan beberapa aplikasi lama yang sering 'bermasalah' tebak sendiri, ya. Anda bebas menggunakan aplikasi ini secara gratis, tetapi dilarang memperjualbelikannya karena SUTOKO dilindungi oleh lisensi. Semoga bermanfaat! Namun, demi melindungi hak digital, kami mohon Anda 'sowan' ke [ilzammulkhaq85@gmail.com](mailto:ilzammulkhaq85@gmail) jika Anda ingin menggunakan aplikasi ini. Nanti, kami akan memberikan App Key agar Anda bisa membuka limit tertentu dalam aplikasi.
 
-## Notes
+## Kontribusi
 
-Boleh di pakai secara gratis, tapi ngga boleh di komersialisasi. dalam bentuk SAAS, etc, some feature akan di kunci, please contact me if you need it. sebagai gantinya, bapak / ibu bisa mendoakan : 
-
-1. Supaya kita mendapat rezeki yang 'halalan, thayyiban, wasian, mubarokan'
-2. Supaya kita semua sehat wal-afiat
-3. Bismillah, saya jadi Staff Menteri :D
+Anda bisa langsung berkontribusi di repository kami dengan berbagai cara, misalnya membantu pengujian (testing) atau menambahkan fitur. Kami berencana membentuk steering committee terlebih dahulu agar proyek ini lebih terorganisir. Layaknya proyek open source kelas dunia, silakan kirimkan proposal Anda melalui email, tidak perlu formal. Cukup jelaskan jenis kontribusi, asal institusi anda (per-orangan juga boleh) yang ingin anda berikan, apakah itu fitur baru, perbaikan bug, pengujian, atau lainnya.
 
 ## Supported Satu Sehat Component :
 
 - [x] Kunjungan Pasien (Done)
+- [x] Observasi (Done)
 - [x] Kondisi (ICD 10) (Done)
-- [x] Observasi
-- [x] Tindakan (ICD 9)
+- [x] Tindakan (ICD 9) (Done)
+- [x] Alergi Intoleran (Done)
+- [x] KFA Browser (Done)
 - [ ] Resep Obat
 - [ ] Tebus Obat
-- [x] Service Request
+- [ ] Service Request
 - [ ] Spesimen
-- [x] Laporan Diagnostik
-- [x] Resume Diet
-- [x] Alergi Intoleran
-- [x] Impresi Klinis
-- [x] Rencana Tindak Lanjut
-- [x] Respon Kuisioner
-- [x] Catatan Pengobatan
+- [ ] Laporan Diagnostik
+- [ ] Resume Diet
+- [ ] Impresi Klinis
+- [ ] Rencana Tindak Lanjut
+- [ ] Respon Kuisioner
+- [ ] Catatan Pengobatan
 
-## License
+## Managed Version
 
-TBD
+Ribet install sendiri, mau coba managed version (kami hosting-kan + ada training cara menggunakan). atau mau enterprise edition? kirim email ke [ilzammulkhaq85@gmail.com](mailto:ilzammulkhaq85@gmail)
