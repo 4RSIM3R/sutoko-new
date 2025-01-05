@@ -15,11 +15,11 @@ return new class extends Migration
         Schema::create('medicine_transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Medicine::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->enum('type', ['arrival', 'distribution']);
-            $table->integer('quantity')->default(0);
-            $table->integer('prev_quantity')->default(0);
-            $table->string('notes')->nullable();
+            $table->enum('type', ['add', 'subtract', 'alter']);
+            $table->integer('quantity');
             $table->timestamps();
+            $table->softDeletes();
+            $table->index(['medicine_id', 'type', 'created_at']);
         });
     }
 

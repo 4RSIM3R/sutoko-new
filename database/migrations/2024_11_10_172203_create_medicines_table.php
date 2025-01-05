@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('kfa_code');
             $table->string('manufacturer');
             $table->string('unit_of_meassurement');
+            $table->integer('min_stock')->default(0);
             $table->json('payload')->nullable();
             $table->timestamps();
             $table->softDeletes();

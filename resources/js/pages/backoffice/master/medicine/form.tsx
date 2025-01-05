@@ -2,6 +2,7 @@ import { Column, DataTable } from "@/components/data-table";
 import { Button, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Base } from "@/types/base";
+import { router, useForm } from "@inertiajs/react";
 import axios from "axios";
 import { IconPlus, IconSearch } from "justd-icons";
 import { useState } from "react";
@@ -11,6 +12,7 @@ export default function MedicineForm() {
 
     const [filters, setFilters] = useState({ name: '', type: 'farmasi' });
     const [params] = useDebounce(filters, 250);
+    const { post, data } = useForm();
 
     const columns: Column<KfaItem>[] = [
         {
@@ -50,10 +52,15 @@ export default function MedicineForm() {
             id: 'actions',
             header: 'Actions',
             cell: (item) => (
-                <Button size="extra-small" appearance="outline">
-                    <IconPlus />
-                    Tambahkan
-                </Button>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    router.post(route('backoffice.medicine.store'), item);
+                }}>
+                    <Button size="extra-small" type="submit" appearance="outline">
+                        <IconPlus />
+                        Tambahkan
+                    </Button>
+                </form>
             ),
             sortable: false
         }

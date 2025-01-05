@@ -1,90 +1,127 @@
-import { Button, buttonStyles, Menu, Pagination, Table } from "@/components/ui";
+import { ConfirmationDialog } from "@/components/confirmation-dialog";
+import { Column, DataTable } from "@/components/data-table";
+import { Button, buttonStyles, Menu, Pagination, Table, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Base } from "@/types/base";
 import { Medicine } from "@/types/medicine";
-import { Link } from "@inertiajs/react";
-import { IconPlus } from "justd-icons";
+import { Link, useForm } from "@inertiajs/react";
+import axios from "axios";
+import { IconEye, IconPlus, IconSearch, IconTrash } from "justd-icons";
+import { useState } from "react";
+import { toast } from "sonner";
 
-type MedicineIndexProps = {
-    medicines: Base<Medicine[]>;
-}
 
-export default function MedicineIndex({ medicines }: MedicineIndexProps) {
+export default function MedicineIndex() {
+
+    const [filters, setFilters] = useState({ name: '' });
+    const [id, setId] = useState<any>();
+    const { delete: destroy } = useForm();
+
+    const onDelete = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+        destroy(route('backoffice.medicine.destroy', id), {
+            onSuccess: () => toast.success('Data deleted successfully'),
+            onError: (error) => toast('Whoopsss....', { description: JSON.stringify(error) }),
+        });
+    };
+
+    const columns: Column<Medicine>[] = [
+        {
+            id: 'id',
+            header: 'ID',
+            cell: (item) => item.id,
+            sortable: false,
+            isRowHeader: true,
+        },
+        {
+            id: 'trademark',
+            header: 'Trademark',
+            cell: (item) => item.trademark,
+            sortable: true
+        },
+        {
+            id: 'kfa_code',
+            header: 'KFA Code',
+            cell: (item) => item.kfa_code,
+            sortable: false,
+        },
+        {
+            id: 'current_stock',
+            header: 'Current Stock',
+            cell: (item) => item.current_stock,
+            sortable: false,
+        },
+        {
+            id: 'actions',
+            header: 'Actions',
+            cell: (item) => (
+                <Menu>
+                    <Menu.Trigger>
+                        <Button size="extra-small" appearance="outline">Action</Button>
+                    </Menu.Trigger>
+                    <Menu.Content>
+                        <Menu.Item href={route('backoffice.medicine.show', item.id)}>
+                            <IconEye />
+                            Detail
+                        </Menu.Item>
+                        <Menu.Item onAction={() => setId(item.id)}>
+                            <IconTrash />
+                            Delete
+                        </Menu.Item>
+                    </Menu.Content>
+                </Menu>
+            ),
+            sortable: false
+        }
+    ];
+
+
+    const fetchData = async (params: Record<string, any>) => {
+        const response = await axios.get<Base<Medicine[]>>(
+            route('backoffice.medicine.fetch', params)
+        );
+        return response.data;
+    };
 
     return (
-        <div className="w-full" >
-            <div className="flex flex-row justify-between" >
-                <div className="" >
-                    <h1 className="text-xl font-semibold" >Medicine</h1>
-                    <p className="text-sm text-gray-500" >Manage all medicines</p>
-                </div>
+        <>
+            <ConfirmationDialog
+                isOpen={id}
+                onClose={() => setId(null)}
+                onDelete={(e) => onDelete(e)}
+            />
+            <div className="flex justify-between" >
                 <div>
-                    <Link href={route('backoffice.medicine.create')}>
-                        <Button appearance="outline" >
+                    <h1 className="text-xl font-semibold" >Medicine</h1>
+                    <p className="text-sm text-gray-600" >Manage All Medicine</p>
+                </div>
+                <div className="flex gap-4" >
+                    <TextField
+                        prefix={
+                            <IconSearch />
+                        }
+                        placeholder="Search Medicine"
+                        value={filters.name}
+                        onChange={(val) => {
+                            setFilters({ ...filters, name: val });
+                        }}
+                    />
+                    <Link href={route('backoffice.medicine.create')} >
+                        <Button>
                             <IconPlus />
-                            Add New
+                            Add Data
                         </Button>
                     </Link>
                 </div>
             </div>
-            <div>
-                <Table className="my-4" >
-                    <Table.Header className="w-full" >
-                        <Table.Column isRowHeader>Trademark</Table.Column>
-                        <Table.Column>KFA Code</Table.Column>
-                        <Table.Column>Manufacturer</Table.Column>
-                        <Table.Column>Unit of Measure</Table.Column>
-                        <Table.Column>Action</Table.Column>
-                    </Table.Header>
-                    <Table.Body>
-                        {
-                            medicines.items != null ? (medicines.items ?? []).map((medicine: Medicine) => (
-                                <Table.Row key={medicine.kfa_code}>
-                                    <Table.Cell>{medicine.trademark}</Table.Cell>
-                                    <Table.Cell>{medicine.kfa_code}</Table.Cell>
-                                    <Table.Cell>{medicine.manufacturer}</Table.Cell>
-                                    <Table.Cell>{medicine.unit_of_meassurement}</Table.Cell>
-                                    <Table.Cell>
-                                        <Menu>
-                                            <Menu.Trigger className={buttonStyles({ appearance: "outline", size: "extra-small" })}>ACTION</Menu.Trigger>
-                                            <Menu.Content placement="bottom" className="sm:min-w-48">
-                                                <Menu.Item>Riwayat Kunjungan</Menu.Item>
-                                                <Menu.Item>Daftarkan Kunjungan</Menu.Item>
-                                                <Menu.Separator />
-                                                <Menu.Submenu>
-                                                    <Menu.Item>Cetak</Menu.Item>
-                                                    <Menu.Content>
-                                                        <Menu.Item>Gelang Pasien</Menu.Item>
-                                                        <Menu.Item>Kartu Pasien</Menu.Item>
-                                                        <Menu.Item>General Consent</Menu.Item>
-                                                    </Menu.Content>
-                                                </Menu.Submenu>
-                                            </Menu.Content>
-                                        </Menu>
-                                    </Table.Cell>
-                                </Table.Row>
-                            )) : (
-                                <>
-                                    <p>Empty result...</p>
-                                </>
-                            )
-                        }
-                    </Table.Body>
-                </Table>
-                <Pagination>
-                    <Pagination.List>
-                        {
-                            medicines.prev_page &&
-                            <Pagination.Item variant="previous" href={route('backoffice.patient.index', { page: medicines.prev_page })} />
-                        }
-                        {
-                            medicines.next_page &&
-                            <Pagination.Item variant="next" href={route('backoffice.patient.index', { page: medicines.next_page })} />
-                        }
-                    </Pagination.List>
-                </Pagination>
+            <div className="my-4 flex flex-col gap-2" >
+                <DataTable
+                    columns={columns}
+                    fetchData={fetchData}
+                    filters={filters}
+                />
             </div>
-        </div>
+        </>
     )
 
 }
