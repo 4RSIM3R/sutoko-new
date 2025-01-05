@@ -1,95 +1,97 @@
-import { Button, Pagination, Table, TextField } from "@/components/ui";
+import { Column, DataTable } from "@/components/data-table";
+import { Button, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
-import { router, usePage } from "@inertiajs/react";
-import { IconPlus } from "justd-icons";
+import { Base } from "@/types/base";
+import axios from "axios";
+import { IconPlus, IconSearch } from "justd-icons";
 import { useState } from "react";
+import { useDebounce } from "use-debounce";
 
-type MedicineFormProps = {
-    medicines: {
-        total: number;
-        page: number;
-        size: number;
-        items: {
-            data?: KfaItem[];
+export default function MedicineForm() {
+
+    const [filters, setFilters] = useState({ name: '', type: 'farmasi' });
+    const [params] = useDebounce(filters, 250);
+
+    const columns: Column<KfaItem>[] = [
+        {
+            id: 'kfa_code',
+            header: 'KFA Code',
+            cell: (item) => item.kfa_code,
+            sortable: false,
+            isRowHeader: true,
+        },
+        {
+            id: 'name',
+            header: 'Name',
+            cell: (item) => (
+                <div className="whitespace-break-spaces" >
+                    {item.nama_dagang}
+                </div>
+            ),
+            sortable: false,
+        },
+        {
+            id: 'manufacturer',
+            header: 'Manufacturer',
+            cell: (item) => item.manufacturer,
+            sortable: false,
+        },
+        {
+            id: 'unit_of_meassurement',
+            header: 'Unit of Measurement',
+            cell: (item) => (
+                <>
+                    {item.uom?.name}
+                </>
+            ),
+            sortable: false,
+        },
+        {
+            id: 'actions',
+            header: 'Actions',
+            cell: (item) => (
+                <Button size="extra-small" appearance="outline">
+                    <IconPlus />
+                    Tambahkan
+                </Button>
+            ),
+            sortable: false
         }
-    }
-}
 
-export default function MedicineForm({ medicines }: MedicineFormProps) {
+    ];
 
-    const [search, setSearh] = useState("");
-
-    const page = usePage<any>();
-
-    const onSearch = (e: { preventDefault: () => void }) => {
-        e.preventDefault();
-        router.get('', {
-            name: search,
-            page: 1,
-        })
-    }
+    const fetchData = async (params: Record<string, any>): Promise<Base<KfaItem[]>> => {
+        const response = await axios.get<Base<KfaItem[]>>(
+            route('backoffice.medicine.kfa_browser', params)
+        );
+        return response.data;
+    };
 
     return (
         <div>
             <div className="flex flex-row justify-between" >
                 <div className="" >
                     <h1 className="text-xl font-semibold" >KFA Browser</h1>
-                    <p className="text-sm text-gray-500" >Add new medicine item</p>
+                    <p className="text-sm text-gray-500" >Add New Medicine Item</p>
                 </div>
-                <form onSubmit={onSearch} className="flex gap-4" >
-                    <TextField value={search} onChange={(v) => setSearh(v)} placeholder="Search..." />
-                    <Button type="submit" appearance="outline">
-                        Search
-                    </Button>
-                </form>
+                <TextField
+                    prefix={
+                        <IconSearch />
+                    }
+                    placeholder="Search Practioner"
+                    value={filters.name}
+                    onChange={(val) => {
+                        // add debounce here
+                        setFilters({ ...filters, name: val });
+                    }}
+                />
             </div>
-            <div>
-                <Table className="my-4" >
-                    <Table.Header className="w-full" >
-                        <Table.Column isRowHeader>Trademark</Table.Column>
-                        <Table.Column>KFA Code</Table.Column>
-                        <Table.Column>Manufacturer</Table.Column>
-                        <Table.Column>Unit of Measure</Table.Column>
-                        <Table.Column>Nomer Izin Edar</Table.Column>
-                        <Table.Column>Action</Table.Column>
-                    </Table.Header>
-                    <Table.Body>
-                        {
-                            medicines.items != null ? (medicines.items.data ?? []).map((medicine: KfaItem) => (
-                                <Table.Row key={medicine.kfa_code}>
-                                    <Table.Cell>{medicine.nama_dagang}</Table.Cell>
-                                    <Table.Cell>{medicine.kfa_code}</Table.Cell>
-                                    <Table.Cell>{medicine.manufacturer}</Table.Cell>
-                                    <Table.Cell>{medicine.uom?.name}</Table.Cell>
-                                    <Table.Cell>{medicine.nie}</Table.Cell>
-                                    <Table.Cell>
-                                        <form onSubmit={(e) => {
-                                            e.preventDefault();
-                                            router.post(route('backoffice.medicine.store'), {
-                                                kfa_code: medicine.kfa_code,
-                                            })
-                                        }}>
-                                            <input type="hidden" name="kfa_code" value={medicine.kfa_code} />
-                                            <Button type="submit" appearance="outline">
-                                                <IconPlus />
-                                                Tambahkan
-                                            </Button>
-                                        </form>
-                                    </Table.Cell>
-                                </Table.Row>
-                            )) : (
-                                <>
-                                    <p>Empty result...</p>
-                                </>
-                            )
-                        }
-                    </Table.Body>
-                </Table>
-                <Pagination>
-                    <Pagination.List>
-
-                    </Pagination.List>
-                </Pagination>
+            <div className="my-4 flex flex-col gap-2" >
+                <DataTable
+                    columns={columns}
+                    fetchData={fetchData}
+                    filters={params}
+                />
             </div>
         </div>
     )

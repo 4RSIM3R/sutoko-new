@@ -102,7 +102,7 @@ export const DataTable = <T extends Record<string, any>>({
                                         onPress={() => handleSort(column.id)}
                                     >
                                         {
-                                            sort?.field === column.id && sort?.direction === 'asc' ? (
+                                            sort?.direction === 'asc' ? (
                                                 <IconSortAsc className="size-5" />
                                             ) : (
                                                 <IconSortDesc className="size-5" />
@@ -127,15 +127,18 @@ export const DataTable = <T extends Record<string, any>>({
                         </div>
                     )}
                 >
-                    {(item) => (
-                        <Table.Row key={item.id}>
-                            {columns.map(column => (
-                                <Table.Cell key={column.id}>
-                                    {column.cell(item)}
-                                </Table.Cell>
-                            ))}
-                        </Table.Row>
-                    )}
+                    {
+                        data.items.map((item, index) => (
+                            <Table.Row key={index}>
+                                {columns.map(column => (
+                                    <Table.Cell key={column.id}>
+                                        {column.cell(item) ?? '-'}
+                                    </Table.Cell>
+                                ))}
+                            </Table.Row>
+                        ))
+                    }
+
                 </Table.Body>
             </Table>
 

@@ -54,7 +54,8 @@
         "tailwind-merge": "^2.5.4",
         "tailwind-variants": "^0.2.1",
         "tailwindcss-animate": "^1.0.7",
-        "tailwindcss-react-aria-components": "^1.1.6"
+        "tailwindcss-react-aria-components": "^1.1.6",
+        "use-debounce": "^10.0.4"
     },
     "release-it": {
         "git": {

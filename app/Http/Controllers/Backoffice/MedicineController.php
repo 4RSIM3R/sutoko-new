@@ -46,33 +46,40 @@ class MedicineController extends Controller
         return response()->json($result);
     }
 
-
-    public function create(Request $request)
+    public function kfa_browser(Request $request)
     {
-        $name = $request->get('name');
+        $filter = $request->get('filter');
         $page = $request->get('page', 1);
-        $type = $request->get('type', 'farmasi');
 
         $params = [
             'page' => $page,
-            'product_type' => $type,
+            'product_type' => $filter["type"],
             'size' => 10,
         ];
 
-        if ($name) $params['keyword'] = $name;
+        if (isset($filter["name"])) $params['keyword'] = $filter["name"];
 
         $token = SatuSehatAuth::token();
 
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => sprintf('Bearer %s', $token),
-        ])->get("https://api-satusehat-stg.kemkes.go.id/kfa-v2/products/all", $params);
+        ])->get("https://api-satusehat-stg.kemkes.go.id/kfa-v2/products/all", $params)->json();
 
-        $request->session()->regenerate();
+        $response = [
+            'items' => $response["items"]["data"],
+            'prev_page' => $response["page"] > 1 ? $response["page"] - 1 : null,
+            'current_page' => $response["page"],
+            'next_page' => ($response["total"] / ($response["size"] * $response["page"])) > 1 ? $response["page"] + 1 : null,
+        ];
 
-        return Inertia::render('backoffice/master/medicine/form', [
-            'medicines' => $response->json(),
-        ]);
+        return response()->json($response);
+    }
+
+
+    public function create()
+    {
+        return Inertia::render('backoffice/master/medicine/form');
     }
 
     public function store(MedicineRequest $request)

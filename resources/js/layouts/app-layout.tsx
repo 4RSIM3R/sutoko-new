@@ -9,8 +9,10 @@ import {
     IconGear,
     IconGiroCard,
     IconHome2,
+    IconInbox,
     IconLogout,
     IconMoneybag,
+    IconPaper,
     IconPeople,
     IconServerStack,
     IconSettings,
@@ -38,20 +40,20 @@ export function AppLayout({ children }: PropsWithChildren) {
                         <Sidebar.Item icon={IconPeople} href={route('backoffice.patient.index')}>
                             Pasien
                         </Sidebar.Item>
-                        <Sidebar.Item icon={IconCirclePlus} href={route('backoffice.practioner.index')}>
+                        <Sidebar.Item icon={IconPeople} href={route('backoffice.practioner.index')}>
                             Tenaga Kesehatan
                         </Sidebar.Item>
                         <Sidebar.Item icon={IconGiroCard} href={route('backoffice.payment-assurance.index')}>
                             Metode Pembayaran
                         </Sidebar.Item>
-                        <Sidebar.Item icon={IconMoneybag} href={route('backoffice.charge.index')}>
+                        <Sidebar.Item icon={IconPaper} href={route('backoffice.charge.index')}>
                             Tindakan
                         </Sidebar.Item>
                         <Sidebar.Item icon={IconHome2} href={route('backoffice.location.index')}>
                             Ruangan
                         </Sidebar.Item>
-                        <Sidebar.Item icon={IconSquarePlus} href={route('backoffice.medicine.index')}>
-                            Farmasi & Alkes
+                        <Sidebar.Item icon={IconInbox} href={route('backoffice.medicine.index')}>
+                            Farmasi
                         </Sidebar.Item>
                     </Sidebar.Section>
                     <Sidebar.Section isExpanded={true} title="Operasional" className="text-black" >
