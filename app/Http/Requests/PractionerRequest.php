@@ -22,7 +22,7 @@ class PractionerRequest extends FormRequest
             'suffix' => ['required', 'string', 'max:255'],
             'birth_place' => ['required', 'string', 'max:255'],
             'birth_date' => ['required', 'date'],
-            'gender' => ['required', 'string', 'max:255'],
+            'gender' => ['required', 'in:male,female'],
             'religion' => ['required', 'string', 'max:255'],
             'occupation' => ['required', 'string', 'max:255'],
             'specialty' => ['required', 'string', 'max:255'],

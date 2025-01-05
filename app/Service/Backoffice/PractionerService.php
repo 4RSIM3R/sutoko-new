@@ -5,6 +5,7 @@ namespace App\Service\Backoffice;
 use App\Contract\Backoffice\PractionerContract;
 use App\Models\Practioner;
 use App\Service\BaseService;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 class PractionerService extends BaseService implements PractionerContract
@@ -21,5 +22,17 @@ class PractionerService extends BaseService implements PractionerContract
     public function __construct(Practioner $model)
     {
         $this->model = $model;
+    }
+
+    public function create($payloads)
+    {
+        try {
+
+            $model = $this->model->create($payloads);
+
+            return $model->fresh();
+        } catch (Exception $e) {
+            return $e;
+        }
     }
 }

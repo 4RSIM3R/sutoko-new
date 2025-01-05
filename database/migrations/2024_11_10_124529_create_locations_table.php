@@ -1,11 +1,15 @@
 <?php
 
+use App\Traits\BaseMigration;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
+    use BaseMigration;
+
     /**
      * Run the migrations.
      */
@@ -13,15 +17,11 @@ return new class extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->string('satu_sehat_id');
             $table->string('name');
             $table->string('description');
-            $table->enum('physical_type_code', ['bu', 'wi', 'co', 'ro', 've', 'ho', 'ca', 'rd', 'area']);
-            $table->enum('physical_type_name', ['Building', 'Wing', 'Corridor', 'Room', 'Vehicle', 'House', 'Cabinet', 'Road', 'Area']);
-            $table->json('request')->nullable();
-            $table->json('response')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
+            $table->integer('max_appointment')->nullable();
+            $this->satu_sehat_fields($table);
+            $this->base_fields($table);
         });
     }
 

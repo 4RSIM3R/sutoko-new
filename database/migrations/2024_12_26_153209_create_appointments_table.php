@@ -1,13 +1,18 @@
 <?php
 
+use App\Models\Location;
 use App\Models\Practioner;
 use App\Models\User;
+use App\Traits\BaseMigration;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
+    use BaseMigration;
+
     /**
      * Run the migrations.
      */
@@ -17,7 +22,10 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(Practioner::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->timestamps();
+            $table->foreignIdFor(Location::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->time('start_time');
+            $table->time('end_time');
+            $this->base_fields($table);
         });
     }
 
