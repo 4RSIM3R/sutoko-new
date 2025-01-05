@@ -1,14 +1,16 @@
-export type Practitioner = {
+import { Field } from "./field";
+
+export type Practitioner = Field & {
     id: number;
-    name: string;
-    nik: string;
-    role: string;
-    gender: string;
-    birth_date?: string;
-    phone_number?: string;
-    address?: string;
-    satu_sehat_id?: string;
-    created_at?: Date;
-    updated_at?: Date;
-    deleted_at?: Date | null;
+    nik: any;
+    employee_id: any;
+    prefix?: any;
+    name: any;
+    suffix?: any;
+    birth_place: any;
+    birth_date: any;
+    gender: any;
+    religion: any;
+    occupation: any;
+    specialty?: any;
 };

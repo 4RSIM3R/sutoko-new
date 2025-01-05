@@ -1,7 +1,6 @@
 <?php
 
 use App\Traits\BaseMigration;
-use App\Traits\SatuSehatMigration;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +20,7 @@ return new class extends Migration
             $table->string('nik');
             $table->string('employee_id');
             $table->string('prefix');
-            $table->string('title');
+            $table->string('name');
             $table->string('suffix');
             $table->string('birth_place');
             $table->date('birth_date');

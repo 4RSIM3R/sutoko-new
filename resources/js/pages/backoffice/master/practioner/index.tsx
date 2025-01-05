@@ -1,86 +1,127 @@
-import { Button, buttonStyles, Menu, Pagination, Table } from "@/components/ui";
+import { ConfirmationDialog } from "@/components/confirmation-dialog";
+import { Column, DataTable } from "@/components/data-table";
+import { Button, Menu, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Base } from "@/types/base";
 import { Practitioner } from "@/types/practioner";
-import { Link } from "@inertiajs/react";
-import { IconPlus } from "justd-icons";
+import { Link, useForm } from "@inertiajs/react";
+import axios from "axios";
+import { IconEye, IconPlus, IconSearch, IconTrash } from "justd-icons";
+import { useState } from "react";
+import { toast } from "sonner";
 
-type PractionerIndexProps = {
-    practioners: Base<Practitioner[]>;
-}
 
-export default function PractionerIndex({ practioners }: PractionerIndexProps) {
+export default function PractionerIndex() {
+
+    const [filters, setFilters] = useState({ name: '' });
+    const [id, setId] = useState<any>();
+    const { delete: destroy } = useForm();
+
+    const onDelete = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+        destroy(route('backoffice.practioner.destroy', id), {
+            onSuccess: () => toast.success('Data deleted successfully'),
+            onError: (error) => toast('Whoopsss....', { description: JSON.stringify(error) }),
+        });
+    };
+
+    const columns: Column<Practitioner>[] = [
+        {
+            id: 'id',
+            header: 'ID',
+            cell: (item) => item.id,
+            sortable: false,
+            isRowHeader: true,
+        },
+        {
+            id: 'name',
+            header: 'Name',
+            cell: (item) => item.name,
+            sortable: true
+        },
+        {
+            id: 'employee_id',
+            header: 'Employee ID',
+            cell: (item) => item.employee_id,
+            sortable: false,
+        },
+        {
+            id: 'occupation',
+            header: 'Occupation',
+            cell: (item) => <span>{item.occupation.toUpperCase()}</span>,
+            sortable: true,
+        },
+        {
+            id: 'actions',
+            header: 'Actions',
+            cell: (item) => (
+                <Menu>
+                    <Menu.Trigger>
+                        <Button size="extra-small" appearance="outline">Action</Button>
+                    </Menu.Trigger>
+                    <Menu.Content>
+                        <Menu.Item href={route('backoffice.practioner.show', item.id)}>
+                            <IconEye />
+                            Detail
+                        </Menu.Item>
+                        <Menu.Item onAction={() => setId(item.id)}>
+                            <IconTrash />
+                            Delete
+                        </Menu.Item>
+                    </Menu.Content>
+                </Menu>
+            ),
+            sortable: false
+        }
+    ];
+
+
+    const fetchData = async (params: Record<string, any>) => {
+        const response = await axios.get<Base<Practitioner[]>>(
+            route('backoffice.practioner.fetch', params)
+        );
+        return response.data;
+    };
 
     return (
-        <div className="w-full" >
-            <div className="flex flex-row justify-between" >
-                <div className="" >
-                    <h1 className="text-xl font-semibold" >Practioners</h1>
-                    <p className="text-sm text-gray-500" >Manage all practioners</p>
-                </div>
+        <>
+            <ConfirmationDialog
+                isOpen={id}
+                onClose={() => setId(null)}
+                onDelete={(e) => onDelete(e)}
+            />
+            <div className="flex justify-between" >
                 <div>
-                    <Link href={route('backoffice.practioner.create')}>
-                        <Button appearance="outline" >
+                    <h1 className="text-xl font-semibold" >Bank</h1>
+                    <p className="text-sm text-gray-600" >Master Data Bank</p>
+                </div>
+                <div className="flex gap-4" >
+                    <TextField
+                        prefix={
+                            <IconSearch />
+                        }
+                        placeholder="Search Practioner"
+                        value={filters.name}
+                        onChange={(val) => {
+                            setFilters({ ...filters, name: val });
+                        }}
+                    />
+                    <Link href={route('backoffice.practioner.create')} >
+                        <Button>
                             <IconPlus />
-                            Add New
+                            Add Data
                         </Button>
                     </Link>
                 </div>
             </div>
-            <div>
-                <Table className="my-4" >
-                    <Table.Header className="w-full" >
-                        <Table.Column isRowHeader>NIK</Table.Column>
-                        <Table.Column>Nama</Table.Column>
-                        <Table.Column>Role</Table.Column>
-                        <Table.Column>Satu Sehat ID</Table.Column>
-                        <Table.Column>Action</Table.Column>
-                    </Table.Header>
-                    <Table.Body>
-                        {
-                            practioners.items.map((practitioner: Practitioner) => (
-                                <Table.Row key={practitioner.id}>
-                                    <Table.Cell>{practitioner.nik}</Table.Cell>
-                                    <Table.Cell>{practitioner.name}</Table.Cell>
-                                    <Table.Cell>{practitioner.role}</Table.Cell>
-                                    <Table.Cell>{practitioner.satu_sehat_id}</Table.Cell>
-                                    <Table.Cell>
-                                        <Menu>
-                                            <Menu.Trigger className={buttonStyles({ appearance: "outline", size: "extra-small" })}>ACTION</Menu.Trigger>
-                                            <Menu.Content placement="bottom" className="sm:min-w-48">
-                                                <Menu.Item>Riwayat Kunjungan</Menu.Item>
-                                                <Menu.Item>Daftarkan Kunjungan</Menu.Item>
-                                                <Menu.Separator />
-                                                <Menu.Submenu>
-                                                    <Menu.Item>Cetak</Menu.Item>
-                                                    <Menu.Content>
-                                                        <Menu.Item>Gelang Pasien</Menu.Item>
-                                                        <Menu.Item>Kartu Pasien</Menu.Item>
-                                                        <Menu.Item>General Consent</Menu.Item>
-                                                    </Menu.Content>
-                                                </Menu.Submenu>
-                                            </Menu.Content>
-                                        </Menu>
-                                    </Table.Cell>
-                                </Table.Row>
-                            ))
-                        }
-                    </Table.Body>
-                </Table>
-                <Pagination>
-                    <Pagination.List>
-                        {
-                            practioners.prev_page &&
-                            <Pagination.Item variant="previous" href={route('backoffice.practioner.index', { page: practioners.prev_page })} />
-                        }
-                        {
-                            practioners.next_page &&
-                            <Pagination.Item variant="next" href={route('backoffice.practioner.index', { page: practioners.next_page })} />
-                        }
-                    </Pagination.List>
-                </Pagination>
+            <div className="my-4 flex flex-col gap-2" >
+                <DataTable
+                    columns={columns}
+                    fetchData={fetchData}
+                    filters={filters}
+                />
             </div>
-        </div>
+        </>
     );
 
 }

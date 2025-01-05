@@ -1,6 +1,5 @@
-import { Avatar, Button, Link, Menu, Separator, Sidebar, TextField } from "@/components/ui";
+import { Avatar, Button, Link, Menu, Separator, Sidebar } from "@/components/ui";
 import {
-    IconBrandApple,
     IconCalendar,
     IconChevronLgDown,
     IconCirclePerson,
@@ -13,7 +12,7 @@ import {
     IconLogout,
     IconMoneybag,
     IconPeople,
-    IconSearch,
+    IconServerStack,
     IconSettings,
     IconShield,
     IconSquarePlus
@@ -30,7 +29,7 @@ export function AppLayout({ children }: PropsWithChildren) {
                         className="flex items-center group-data-[collapsible=dock]:size-10 group-data-[collapsible=dock]:justify-center gap-x-2"
                         href="/docs/components/layouts/sidebar"
                     >
-                        <IconBrandApple className="size-5" />
+                        <IconServerStack className="size-5" />
                         <strong className="font-medium group-data-[collapsible=dock]:hidden">SUTOKO</strong>
                     </Link>
                 </Sidebar.Header>
@@ -120,11 +119,7 @@ export function AppLayout({ children }: PropsWithChildren) {
                         <Sidebar.Trigger className="-mx-2" />
                         <Separator className="h-6 sm:block hidden" orientation="vertical" />
                     </span>
-                    <TextField placeholder="Cari pasien" className="w-full sm:max-w-[20rem] sm:w-auto" />
                     <div className="flex sm:hidden items-center gap-x-2">
-                        <Button appearance="plain" aria-label="Search..." size="square-petite">
-                            <IconSearch />
-                        </Button>
                         <Menu>
                             <Menu.Trigger aria-label="Profile" className="flex items-center gap-x-2 group">
                                 <Avatar size="small" shape="circle" src="/images/sidebar/profile-slash.jpg" />

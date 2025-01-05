@@ -39,9 +39,9 @@ export default function Login() {
                     <div className='relative z-20 mt-auto'>
                         <blockquote className='space-y-2'>
                             <p className='text-lg'>
-                                good delivering insight driven by data, kudos trafodiag
+                                A dead simple medical record application
                             </p>
-                            <footer className='text-sm'>DR Nefario</footer>
+                            <footer className='text-sm'>Cak Suku</footer>
                         </blockquote>
                     </div>
                 </div>
@@ -72,10 +72,10 @@ export default function Login() {
                             name="password"
                             value={data.password}
                             autoComplete="off"
-                            
                             onChange={(v) => setData("password", v)}
                             errorMessage={errors.password}
                             isRequired
+                            isRevealable
                             className='mb-2'
                         />
                         <Button isDisabled={processing} className="mt-3" type="submit">

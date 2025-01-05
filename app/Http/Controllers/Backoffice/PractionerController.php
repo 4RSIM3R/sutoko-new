@@ -2,46 +2,34 @@
 
 namespace App\Http\Controllers\Backoffice;
 
+use App\Contract\Backoffice\PractionerContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PractionerRequest;
 use App\Models\Practioner;
 use App\Utils\SatuSehat\SatuSehatAuth;
 use App\Utils\SatuSehat\SatuSehatPractioner;
 use Exception;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class PractionerController extends Controller
 {
-    public function index(Request $request)
+
+    protected PractionerContract $service;
+
+    public function __construct(PractionerContract $service)
     {
-        $page = $request->get('page', 1);
-
-        $practioners = Practioner::query()->paginate(perPage: 10, page: $page);
-
-        $practioners = [
-            "prev_page" => $practioners->currentPage() > 1 ? $practioners->currentPage() - 1 : null,
-            "items" => $practioners->items(),
-            "next_page" => $practioners->hasMorePages() ? $practioners->currentPage() + 1 : null,
-        ];
-
-        return Inertia::render('backoffice/master/practioner/index', [
-            'practioners' => $practioners,
-        ]);
+        $this->service = $service;
     }
 
-    public function fetch(Request $request)
+    public function index()
     {
-        $name = $request->get('name');
-        
-        if ($name) {
-            $name = Practioner::select(['nik', 'name', 'id'])->where('name', 'like', '%' . $name . '%')->limit(10);
-            $nik = Practioner::select(['nik', 'name', 'id'])->where('nik', 'like', '%' . $name . '%')->limit(10);
-            $result = $name->union($nik)->get();
-        } else {
-            $result = Practioner::limit(10)->get();
-        }
-        return response()->json($result);
+        return Inertia::render('backoffice/master/practioner/index');
+    }
+
+    public function fetch()
+    {
+        $data = $this->service->all(['name', 'nik', 'occupation'], [], true);
+        return response()->json($data);
     }
 
     public function create()
