@@ -8,6 +8,7 @@ use App\Http\Requests\PractionerRequest;
 use App\Models\Practioner;
 use App\Utils\SatuSehat\SatuSehatAuth;
 use App\Utils\SatuSehat\SatuSehatPractioner;
+use App\Utils\WebResponse;
 use Exception;
 use Inertia\Inertia;
 
@@ -62,11 +63,14 @@ class PractionerController extends Controller
 
     public function update($id, PractionerRequest $request)
     {
-        //
+        $payload = $request->all();
+        $data = $this->service->update($id, $payload);
+        return WebResponse::inertia($data, 'backoffice.practioner.index');
     }
 
-    public function destroy($id, PractionerRequest $request)
+    public function destroy($id)
     {
-        //
+        $data = $this->service->destroy($id);
+        return WebResponse::inertia($data, 'backoffice.practioner.index');
     }
 }
