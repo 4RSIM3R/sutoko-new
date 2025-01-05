@@ -28,6 +28,8 @@ return new class extends Migration
             $table->string('religion');
             $table->string('occupation');
             $table->string('specialty');
+            $table->date('str_expired')->nullable();
+            $table->date('sip_expired')->nullable();
             $this->contact_fields($table);
             $this->address_fields($table);
             $this->satu_sehat_fields($table);

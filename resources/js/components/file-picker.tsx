@@ -13,14 +13,14 @@ interface EnhancedFilePickerProps {
     label: string;
     name: string;
     isRequired?: boolean;
-    onChange: (files: FileList | null) => void;
+    onChange: (files:  File[]) => void;
     ref?: React.RefObject<HTMLInputElement>;
     prefix?: React.ReactNode;
     suffix?: React.ReactNode;
     accept?: string[];
     multiple?: boolean;
     className?: string;
-    value?: FileList | null;
+    value?:  File[];
     withIcon?: boolean;
     intent?: "primary" | "secondary" | "danger" | "warning";
     size?: "medium" | "large" | "square-petite" | "extra-small" | "small";
@@ -50,7 +50,8 @@ export const FilePicker: React.FC<EnhancedFilePickerProps> = ({
                 {label} {isRequired && <span className="text-red-500 ml-1">*</span>}
             </Label>
             <FileTriggerPrimitive
-                onSelect={(files) => {
+                onSelect={(e) => {
+                    let files = Array.from(e ?? []);
                     onChange(files);
                 }}
                 acceptedFileTypes={accept}

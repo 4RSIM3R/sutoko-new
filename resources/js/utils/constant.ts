@@ -231,4 +231,55 @@ export const allergy_type = [
         id: 'medication',
         name: 'Obat / Medikasi',
     },
-]
+];
+
+export const specialty = [
+    {
+        id: 'general',
+        name: 'Umum',
+    },
+    {
+        id: 'cardiology',
+        name: 'Kardiologi',
+    },
+    {
+        id: 'dermatology',
+        name: 'Dermatologi',
+    },
+    {
+        id: 'gastroenterology',
+        name: 'Gastroenterologi',
+    },
+    {
+        id: 'hematology',
+        name: 'Hematologi',
+    },
+    {
+        id: 'nephrology',
+        name: 'Nephrologi',
+    },
+    {
+        id: 'neurology',
+        name: 'Neurologi',
+    },
+    {
+        id: 'oncology',
+        name: 'Oncologi',
+    },
+    {
+        id: 'otolaryngology',
+        name: 'Otolaryngologi',
+    },
+    {
+        id: 'pulmonology',
+        name: 'Pulmonologi',
+    },
+    {
+        id: 'urology',
+        name: 'Urologi',
+    },
+    {
+        id: 'obgyn',
+        name: 'Obgyn',
+    }
+];

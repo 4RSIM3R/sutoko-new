@@ -1,11 +1,13 @@
 import { FilePicker } from "@/components/file-picker";
-import { Button, Card, Select, Textarea, TextField } from "@/components/ui";
+import { Button, Card, Label, Select, Textarea, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Practitioner } from "@/types/practioner";
-import { gender, practioner_role, religion } from "@/utils/constant";
+import { gender, practioner_role, religion, specialty } from "@/utils/constant";
+import { fetchRegencies } from "@/utils/select";
 import { useForm } from "@inertiajs/react";
 import { IconCircleQuestionmarkFill } from "justd-icons";
 import { useRef } from "react";
+import AsyncSelect from "react-select/async";
 import { toast } from "sonner";
 
 type PractionerFormProps = {
@@ -21,8 +23,12 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
+
+        data.str = data.str[0];
+        data.sip = data.sip[0];
+
         if (practitioner) {
-            post(route('backone-time-codeice.practioner.store', practitioner.id), {
+            post(route('backoffice.practioner.store', practitioner.id), {
                 onSuccess: (_) => {
                     toast("Data berhasil disimpan", {
                         description: "Data berhasil disimpan",
@@ -37,7 +43,7 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                 }
             });
         } else {
-            post(route('backone-time-codeice.practioner.store'), {
+            post(route('backoffice.practioner.store'), {
                 onSuccess: (_) => {
                     toast("Data berhasil disimpan", {
                         description: "Data berhasil disimpan",
@@ -90,6 +96,19 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                         />
                         <TextField
                             className="col-span-6"
+                            label="NIP"
+                            placeholder="Nomor Induk Pegawai"
+                            name="employee_id"
+                            inputMode="numeric"
+                            type="text"
+                            value={data.employee_id}
+                            autoComplete="one-time-code"
+                            onChange={(v) => setData("employee_id", v)}
+                            errorMessage={errors.employee_id}
+                            isRequired
+                        />
+                        <TextField
+                            className="col-span-6"
                             label="Gelar Depan"
                             placeholder="Gelar Depan"
                             name="prefix"
@@ -119,17 +138,19 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                             onChange={(v) => setData("suffix", v)}
                             errorMessage={errors.suffix}
                         />
-                        <TextField
-                            className="col-span-6"
-                            label="Nama Tempat Lahir"
-                            placeholder="Nama Tempat Lahir"
-                            name="birth_place"
-                            value={data.birth_place}
-                            autoComplete="one-time-code"
-                            onChange={(v) => setData("birth_place", v)}
-                            errorMessage={errors.birth_place}
-                            isRequired
-                        />
+                        <div className="col-span-6" >
+                            <Label className="mb-1.5">Tempat Lahir</Label>
+                            <AsyncSelect
+                                cacheOptions
+                                loadOptions={(value) => fetchRegencies({ search: value })}
+                                defaultOptions
+                                isClearable
+                                onChange={(value) => {
+                                    setData("birth_place", value?.label);
+                                }}
+                                placeholder="Search for a regency..."
+                            />
+                        </div>
                         <TextField
                             className="col-span-6"
                             label="Tanggal Lahir"
@@ -200,76 +221,6 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                         />
                         <TextField
                             className="col-span-6"
-                            label="RT"
-                            placeholder="RT"
-                            name="rt"
-                            value={data.rt}
-                            autoComplete="one-time-code"
-                            onChange={(v) => setData("rt", v)}
-                            errorMessage={errors.rt}
-                        />
-                        <TextField
-                            className="col-span-6"
-                            label="RW"
-                            placeholder="RW"
-                            name="rw"
-                            value={data.rw}
-                            autoComplete="one-time-code"
-                            onChange={(v) => setData("rw", v)}
-                            errorMessage={errors.rw}
-                        />
-                        <TextField
-                            className="col-span-6"
-                            label="Kode POS"
-                            placeholder="Kode POS"
-                            name="postal_code"
-                            value={data.postal_code}
-                            autoComplete="one-time-code"
-                            onChange={(v) => setData("postal_code", v)}
-                            errorMessage={errors.postal_code}
-                        />
-                        <TextField
-                            className="col-span-6"
-                            label="Desa"
-                            placeholder="Desa"
-                            name="village"
-                            value={data.village}
-                            autoComplete="one-time-code"
-                            onChange={(v) => setData("village", v)}
-                            errorMessage={errors.village}
-                        />
-                        <TextField
-                            className="col-span-6"
-                            label="Kecamatan"
-                            placeholder="Kecamatan"
-                            name="district"
-                            value={data.district}
-                            autoComplete="one-time-code"
-                            onChange={(v) => setData("district", v)}
-                            errorMessage={errors.district}
-                        />
-                        <TextField
-                            className="col-span-6"
-                            label="Kabupaten"
-                            placeholder="Kabupaten"
-                            name="regency"
-                            value={data.regency}
-                            autoComplete="one-time-code"
-                            onChange={(v) => setData("regency", v)}
-                            errorMessage={errors.regency}
-                        />
-                        <TextField
-                            className="col-span-6"
-                            label="Provinsi"
-                            placeholder="Provinsi"
-                            name="province"
-                            value={data.province}
-                            autoComplete="one-time-code"
-                            onChange={(v) => setData("province", v)}
-                            errorMessage={errors.province}
-                        />
-                        <TextField
-                            className="col-span-6"
                             label="Alamat"
                             placeholder="Alamat"
                             name="address"
@@ -296,7 +247,7 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                             onSelectionChange={(v) => setData("occupation", v.toString())}
                         >
                             <Select.Trigger />
-                            <Select.List items={religion}>
+                            <Select.List items={practioner_role}>
                                 {(item) => (
                                     <Select.Option id={item.id} textValue={item.name}>
                                         {item.name}
@@ -314,7 +265,7 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                             onSelectionChange={(v) => setData("specialty", v.toString())}
                         >
                             <Select.Trigger />
-                            <Select.List items={religion}>
+                            <Select.List items={specialty}>
                                 {(item) => (
                                     <Select.Option id={item.id} textValue={item.name}>
                                         {item.name}
@@ -326,10 +277,9 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                             className="col-span-6"
                             label="STR"
                             name="str"
-                            onChange={(files: FileList | null) => {
+                            onChange={(files: File[]) => {
                                 setData("str", files);
                             }}
-                            ref={strRef}
                             value={data.str}
                             accept={["image/*", ".doc", ".docx", ".pdf"]}
                         />
@@ -348,13 +298,13 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                             className="col-span-6"
                             label="SIP"
                             name="sip"
-                            onChange={(files: FileList | null) => { 
+                            onChange={(files: File[]) => {
                                 setData("sip", files);
                             }}
-                            ref={sipRef}
                             value={data.sip}
                             accept={["image/*", ".doc", ".docx", ".pdf"]}
                         />
+                        {JSON.stringify(data)}
                         <TextField
                             className="col-span-6"
                             label="SIP Expired"

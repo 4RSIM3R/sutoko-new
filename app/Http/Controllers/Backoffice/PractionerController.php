@@ -42,18 +42,11 @@ class PractionerController extends Controller
     {
         $payload = $request->validated();
 
-        try {
-            $token = SatuSehatAuth::token();
-            $ihs = SatuSehatPractioner::get_ihs($token, $payload['nik']);
+        unset($payload['str']);
+        unset($payload['sip']);
 
-            $payload['satu_sehat_id'] = $ihs;
-
-            Practioner::create($payload);
-
-            return Inertia::location(route('backoffice.practioner.index'));
-        } catch (Exception $exception) {
-            return back()->withErrors('errors', $exception->getMessage());
-        }
+        $result = $this->service->create($payload);
+        return WebResponse::inertia($result, 'backoffice.practioner.index');
     }
 
     public function show($id)
@@ -64,6 +57,8 @@ class PractionerController extends Controller
     public function update($id, PractionerRequest $request)
     {
         $payload = $request->all();
+        unset($payload['str']);
+        unset($payload['sip']);
         $data = $this->service->update($id, $payload);
         return WebResponse::inertia($data, 'backoffice.practioner.index');
     }

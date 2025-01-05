@@ -5,7 +5,12 @@ export type SelectOption = {
     label: string;
 };
 
-export const fetchProvinces = async (search: string): Promise<SelectOption[]> => {
+type FetchParams = {
+    parent_id?: any;
+    search?: any;
+};
+
+export const fetchProvinces = async ({ search }: FetchParams): Promise<SelectOption[]> => {
     const response = await axios.get(route('backoffice.region.province'), {
         params: {
             name: search,
@@ -18,10 +23,10 @@ export const fetchProvinces = async (search: string): Promise<SelectOption[]> =>
     }));
 };
 
-export const fetchRegencies = async (province_id: any, search: string): Promise<SelectOption[]> => {
-    if (!province_id) return [];
+export const fetchRegencies = async ({ parent_id, search }: FetchParams): Promise<SelectOption[]> => {
+
     const response = await axios.get(route("backoffice.region.regency"), {
-        params: { province_id: province_id, name: search, },
+        params: { province_id: parent_id, name: search, },
     });
 
     return response.data.map((e: any) => ({
@@ -31,11 +36,10 @@ export const fetchRegencies = async (province_id: any, search: string): Promise<
 
 };
 
-export const fetchDistricts = async (regenct_id: any, search: string): Promise<SelectOption[]> => {
-    if (!regenct_id) return [];
+export const fetchDistricts = async ({ parent_id, search }: FetchParams): Promise<SelectOption[]> => {
 
     const response = await axios.get(route("backoffice.region.district"), {
-        params: { regency_id: regenct_id, name: search },
+        params: { regency_id: parent_id, name: search },
     });
 
     return response.data.map((e: any) => ({
@@ -45,10 +49,9 @@ export const fetchDistricts = async (regenct_id: any, search: string): Promise<S
 
 };
 
-export const fetchVillages = async (district_id: any, search: string): Promise<SelectOption[]> => {
-    if (!district_id) return [];
+export const fetchVillages = async ({ parent_id, search }: FetchParams): Promise<SelectOption[]> => {
     const response = await axios.get(route("backoffice.region.village"), {
-        params: { district_id: district_id, name: search },
+        params: { district_id: parent_id, name: search },
     });
 
     return response.data.map((e: any) => ({

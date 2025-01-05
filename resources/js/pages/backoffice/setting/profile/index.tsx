@@ -54,9 +54,20 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
     const onSubmit = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
 
+        data['province_id'] = region.province_id;
+        data['province_name'] = region.province_name;
+        data['city_id'] = region.city_id;
+        data['city_name'] = region.city_name;
+        data['district_id'] = region.district_id;
+        data['district_name'] = region.district_name;
+        data['village_id'] = region.village_id;
+        data['village_name'] = region.village_name;
+
         post(route('backoffice.setting.profile.update'), {
             onSuccess: (_) => {
-                toast.success('Data berhasil disimpan');
+                toast.success('Data berhasil disimpan', {
+                    important: true,
+                });
             },
             onError: (error) => {
                 toast("Whoopsss....", {
@@ -141,15 +152,6 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                                 district_id: null,
                                 village_id: null
                             }))
-
-                            setData((data) => ({
-                                ...data,
-                                province_id: value?.value,
-                                province_name: value?.label,
-                                city_id: null,
-                                district_id: null,
-                                village_id: null
-                            }))
                         }}
                         placeholder="Search for a province..."
                     />
@@ -161,19 +163,11 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                         cacheOptions
                         isDisabled={!region.province_id}
                         defaultValue={{ value: region?.city_id, label: region?.city_name }}
-                        loadOptions={(value) => fetchRegencies(region.province_id, value)}
+                        loadOptions={(value) => fetchRegencies({ parent_id: region.province_id, search: value })}
                         defaultOptions
                         isClearable
                         onChange={(value) => {
                             setRegion((data) => ({
-                                ...data,
-                                city_id: value?.value,
-                                city_name: value?.label,
-                                district_id: null,
-                                village_id: null
-                            }))
-
-                            setData((data) => ({
                                 ...data,
                                 city_id: value?.value,
                                 city_name: value?.label,
@@ -191,7 +185,7 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                         cacheOptions
                         isDisabled={!region.city_id}
                         defaultValue={{ value: region?.district_id, label: region?.district_name }}
-                        loadOptions={(value) => fetchDistricts(region.city_id, value)}
+                        loadOptions={(value) => fetchDistricts({ parent_id: region.city_id, search: value })}
                         defaultOptions
                         isClearable
                         onChange={(value) => {
@@ -199,12 +193,6 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                                 ...data,
                                 district_id: value?.value,
                                 district_name: value?.label,
-                                village_id: null
-                            }))
-
-                            setData((data) => ({
-                                ...data,
-                                district_id: value?.value,
                                 village_id: null
                             }))
                         }}
@@ -218,17 +206,11 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                         cacheOptions
                         isDisabled={!region.district_id}
                         defaultValue={{ value: region?.village_id, label: region?.village_name }}
-                        loadOptions={(value) => fetchVillages(region.district_id, value)}
+                        loadOptions={(value) => fetchVillages({ parent_id: region.district_id, search: value })}
                         defaultOptions
                         isClearable
                         onChange={(value) => {
                             setRegion((data) => ({
-                                ...data,
-                                village_id: value?.value,
-                                village_name: value?.label
-                            }))
-
-                            setData((data) => ({
                                 ...data,
                                 village_id: value?.value,
                                 village_name: value?.label
