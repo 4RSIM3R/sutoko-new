@@ -1,4 +1,5 @@
 import { Button, Label, Textarea, TextField } from "@/components/ui"
+import { fetchDistricts } from "@/utils/select"
 import AsyncSelect from "react-select/async"
 
 export const TreatmentHistory = () => {
@@ -10,7 +11,7 @@ export const TreatmentHistory = () => {
                 <AsyncSelect
                     className="col-span-6 text-black"
                     cacheOptions
-                    loadOptions={fetchSnomed}
+                    loadOptions={fetchDistricts}
                     defaultOptions
                     // defaultValue={{ value: encounter?.patient_id, label: encounter?.patient_name }}
                     isClearable
