@@ -38,7 +38,7 @@ export default function Home() {
                             <Card.Description>Form booking antrian berkunjung klinik</Card.Description>
                         </Card.Header>
                         <Card.Content>
-                            <Link href={route('queue.index')}>
+                            <Link href={route('appointment.index')}>
                                 <Button size='small' className="w-full" appearance='outline'>Booking Antrian</Button>
                             </Link>
                         </Card.Content>
