@@ -12,12 +12,12 @@ export default function Home() {
                 <div className='grid grid-cols-12 gap-4 mt-8' >
                     <Card className='col-span-12 lg:col-span-4' >
                         <Card.Header>
-                            <Card.Title>Login Pegawai</Card.Title>
-                            <Card.Description>Login untuk pegawai klinik</Card.Description>
+                            <Card.Title>Pendafataran Pasien Baru</Card.Title>
+                            <Card.Description>Silakan mendaftar bagi pasien yang belum pernah berkunjung.</Card.Description>
                         </Card.Header>
                         <Card.Content>
                             <Link href={route('login')}>
-                                <Button size='small' className="w-full" appearance='outline'>Login Pegawai</Button>
+                                <Button size='small' className="w-full" appearance='outline'>Daftar</Button>
                             </Link>
                         </Card.Content>
                     </Card>

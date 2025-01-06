@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Inertia\Inertia;
 
-class QueueController extends Controller
+class AppointmentController extends Controller
 {
     public function index(Request $request)
     {
