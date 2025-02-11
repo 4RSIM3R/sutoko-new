@@ -1,6 +1,5 @@
 import { Button, Card, Container, Link } from 'ui';
 
-
 export default function Home() {
     return (
         <>
@@ -13,11 +12,22 @@ export default function Home() {
                     <Card className='col-span-12 lg:col-span-4' >
                         <Card.Header>
                             <Card.Title>Pendafataran Pasien Baru</Card.Title>
-                            <Card.Description>Silakan mendaftar bagi pasien yang belum pernah berkunjung.</Card.Description>
+                            <Card.Description>Form pendaftaran bagi pasien baru</Card.Description>
                         </Card.Header>
                         <Card.Content>
-                            <Link href={route('login')}>
+                            <Link href={route('registration')}>
                                 <Button size='small' className="w-full" appearance='outline'>Daftar</Button>
+                            </Link>
+                        </Card.Content>
+                    </Card>
+                    <Card className='col-span-12 lg:col-span-4' >
+                        <Card.Header>
+                            <Card.Title>Antrian Online</Card.Title>
+                            <Card.Description>Form booking antrian berkunjung</Card.Description>
+                        </Card.Header>
+                        <Card.Content>
+                            <Link href={route('appointment')}>
+                                <Button size='small' className="w-full" appearance='outline'>Booking Antrian</Button>
                             </Link>
                         </Card.Content>
                     </Card>
@@ -27,19 +37,8 @@ export default function Home() {
                             <Card.Description>Halaman informasi jadwal dokter</Card.Description>
                         </Card.Header>
                         <Card.Content>
-                            <Link href={route('schedule.index')}>
+                            <Link href={route('schedule')}>
                                 <Button size='small' className="w-full" appearance='outline'>Check Jadwal</Button>
-                            </Link>
-                        </Card.Content>
-                    </Card>
-                    <Card className='col-span-12 lg:col-span-4' >
-                        <Card.Header>
-                            <Card.Title>Antrian Online</Card.Title>
-                            <Card.Description>Form booking antrian berkunjung klinik</Card.Description>
-                        </Card.Header>
-                        <Card.Content>
-                            <Link href={route('appointment.index')}>
-                                <Button size='small' className="w-full" appearance='outline'>Booking Antrian</Button>
                             </Link>
                         </Card.Content>
                     </Card>
@@ -48,5 +47,3 @@ export default function Home() {
         </>
     );
 }
-
-// Home.layout = (page: any) => <GuestLayout children={page} />;

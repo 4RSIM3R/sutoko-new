@@ -76,7 +76,6 @@ export default function PatientForm({ patient }: PatientFormProps) {
                     type="text"
                     value={data.nik}
                     autoComplete="off"
-                    
                     onChange={(v) => setData("nik", v)}
                     errorMessage={errors.nik}
                     isRequired
@@ -88,7 +87,6 @@ export default function PatientForm({ patient }: PatientFormProps) {
                     name="name"
                     value={data.name}
                     autoComplete="off"
-                    
                     onChange={(v) => setData("name", v)}
                     errorMessage={errors.name}
                     isRequired

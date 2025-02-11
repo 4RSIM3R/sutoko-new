@@ -41,4 +41,6 @@ class AppointmentController extends Controller
     public function update($id, QueueRequest $request) {}
 
     public function destroy($id) {}
+
+ 
 }

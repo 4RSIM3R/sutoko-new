@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Plugins;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Response;
+use Inertia\Inertia;
 
 class ScheduleController extends Controller
 {
     public function index()
     {
-        return Response::json(["message" => "work in progress"]);
+        return Inertia::render('plugins/schedule/index');
     }
 }
