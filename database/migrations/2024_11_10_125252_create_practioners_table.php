@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::create('practioners', function (Blueprint $table) {
             $table->id();
             $table->string('nik');
-            $table->string('employee_id');
+            $table->string('nip');
             $table->string('prefix');
             $table->string('name');
             $table->string('suffix');
@@ -28,8 +28,6 @@ return new class extends Migration
             $table->string('religion');
             $table->string('occupation');
             $table->string('specialty');
-            $table->date('str_expired')->nullable();
-            $table->date('sip_expired')->nullable();
             $this->contact_fields($table);
             $this->address_fields($table);
             $this->satu_sehat_fields($table);

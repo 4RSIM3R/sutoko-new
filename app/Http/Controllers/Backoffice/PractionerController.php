@@ -42,9 +42,6 @@ class PractionerController extends Controller
     {
         $payload = $request->validated();
 
-        unset($payload['str']);
-        unset($payload['sip']);
-
         $result = $this->service->create($payload);
         return WebResponse::inertia($result, 'backoffice.practioner.index');
     }

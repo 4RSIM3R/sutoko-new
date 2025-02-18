@@ -15,7 +15,6 @@ type ChargeFormProps = {
 
 export default function ChargeForm({ payment, charge }: ChargeFormProps) {
 
-    // []{ payment_assurance_id: string, price: string }
     const [paymentCharge, setPaymentCharge] = useState<{ payment_assurance_id: any; price: any }[]>([]);
     const { data, errors, processing, setData, post, put } = useForm<any>(charge);
 
@@ -74,6 +73,17 @@ export default function ChargeForm({ payment, charge }: ChargeFormProps) {
 
                     onChange={(v) => setData("name", v)}
                     errorMessage={errors.name}
+                    isRequired
+                />
+                <TextField
+                    className="col-span-12"
+                    label="Deskripsi"
+                    placeholder="Deskripsi"
+                    name="description"
+                    value={data.description}
+                    autoComplete="off"
+                    onChange={(v) => setData("description", v)}
+                    errorMessage={errors.description}
                     isRequired
                 />
                 {

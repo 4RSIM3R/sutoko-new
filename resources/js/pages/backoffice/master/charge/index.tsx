@@ -31,19 +31,25 @@ export default function ChargeIndex({ charges }: ChargeIndexProps) {
                 <Table className="my-4" >
                     <Table.Header className="w-full" >
                         <Table.Column isRowHeader >ID</Table.Column>
-                        <Table.Column  >Name</Table.Column>
-                        <Table.Column>Payment Method</Table.Column>
-                        <Table.Column>Harga</Table.Column>
+                        <Table.Column>Name</Table.Column>
+                        <Table.Column>Pricing</Table.Column>
                         <Table.Column>Action</Table.Column>
                     </Table.Header>
                     <Table.Body>
                         {
-                            charges.items.map((patient: Charge) => (
+                            charges.items.map((patient: any) => (
                                 <Table.Row key={patient.id} >
                                     <Table.Cell>{patient.id}</Table.Cell>
                                     <Table.Cell>{patient.name}</Table.Cell>
-                                    <Table.Cell>{patient.payment_assurance?.name}</Table.Cell>
-                                    <Table.Cell>{parseInt(patient.price).toLocaleString()}</Table.Cell>
+                                    <Table.Cell>
+                                        <ul className="list-disc" >
+                                            {
+                                                patient.charge_has_assurances.map((e: any) => (
+                                                    <li>{e.assurance.name} : {e.price}</li>
+                                                ))
+                                            }
+                                        </ul>
+                                    </Table.Cell>
                                     <Table.Cell>
                                         <Menu>
                                             <Menu.Trigger className={buttonStyles({ appearance: "outline", size: "extra-small" })}>ACTION</Menu.Trigger>

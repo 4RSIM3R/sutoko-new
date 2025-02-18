@@ -14,6 +14,7 @@ class PractionerService extends BaseService implements PractionerContract
     protected Model $model;
     protected array $relation = [];
 
+
     /**
      * Repositories constructor.
      *
@@ -22,17 +23,5 @@ class PractionerService extends BaseService implements PractionerContract
     public function __construct(Practioner $model)
     {
         $this->model = $model;
-    }
-
-    public function create($payloads)
-    {
-        try {
-
-            $model = $this->model->create($payloads);
-
-            return $model->fresh();
-        } catch (Exception $e) {
-            return $e;
-        }
     }
 }

@@ -11,4 +11,9 @@ class Charge extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+
+    public function chargeHasAssurances()
+    {
+        return $this->hasMany(ChargeHasAssurance::class);
+    }
 }

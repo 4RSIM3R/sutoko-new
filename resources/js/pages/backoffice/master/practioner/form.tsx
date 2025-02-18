@@ -23,10 +23,6 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
-
-        data.str = data.str[0];
-        data.sip = data.sip[0];
-
         if (practitioner) {
             post(route('backoffice.practioner.store', practitioner.id), {
                 onSuccess: (_) => {
@@ -98,12 +94,12 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                             className="col-span-6"
                             label="NIP"
                             placeholder="Nomor Induk Pegawai"
-                            name="employee_id"
+                            name="nip"
                             inputMode="numeric"
                             type="text"
-                            value={data.employee_id}
+                            value={data.nip}
                             autoComplete="one-time-code"
-                            onChange={(v) => setData("employee_id", v)}
+                            onChange={(v) => setData("nip", v)}
                             errorMessage={errors.employee_id}
                             isRequired
                         />
@@ -273,49 +269,6 @@ export default function PractionerForm({ practitioner }: PractionerFormProps) {
                                 )}
                             </Select.List>
                         </Select>
-                        <FilePicker
-                            className="col-span-6"
-                            label="STR"
-                            name="str"
-                            onChange={(files: File[]) => {
-                                setData("str", files);
-                            }}
-                            value={data.str}
-                            accept={["image/*", ".doc", ".docx", ".pdf"]}
-                        />
-                        <TextField
-                            className="col-span-6"
-                            label="STR Expired"
-                            placeholder="STR Expired"
-                            name="str_expired"
-                            type="date"
-                            value={data.str_expired}
-                            autoComplete="one-time-code"
-                            onChange={(v) => setData("str_expired", v)}
-                            errorMessage={errors.str_expired}
-                        />
-                        <FilePicker
-                            className="col-span-6"
-                            label="SIP"
-                            name="sip"
-                            onChange={(files: File[]) => {
-                                setData("sip", files);
-                            }}
-                            value={data.sip}
-                            accept={["image/*", ".doc", ".docx", ".pdf"]}
-                        />
-                        {JSON.stringify(data)}
-                        <TextField
-                            className="col-span-6"
-                            label="SIP Expired"
-                            placeholder="SIP Expired"
-                            name="sip_expired"
-                            type="date"
-                            value={data.sip_expired}
-                            autoComplete="one-time-code"
-                            onChange={(v) => setData("sip_expired", v)}
-                            errorMessage={errors.sip_expired}
-                        />
                     </Card.Content>
                 </Card>
                 <div className="col-span-12" >

@@ -1,3 +1,4 @@
+import { CustomSelect } from "@/components/custom-select";
 import { Button, Checkbox, Label } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Encounter } from "@/types/encounter";
@@ -59,22 +60,28 @@ export default function EncounterForm() {
                 </div>
             </div>
             <form onSubmit={onSubmit} className="mt-4 grid grid-cols-12 gap-4">
-                <div className="col-span-6" >
-                    <Label className="mb-1.5">Pasien</Label>
-                    <AsyncSelect
-                        className="col-span-6 text-black"
-                        cacheOptions
-                        loadOptions={fetchPatient}
-                        defaultOptions
-                        defaultValue={{ value: encounter?.patient_id, label: encounter?.patient_name }}
-                        isClearable
-                        onChange={(value) => {
-                            setEncounter({ ...encounter, patient_id: value?.value, patient_name: value?.label });
-                            setData({ ...data, patient_id: value?.value });
-                        }}
-                        placeholder="Search for a patient..."
-                    />
-                </div>
+                {/* <CustomSelect
+                    label="Patient"
+                    name="patient_id"
+                    options={fetchPatient()}
+                    onChange={(value) => {
+                        setEncounter({ ...encounter, patient_id: value?.value, patient_name: value?.label })
+                        setData({ ...data, patient_id: value?.value });
+                    }}
+                /> */}
+                <CustomSelect
+                    className="col-span-6"
+                    label="Patient"
+                    name="patient_id"
+                    placeholder="Select Patient"
+                    defaultValue={null}
+                    onChange={(value) => {
+                        setEncounter({ ...encounter, patient_id: value?.value, patient_name: value?.label })
+                        setData({ ...data, patient_id: value?.value });
+                    }}
+                    loadOptions={fetchPatient}
+                    isRequired
+                />
                 <div className="col-span-6" >
                     <Label className="mb-1.5">Location</Label>
                     <AsyncSelect
@@ -130,7 +137,7 @@ export default function EncounterForm() {
                             setData({ ...data, send_questionnaire: val });
                         }}
                     >
-                        Kirim quisioner pelayanan ke pasien?
+                        Sinkorinisasi Dengan Satu Sehat
                     </Checkbox>
                 </div>
                 <div className="col-span-6" >

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChargeRequest;
 use App\Models\Charge;
+use App\Models\ChargeHasAssurance;
 use App\Models\PaymentAssurance;
 use Exception;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class ChargeController extends Controller
     {
         $page = $request->get('page', 1);
 
-        $charges = Charge::query()->with(['payment_assurance'])->paginate(perPage: 10, page: $page);
+        $charges = Charge::query()->with(['chargeHasAssurances', 'chargeHasAssurances.assurance'])->paginate(perPage: 10, page: $page);
 
         $charges = [
             "prev_page" => $charges->currentPage() > 1 ? $charges->currentPage() - 1 : null,
@@ -39,25 +40,31 @@ class ChargeController extends Controller
     public function store(ChargeRequest $request)
     {
         $payload = $request->validated();
+        $charges = $payload['charges'];
+        unset($payload['charges']);
 
         $data = [];
 
-        foreach ($payload['charges'] as $charge) {
-            $price = [
-                "name" => $payload['name'],
-                "payment_assurance_id" => $charge['payment_assurance_id'],
-                "price" => $charge['price'],
-            ];
-
-            $data[] = $price;
-        }
-
         try {
             DB::beginTransaction();
-            Charge::insert($data);
+            $result = Charge::query()->create($payload)->fresh();
+
+            foreach ($charges as $charge) {
+                $price = [
+                    "payment_assurance_id" => $charge['payment_assurance_id'],
+                    "charge_id" => $result->id,
+                    "price" => $charge['price'],
+                ];
+
+                $data[] = $price;
+            }
+
+            ChargeHasAssurance::query()->insert($data);
+
             DB::commit();
             return Inertia::location(route('backoffice.charge.index'));
         } catch (Exception $exception) {
+            dd($exception);
             DB::rollBack();
             return back()->withErrors('errors', $exception->getMessage());
         }
