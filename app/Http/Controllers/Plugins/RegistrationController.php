@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Plugins;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class RegistrationController extends Controller
@@ -19,5 +20,8 @@ class RegistrationController extends Controller
         return Inertia::render('plugins/registration/index');
     }
 
-    public function registration_store() {}
+    public function registration_store(Request $request)
+    {
+        return Inertia::location(route('home'));
+    }
 }

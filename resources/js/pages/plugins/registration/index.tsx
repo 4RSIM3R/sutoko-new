@@ -2,6 +2,7 @@ import { Button, Select, TextField } from "@/components/ui";
 import { gender } from "@/utils/constant";
 import { useForm } from "@inertiajs/react";
 import { IconCalendar, IconDevicePhone, IconPencilBox, IconPeople } from "justd-icons";
+import { toast, Toaster } from "sonner";
 
 export default function Registration() {
 
@@ -9,18 +10,19 @@ export default function Registration() {
 
     const onSubmit = (e: any) => {
         e.preventDefault();
-        post(route(''), {
+        post(route('registration'), {
             onSuccess: () => {
-                alert("Data berhasil disimpan");
+                alert("Pendaftara Berhasil...");
             },
             onError: () => {
-                alert("Data gagal disimpan");
+                toast.error("Terjadi kesalahan");
             }
         })
     };
 
     return (
         <div className="h-screen w-full bg-white" >
+            <Toaster />
             <div className="max-w-sm sm:max-w-md mx-auto bg-white h-screen w-full p-6" >
                 <p className="text-lg font-semibold" >Form Pendaftaran Pasien Baru</p>
                 <p className="text-sm text-gray-500" >Silahkan isi data berikut untuk mendaftarkan diri sebagai pasien baru</p>
