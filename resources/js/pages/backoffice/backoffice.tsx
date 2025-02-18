@@ -7,7 +7,7 @@ export default function Backoffice() {
             <div className="grid grid-cols-12 gap-4" >
 
             </div>
-            <div className="max-w-3xl" >
+            {/* <div className="max-w-3xl" >
                 <p className="text-xl font-semibold" >Maklumat</p>
                 <p className="text-sm mt-2" >
                     Halo para pengguna SUTOKO!
@@ -25,7 +25,7 @@ export default function Backoffice() {
                 Layaknya proyek open source kelas dunia, silakan kirimkan proposal Anda melalui email, tidak perlu formal. 
                 Cukup jelaskan jenis kontribusi, asal institusi anda (per-orangan juga boleh) yang ingin anda berikan, apakah itu fitur baru, perbaikan bug, pengujian, atau lainnya.
                 </p>
-            </div>
+            </div> */}
         </>
     )
 

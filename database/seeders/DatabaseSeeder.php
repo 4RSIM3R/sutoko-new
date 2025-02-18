@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             RegionSeeder::class,
             UserSeeder::class,
             PatientSeeder::class,
+            ProfileSeeder::class,
         ]);
     }
 }
