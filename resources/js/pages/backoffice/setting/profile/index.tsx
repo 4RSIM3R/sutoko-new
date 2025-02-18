@@ -140,7 +140,7 @@ export default function ProfileSetting({ profile }: ProfileSettingProps) {
                     <AsyncSelect
                         className="col-span-6 text-black"
                         cacheOptions
-                        loadOptions={fetchProvinces}
+                        loadOptions={(val) => fetchProvinces(val)}
                         defaultOptions
                         defaultValue={{ value: region?.province_id, label: region?.province_name }}
                         isClearable
