@@ -66,7 +66,7 @@ export const fetchPractioner = async (search: any): Promise<SelectOption[]> => {
         params: { name: search },
     });
 
-    return response.data.map((e: any) => ({
+    return response.data.items.map((e: any) => ({
         value: e.id,
         label: `${e.name} - ${e.nik}`,
     }));

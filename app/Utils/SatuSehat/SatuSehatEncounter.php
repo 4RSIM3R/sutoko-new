@@ -22,8 +22,10 @@ class SatuSehatEncounter
         return [
             "resourceType" => "Encounter",
             "identifier" => [
-                "system" => sprintf("http://sys-ids.kemkes.go.id/encounter/%s", config('satu_sehat.org_id')),
-                "value" => $payload["satu_sehat_id"],
+                [
+                    "system" => sprintf("http://sys-ids.kemkes.go.id/encounter/%s", config('satu_sehat.org_id')),
+                    "value" => $payload["satu_sehat_id"],
+                ]
             ],
             "status" => "arrived",
             "class" => [

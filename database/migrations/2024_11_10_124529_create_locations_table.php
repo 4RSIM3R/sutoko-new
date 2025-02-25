@@ -19,7 +19,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->integer('max_appointment')->nullable();
+            $table->string('physical_type_code');
+            $table->string('physical_type_name');
+            $table->integer('max_appointment')->default(0);
             $this->satu_sehat_fields($table);
             $this->base_fields($table);
         });

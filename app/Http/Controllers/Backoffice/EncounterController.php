@@ -45,16 +45,17 @@ class EncounterController extends Controller
         $payload["satu_sehat_id"] = (string) Str::uuid();
 
         $encounter = new SatuSehatEncounter();
-        $compose = $encounter->compose_arrived($payload);
+        $compose = $encounter->compose_arrived($payload);        
 
         try {
             DB::beginTransaction();
 
             $token = SatuSehatAuth::token();
-            $id =  $encounter->create($token, $compose);
+
+            $satu_sehat_id =  $encounter->create($token, $compose);
 
             $payload["status"] = "arrived";
-            $payload["satu_sehat_id"] = $id;
+            $payload["satu_sehat_id"] = $satu_sehat_id;
 
             Encounter::query()->create($payload);
 

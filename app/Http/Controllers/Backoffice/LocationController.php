@@ -71,6 +71,7 @@ class LocationController extends Controller
 
             return Inertia::location(route('backoffice.location.index'));
         } catch (Exception $exception) {
+            dd($exception);
             DB::rollBack();
             return back()->withErrors('errors', $exception->getMessage());
         }

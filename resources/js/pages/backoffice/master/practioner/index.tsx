@@ -40,9 +40,9 @@ export default function PractionerIndex() {
             sortable: true
         },
         {
-            id: 'employee_id',
-            header: 'Employee ID',
-            cell: (item) => item.employee_id,
+            id: 'satu_sehat_id',
+            header: 'Satu Sehat ID',
+            cell: (item) => item.satu_sehat_id,
             sortable: false,
         },
         {

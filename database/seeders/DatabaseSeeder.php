@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             Icd10Seeder::class,
             RegionSeeder::class,
             UserSeeder::class,
-            PatientSeeder::class,
+            // PatientSeeder::class,
             ProfileSeeder::class,
         ]);
     }

@@ -4,7 +4,6 @@ import { AppLayout } from "@/layouts/app-layout";
 import { Profile } from "@/types/profile";
 import { fetchDistricts, fetchProvinces, fetchRegencies, fetchVillages } from "@/utils/select";
 import { useForm } from "@inertiajs/react";
-import axios from "axios";
 import { IconTrash } from "justd-icons";
 import React from "react";
 import AsyncSelect from "react-select/async";
