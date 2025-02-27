@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Backoffice;
 
+use App\Contract\Backoffice\LocationContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LocationRequest;
 use App\Models\Location;
 use App\Utils\SatuSehat\SatuSehatAuth;
 use App\Utils\SatuSehat\SatuSehatLocation;
+use App\Utils\WebResponse;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,33 +17,23 @@ use Illuminate\Support\Str;
 
 class LocationController extends Controller
 {
+
+    protected LocationContract $service;
+
+    public function __construct(LocationContract $service)
+    {
+        $this->service = $service;
+    }
+
     public function index(Request $request)
     {
-        $page = $request->get('page', 1);
-
-        $locations = Location::query()->paginate(perPage: 10, page: $page);
-
-        $locations = [
-            "prev_page" => $locations->currentPage() > 1 ? $locations->currentPage() - 1 : null,
-            "items" => $locations->items(),
-            "next_page" => $locations->hasMorePages() ? $locations->currentPage() + 1 : null,
-        ];
-
-        return Inertia::render('backoffice/master/location/index', [
-            'locations' => $locations,
-        ]);
+        return Inertia::render('backoffice/master/location/index');
     }
 
     public function fetch(Request $request)
     {
-        $search = $request->get('name');
-        if ($search) {
-            $name = Location::select('*')->where('name', 'like', '%' . $search . '%');
-            $result = $name->get();
-        } else {
-            $result = Location::limit(10)->get();
-        }
-        return response()->json($result);
+        $data = $this->service->all(['name'], ['name'], true);
+        return response()->json($data);
     }
 
     public function create()
@@ -51,38 +43,27 @@ class LocationController extends Controller
 
     public function store(LocationRequest $request)
     {
-        $payload = $request->validated();
-        $payload["physical_type_name"] = Location::mapCodeToName[$payload["physical_type_code"]];
-        $payload["satu_sehat_id"] = (string) Str::uuid();
-
-        $client = new SatuSehatLocation();
-        $compose = $client->compose($payload);
-
-        try {
-            DB::beginTransaction();
-            $token = SatuSehatAuth::token();
-            $response = $client->create($token, $compose);
-
-            $payload["satu_sehat_id"] = $response;
-
-            Location::create($payload);
-
-            DB::commit();
-
-            return Inertia::location(route('backoffice.location.index'));
-        } catch (Exception $exception) {
-            dd($exception);
-            DB::rollBack();
-            return back()->withErrors('errors', $exception->getMessage());
-        }
+        $payload = $request->all();
+        $data = $this->service->create($payload);
+        return WebResponse::inertia($data, 'backoffice.location.index');
     }
 
-    public function show($id) {}
+    public function show($id)
+    {
+        $data = $this->service->find($id);
+        return Inertia::render('backoffice/master/location/form', ["location" => $data]);
+    }
 
     public function update($id, LocationRequest $request)
     {
-        $payload = $request->validated();
+        $payload = $request->all();
+        $data = $this->service->update($id, $payload);
+        return WebResponse::inertia($data, 'backoffice.location.index');
     }
 
-    public function destroy($id) {}
+    public function destroy($id)
+    {
+        $data = $this->service->destroy($id);
+        return WebResponse::inertia($data, 'backoffice.location.index');
+    }
 }

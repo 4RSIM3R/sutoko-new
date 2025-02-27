@@ -41,21 +41,19 @@ class PractionerController extends Controller
     public function store(PractionerRequest $request)
     {
         $payload = $request->validated();
-
         $result = $this->service->create($payload);
         return WebResponse::inertia($result, 'backoffice.practioner.index');
     }
 
     public function show($id)
     {
-        //
+        $data = $this->service->find($id);
+        return Inertia::render('backoffice/master/practioner/detail', ["practioner" => $data]);
     }
 
     public function update($id, PractionerRequest $request)
     {
         $payload = $request->all();
-        unset($payload['str']);
-        unset($payload['sip']);
         $data = $this->service->update($id, $payload);
         return WebResponse::inertia($data, 'backoffice.practioner.index');
     }

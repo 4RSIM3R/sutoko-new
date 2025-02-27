@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Backoffice;
 
+use App\Contract\Backoffice\PaymentAssuranceContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentAssuranceRequest;
 use App\Models\PaymentAssurance;
+use App\Utils\WebResponse;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,57 +15,53 @@ use Inertia\Inertia;
 
 class PaymentAssuranceController extends Controller
 {
-    public function index(Request $request)
-    {
-        $page = $request->get('page', 1);
-        $payment = PaymentAssurance::query()->paginate(perPage: 10, page: $page);
-        $payment = [
-            "prev_page" => $payment->currentPage() > 1 ? $payment->currentPage() - 1 : null,
-            "items" => $payment->items(),
-            "next_page" => $payment->hasMorePages() ? $payment->currentPage() + 1 : null,
-        ];
 
-        return Inertia::render('backoffice/master/payment_assurance/index', [
-            "payment" => $payment,
-        ]);
+    protected PaymentAssuranceContract $service;
+
+    public function __construct(PaymentAssuranceContract $service)
+    {
+        $this->service = $service;
     }
 
-    public function fetch(Request $request)
+    public function index()
     {
-        $name =   $request->get('name');
-        $result = PaymentAssurance::query()
-            ->when($name, function ($query) use ($name) {
-                $query->where('name', 'like', '%' . $name . '%');
-            })
-            ->limit(10)
-            ->get();
+        return Inertia::render('backoffice/master/payment_assurance/index');
+    }
 
-        return Response::json($result);
+    public function fetch()
+    {
+        $data = $this->service->all(['name'], ['name'], true);
+        return response()->json($data);
     }
 
     public function create()
     {
-        return Inertia::render('backoffice/master/payment_assurance/form');
+        return Inertia::render('backoffice/master/assurance/form');
     }
 
     public function store(PaymentAssuranceRequest $request)
     {
-        $payload = $request->validated();
-
-        try {
-            DB::beginTransaction();
-            PaymentAssurance::create($payload);
-            DB::commit();
-            return Inertia::location(route('backoffice.payment-assurance.index'));
-        } catch (Exception $exception) {
-            DB::rollBack();
-            return back()->withErrors('errors', $exception->getMessage());
-        }
+        $payload = $request->all();
+        $data = $this->service->create($payload);
+        return WebResponse::inertia($data, 'backoffice.payment-assurance.index');
     }
 
-    public function show($id) {}
+    public function show($id)
+    {
+        $data = $this->service->find($id);
+        return Inertia::render('backoffice/master/assurance/form', ["assurance" => $data]);
+    }
 
-    public function update($id) {}
+    public function update($id, PaymentAssuranceRequest $request)
+    {
+        $payload = $request->all();
+        $data = $this->service->update($id, $payload);
+        return WebResponse::inertia($data, 'backoffice.payment-assurance.index');
+    }
 
-    public function destroy($id) {}
+    public function destroy($id)
+    {
+        $data = $this->service->destroy($id);
+        return WebResponse::inertia($data, 'backoffice.payment-assurance.index');
+    }
 }

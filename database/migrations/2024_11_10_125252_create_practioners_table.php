@@ -19,9 +19,9 @@ return new class extends Migration
             $table->id();
             $table->string('nik');
             $table->string('nip');
-            $table->string('prefix');
+            $table->string('prefix')->nullable();
             $table->string('name');
-            $table->string('suffix');
+            $table->string('suffix')->nullable();
             $table->string('birth_place');
             $table->date('birth_date');
             $table->enum('gender', ['male', 'female']);

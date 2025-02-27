@@ -21,7 +21,9 @@ return new class extends Migration
             $table->string('description');
             $table->string('physical_type_code');
             $table->string('physical_type_name');
-            $table->integer('max_appointment')->default(0);
+            $table->integer('capacity')->default(0);
+            $table->enum('type', ['outpatient', 'inpatient'])->default('outpatient');
+            $table->integer('administration_fee')->default(0);
             $this->satu_sehat_fields($table);
             $this->base_fields($table);
         });

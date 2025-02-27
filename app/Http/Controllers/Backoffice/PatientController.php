@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Backoffice;
 
+use App\Contract\Backoffice\PatientContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PatientRequest;
 use App\Models\Patient;
 use App\Utils\SatuSehat\SatuSehatAuth;
 use App\Utils\SatuSehat\SatuSehatPatient;
+use App\Utils\WebResponse;
 use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,34 +16,23 @@ use Illuminate\Support\Facades\Response;
 
 class PatientController extends Controller
 {
-    public function index(Request $request)
+
+    protected PatientContract $service;
+
+    public function __construct(PatientContract $service)
     {
-        $page = $request->get('page', 1);
-
-        $patiens = Patient::query()->paginate(perPage: 10, page: $page);
-
-        $patiens = [
-            "prev_page" => $patiens->currentPage() > 1 ? $patiens->currentPage() - 1 : null,
-            "items" => $patiens->items(),
-            "next_page" => $patiens->hasMorePages() ? $patiens->currentPage() + 1 : null,
-        ];
-
-        return Inertia::render('backoffice/master/patient/index', [
-            'patiens' => $patiens,
-        ]);
+        $this->service = $service;
     }
 
-    public function fetch(Request $request)
+    public function index()
     {
-        $search = $request->get('name');
-        if ($search) {
-            $name = Patient::select(['nik', 'name', 'id'])->where('name', 'like', '%' . $search . '%');
-            $nik = Patient::select(['nik', 'name', 'id'])->where('nik', 'like', '%' . $search . '%');
-            $result = $name->union($nik)->get();
-        } else {
-            $result = Patient::limit(10)->get();
-        }
-        return response()->json($result);
+        return Inertia::render('backoffice/master/patient/index');
+    }
+
+    public function fetch()
+    {
+        $data = $this->service->all(['name', 'nik'], ['name', 'nik'], true);
+        return response()->json($data);
     }
 
     public function create()
@@ -52,33 +43,26 @@ class PatientController extends Controller
     public function store(PatientRequest $request)
     {
         $payload = $request->validated();
-
-        try {
-            $token = SatuSehatAuth::token();
-            $ihs = SatuSehatPatient::get_ihs($token, $payload['nik']);
-
-            $payload['satu_sehat_id'] = $ihs;
-
-            Patient::create($payload);
-
-            return Inertia::location(route('backoffice.patient.index'));
-        } catch (Exception $exception) {
-            return back()->withErrors('errors', $exception->getMessage());
-        }
+        $data = $this->service->create($payload);
+        return WebResponse::response($data, 'backoffice.patient.index');
     }
 
     public function show($id)
     {
-        //
+        $data = $this->service->find($id);
+        return Inertia::render('backoffice/master/patient/detail', ["patient" => $data]);
     }
 
     public function update($id, PatientRequest $request)
     {
         $payload = $request->validated();
+        $data = $this->service->update($id, $payload);
+        return WebResponse::response($data, 'backoffice.patient.index');
     }
 
     public function destroy($id)
     {
-        //
+        $data = $this->service->destroy($id);
+        return WebResponse::response($data, 'backoffice.patient.index');
     }
 }

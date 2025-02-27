@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Backoffice;
 
+use App\Contract\Backoffice\ChargeContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChargeRequest;
 use App\Models\Charge;
 use App\Models\ChargeHasAssurance;
 use App\Models\PaymentAssurance;
+use App\Utils\WebResponse;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,66 +16,82 @@ use Inertia\Inertia;
 
 class ChargeController extends Controller
 {
-    public function index(Request  $request)
+
+    protected ChargeContract $service;
+
+    public function __construct(ChargeContract $service)
     {
-        $page = $request->get('page', 1);
+        $this->service = $service;
+    }
 
-        $charges = Charge::query()->with(['chargeHasAssurances', 'chargeHasAssurances.assurance'])->paginate(perPage: 10, page: $page);
+    public function index()
+    {
+        return Inertia::render('backoffice/master/charge/index');
+    }
 
-        $charges = [
-            "prev_page" => $charges->currentPage() > 1 ? $charges->currentPage() - 1 : null,
-            "items" => $charges->items(),
-            "next_page" => $charges->hasMorePages() ? $charges->currentPage() + 1 : null,
-        ];
-
-        return Inertia::render('backoffice/master/charge/index', []);
+    public function fetch()
+    {
+        $data = $this->service->all(['name'], ['name'], true);
+        return response()->json($data);
     }
 
     public function create()
     {
-        $payment = PaymentAssurance::query()->get(['id', 'name']);
-        return Inertia::render('backoffice/master/charge/form', ["payment" => $payment]);
+        return Inertia::render('backoffice/master/charge/form');
     }
 
     public function store(ChargeRequest $request)
     {
         $payload = $request->validated();
-        $charges = $payload['charges'];
-        unset($payload['charges']);
+        $data = $this->service->create($payload);
+        return WebResponse::response($data, 'backoffice.charge.index');
+        // $payload = $request->validated();
+        // $charges = $payload['charges'];
+        // unset($payload['charges']);
 
-        $data = [];
+        // $data = [];
 
-        try {
-            DB::beginTransaction();
-            $result = Charge::query()->create($payload)->fresh();
+        // try {
+        //     DB::beginTransaction();
+        //     $result = Charge::query()->create($payload)->fresh();
 
-            foreach ($charges as $charge) {
-                $price = [
-                    "payment_assurance_id" => $charge['payment_assurance_id'],
-                    "charge_id" => $result->id,
-                    "price" => $charge['price'],
-                ];
+        //     foreach ($charges as $charge) {
+        //         $price = [
+        //             "payment_assurance_id" => $charge['payment_assurance_id'],
+        //             "charge_id" => $result->id,
+        //             "price" => $charge['price'],
+        //         ];
 
-                $data[] = $price;
-            }
+        //         $data[] = $price;
+        //     }
 
-            ChargeHasAssurance::query()->insert($data);
+        //     ChargeHasAssurance::query()->insert($data);
 
-            DB::commit();
-            return Inertia::location(route('backoffice.charge.index'));
-        } catch (Exception $exception) {
-            dd($exception);
-            DB::rollBack();
-            return back()->withErrors('errors', $exception->getMessage());
-        }
+        //     DB::commit();
+        //     return Inertia::location(route('backoffice.charge.index'));
+        // } catch (Exception $exception) {
+        //     dd($exception);
+        //     DB::rollBack();
+        //     return back()->withErrors('errors', $exception->getMessage());
+        // }
     }
 
-    public function show($id) {}
+    public function show($id)
+    {
+        $data = $this->service->find($id);
+        return Inertia::render('backoffice/master/charge/form', ["charge" => $data]);
+    }
 
     public function update($id, ChargeRequest $request)
     {
         $payload = $request->validated();
+        $data = $this->service->update($id, $payload);
+        return WebResponse::response($data, 'backoffice.charge.index');
     }
 
-    public function destroy($id) {}
+    public function destroy($id)
+    {
+        $data = $this->service->destroy($id);
+        return WebResponse::response($data, 'backoffice.patient.index');
+    }
 }
