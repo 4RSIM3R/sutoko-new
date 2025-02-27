@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('satu_sehat_id');
             $table->string('nik')->unique();
+            $table->enum('source', ['system', 'plugin'])->default('system');
             $table->string('name');
             $table->enum('gender', ['male', 'female']);
             $table->date('birth_date')->nullable();

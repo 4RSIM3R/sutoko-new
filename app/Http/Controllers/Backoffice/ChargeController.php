@@ -26,9 +26,7 @@ class ChargeController extends Controller
             "next_page" => $charges->hasMorePages() ? $charges->currentPage() + 1 : null,
         ];
 
-        return Inertia::render('backoffice/master/charge/index', [
-            "charges" => $charges,
-        ]);
+        return Inertia::render('backoffice/master/charge/index', []);
     }
 
     public function create()

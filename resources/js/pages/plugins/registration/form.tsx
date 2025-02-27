@@ -1,5 +1,6 @@
 import { Button, Select, TextField } from "@/components/ui";
 import { gender } from "@/utils/constant";
+import { FormResponse } from "@/utils/constant/system";
 import { useForm } from "@inertiajs/react";
 import { IconCalendar, IconDevicePhone, IconPencilBox, IconPeople } from "justd-icons";
 import { toast, Toaster } from "sonner";
@@ -10,14 +11,7 @@ export default function Registration() {
 
     const onSubmit = (e: any) => {
         e.preventDefault();
-        post(route('registration'), {
-            onSuccess: () => {
-                alert("Pendaftara Berhasil...");
-            },
-            onError: () => {
-                toast.error("Terjadi kesalahan");
-            }
-        })
+        post(route('registration'), FormResponse);
     };
 
     return (
@@ -25,7 +19,10 @@ export default function Registration() {
             <Toaster />
             <div className="max-w-sm sm:max-w-md mx-auto bg-white h-screen w-full p-6" >
                 <p className="text-lg font-semibold" >Form Pendaftaran Pasien Baru</p>
-                <p className="text-sm text-gray-500" >Silahkan isi data berikut untuk mendaftarkan diri sebagai pasien baru</p>
+                <p className="text-sm text-gray-500" >
+                    Silahkan isi data berikut untuk mendaftarkan diri sebagai pasien baru, selanjutnya anda dapat mendaftarkan kunjungan di 
+                    link berikut: <a href={route('appointment')} className="text-blue-500">Daftar Kunjungan</a>
+                </p>
                 <form onSubmit={onSubmit} className="mt-4 flex flex-col gap-4" >
                     <TextField
                         label="NIK"
@@ -67,21 +64,21 @@ export default function Registration() {
                         placeholder="Masukkan tanggal lahir"
                         prefix={<IconCalendar />}
                         type="date"
-                        value={data.birthdate}
-                        onChange={(v) => setData("birthdate", v)}
-                        errorMessage={errors.birthdate}
+                        value={data.birth_date}
+                        onChange={(v) => setData("birth_date", v)}
+                        errorMessage={errors.birth_date}
                     />
                     <TextField
                         label="Nomor Telepon"
                         placeholder="Masukkan nomor telepon aktif"
                         prefix={<IconDevicePhone />}
                         type="tel"
-                        value={data.phone}
-                        onChange={(v) => setData("phone", v)}
-                        errorMessage={errors.phone}
+                        value={data.phone_number}
+                        onChange={(v) => setData("phone_number", v)}
+                        errorMessage={errors.phone_number}
                     />
                     <Button type="submit" >
-                        Daftar
+                        Daftar Pasien Baru
                     </Button>
                 </form>
             </div>

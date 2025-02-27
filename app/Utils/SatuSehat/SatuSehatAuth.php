@@ -5,16 +5,18 @@ namespace App\Utils\SatuSehat;
 use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class SatuSehatAuth
 {
-
     public static function token()
     {
         $cacheKey = 'satu_sehat_access_token';
-        $cacheDuration = 60;
+        $cacheDuration = 10;
 
-        return Cache::remember($cacheKey, $cacheDuration, function () {
+        if (Cache::store('file')->has($cacheKey)) {
+            return Cache::store('file')->get($cacheKey);
+        } else {
             $auth_url = config('satu_sehat.auth_url');
             $client_id = config('satu_sehat.client_id');
             $client_secret = config('satu_sehat.client_secret');
@@ -24,11 +26,13 @@ class SatuSehatAuth
                 'client_secret' => $client_secret,
             ]);
 
-            if ($response->failed()) {
-                throw new Exception("Error getting access token");
-            }
+            if ($response->failed()) throw new Exception("Error getting access token");
 
-            return $response->json()["access_token"];
-        });
+            $token = $response->json()["access_token"];
+
+            Cache::store('file')->put($cacheKey, $token, $cacheDuration);
+
+            return $token;
+        }
     }
 }
