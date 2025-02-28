@@ -1,7 +1,7 @@
 import { Button, Select, Textarea, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Location } from "@/types/location";
-import { location_type } from "@/utils/constant";
+import { encounter_type, location_type } from "@/utils/constant";
 import { FormResponse } from "@/utils/constant/system";
 import { useForm } from "@inertiajs/react";
 import { IconCircleQuestionmarkFill } from "justd-icons";
@@ -13,7 +13,7 @@ type LocationFormProps = {
 
 export default function LocationForm({ location }: LocationFormProps) {
 
-    const { data, errors, processing, setData, post, put } = useForm<Location>(location);
+    const { data, errors, processing, setData, post, put } = useForm<any>(location);
 
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
@@ -50,10 +50,32 @@ export default function LocationForm({ location }: LocationFormProps) {
                     errorMessage={errors.name}
                     isRequired
                 />
+                <TextField
+                    className="col-span-12"
+                    label="Capacity"
+                    placeholder="Appointment Capacity"
+                    name="capacity"
+                    value={data.capacity}
+                    autoComplete="off"
+                    onChange={(v) => setData("capacity", v)}
+                    errorMessage={errors.capacity}
+                    isRequired
+                />
+                <TextField
+                    className="col-span-12"
+                    label="Fee"
+                    placeholder="Administration Fee"
+                    name="fee"
+                    value={data.fee}
+                    autoComplete="off"
+                    onChange={(v) => setData("fee", v)}
+                    errorMessage={errors.fee}
+                    isRequired
+                />
                 <Select
                     onSelectionChange={(v) => setData("physical_type_code", v.toString())}
                     className="col-span-12"
-                    label="Type"
+                    label="Location Type"
                     placeholder="Select location type"
                 >
                     <Select.Trigger />
@@ -67,17 +89,23 @@ export default function LocationForm({ location }: LocationFormProps) {
                         }
                     </Select.List>
                 </Select>
-                <Textarea
+                <Select
+                    onSelectionChange={(v) => setData("encountery_type", v.toString())}
                     className="col-span-12"
-                    label="Description"
-                    placeholder="Location description"
-                    name="address"
-                    value={data.description}
-                    autoComplete="off"
-                    onChange={(v) => setData("description", v)}
-                    errorMessage={errors.description}
-                    isRequired
-                />
+                    label="Encounter Type"
+                    placeholder="Select encounter type"
+                >
+                    <Select.Trigger />
+                    <Select.List items={encounter_type}>
+                        {
+                            encounter_type.map(e => (
+                                <Select.Option id={e.id} textValue={e.name}>
+                                    {e.name}
+                                </Select.Option>
+                            ))
+                        }
+                    </Select.List>
+                </Select>
                 <div>
                     <Button type="submit" isDisabled={processing}>
                         Submit

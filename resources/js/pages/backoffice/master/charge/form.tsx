@@ -1,13 +1,11 @@
-import { Button, Select, TextField } from "@/components/ui";
+import { Button, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Charge } from "@/types/charge";
 import { Assurance } from "@/types/payment-assurance";
 import { FormResponse } from "@/utils/constant/system";
-import { toats_error, toats_success } from "@/utils/toast";
-import { Link, useForm } from "@inertiajs/react";
-import { IconCircleQuestionmarkFill, IconPlus } from "justd-icons";
+import { useForm } from "@inertiajs/react";
+import { IconCircleQuestionmarkFill } from "justd-icons";
 import { useState } from "react";
-import { toast } from "sonner";
 
 type ChargeFormProps = {
     payment: Assurance[];

@@ -23,7 +23,9 @@ class AssuranceRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255'],
+            'contact' => ['required', 'string', 'max:255'],
+            'coverage' => ['required', 'array'],
+            'coverage.*' => ['required', 'string', 'max:255'],
         ];
     }
 }

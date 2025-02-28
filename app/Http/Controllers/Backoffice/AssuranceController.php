@@ -42,6 +42,7 @@ class AssuranceController extends Controller
     public function store(AssuranceRequest $request)
     {
         $payload = $request->all();
+
         $data = $this->service->create($payload);
         return WebResponse::inertia($data, 'backoffice.assurance.index');
     }

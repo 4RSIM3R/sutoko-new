@@ -18,11 +18,10 @@ return new class extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
             $table->string('physical_type_code');
             $table->string('physical_type_name');
             $table->integer('capacity')->default(0);
-            $table->enum('type', ['outpatient', 'inpatient'])->default('outpatient');
+            $table->enum('encounter_type', ['outpatient', 'inpatient'])->default('outpatient');
             $table->integer('administration_fee')->default(0);
             $this->satu_sehat_fields($table);
             $this->base_fields($table);

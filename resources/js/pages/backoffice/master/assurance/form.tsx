@@ -1,12 +1,12 @@
+import { CustomSelect } from "@/components/custom-select";
 import { Button, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
-import { Assurance } from "@/types/payment-assurance";
 import { FormResponse } from "@/utils/constant/system";
 import { useForm } from "@inertiajs/react";
 import { IconCircleQuestionmarkFill } from "justd-icons";
 
 type AssuranceFormProps = {
-    payment?: Assurance;
+    payment?: any;
 }
 
 export default function AssuranceForm({ payment }: AssuranceFormProps) {
@@ -17,9 +17,9 @@ export default function AssuranceForm({ payment }: AssuranceFormProps) {
         e.preventDefault();
 
         if (payment) {
-            post(route('backoffice.payment-assurance.store', payment), FormResponse);
+            post(route('backoffice.assurance.store', payment), FormResponse);
         } else {
-            post(route('backoffice.payment-assurance.store'), FormResponse);
+            post(route('backoffice.assurance.store'), FormResponse);
         }
 
     };
@@ -59,6 +59,25 @@ export default function AssuranceForm({ payment }: AssuranceFormProps) {
                     onChange={(v) => setData("contact", v)}
                     errorMessage={errors.contact}
                     isRequired
+                />
+                <CustomSelect
+                    label="Coverage"
+                    placeholder="Define Assurance Coverage"
+                    defaultValue={null}
+                    onChange={(values) => {
+                        const selected = values?.map((option: any) => option.value) || [];
+                        setData("coverage", selected);
+                    }}
+                    loadOptions={async () => {
+                        return [
+                            { value: "outpatient", label: "Outpatient" },
+                            { value: "inpatient", label: "Inpatient" },
+                        ]
+                    }}
+                    className="col-span-12"
+                    name="coverage"
+                    isRequired={true}
+                    isMulti={true}
                 />
                 <div className="col-span-12" >
                     <Button isDisabled={processing} type="submit">Submit</Button>

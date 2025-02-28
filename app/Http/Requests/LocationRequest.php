@@ -25,7 +25,9 @@ class LocationRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'physical_type_code' => ['required', Rule::in(['bu', 'wi', 'co', 'ro', 've', 'ho', 'ca', 'rd', 'area'])],
-            'description' => ['required', 'string', 'max:255'],
+            'capacity' => ['required', 'integer', 'min:1'],
+            'encounter_type' => ['required', Rule::in(['outpatient', 'inpatient'])],
+            'fee' => ['required', 'integer', 'min:0'],
         ];
     }
 }

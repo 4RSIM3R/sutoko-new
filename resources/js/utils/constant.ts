@@ -283,3 +283,14 @@ export const specialty = [
         name: 'Obgyn',
     }
 ];
+
+export const encounter_type = [
+    {
+        id: 'outpatient',
+        name: 'Outpatient',
+    },
+    {
+        id: 'inpatient',
+        name: 'Inpatient',
+    },
+];

@@ -11,4 +11,8 @@ class Assurance extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    protected $casts = [
+        'coverage' => 'array',
+    ];
 }
