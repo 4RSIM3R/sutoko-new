@@ -35,7 +35,7 @@ class SatuSehatLocation
 
         $this->body["name"] = $payload["name"];
 
-        $this->body["description"] = $payload["description"];
+        $this->body["description"] = sprintf("Location %s", $payload["name"]);
 
         $this->body["telecom"] = [
             [

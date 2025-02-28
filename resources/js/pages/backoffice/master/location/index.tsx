@@ -25,32 +25,34 @@ export default function LocationIndex() {
             id: 'id',
             header: 'ID',
             cell: (item) => item.id,
-            sortable: false,
             isRowHeader: true,
         },
         {
-            id: 'trademark',
-            header: 'Trademark',
-            cell: (item) => item.trademark,
+            id: 'name',
+            header: 'Name',
+            cell: (item) => item.name,
             sortable: true
         },
         {
-            id: 'kfa_code',
-            header: 'KFA Code',
-            cell: (item) => item.kfa_code,
-            sortable: false,
+            id: 'encounter_type',
+            header: 'Encounter Type',
+            cell: (item) => item.encounter_type,
         },
         {
-            id: 'current_stock',
-            header: 'Current Stock',
-            cell: (item) => item.current_stock,
-            sortable: false,
+            id: 'capacity',
+            header: 'Capacity',
+            cell: (item) => item.capacity,
+        },
+        {
+            id: 'administration_fee',
+            header: 'Administration Fee',
+            cell: (item) => item.administration_fee,
         },
         {
             id: 'actions',
             header: 'Actions',
             cell: (item) => (
-                <BaseAction url="backoffice.medicine.show" id={item.id} setId={setId} onDelete={onDelete} />
+                <BaseAction url="backoffice.location.show" id={item.id} setId={setId} onDelete={onDelete} />
             ),
             sortable: false
         }
@@ -67,8 +69,8 @@ export default function LocationIndex() {
         <div className="w-full" >
             <div className="flex flex-row justify-between" >
                 <div className="" >
-                    <h1 className="text-xl font-semibold" >Charge Book</h1>
-                    <p className="text-sm text-gray-500" >Manage all charge book</p>
+                    <h1 className="text-xl font-semibold" >Location</h1>
+                    <p className="text-sm text-gray-500" >Manage all Location</p>
                 </div>
                 <div>
                     <Link href={route('backoffice.location.create')}>

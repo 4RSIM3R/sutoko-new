@@ -32,9 +32,6 @@ class ChargeService extends BaseService implements ChargeContract
         unset($payloads["charges"]);
 
         try {
-            if (!is_null($this->guardForeignKey)) {
-                $payloads[$this->guardForeignKey] = $this->userID();
-            }
 
             DB::beginTransaction();
 
@@ -42,15 +39,13 @@ class ChargeService extends BaseService implements ChargeContract
 
             $data = [];
 
-            foreach ($charges['charges'] as $charge) {
-                $price = [
-                    "name" => $payloads['name'],
+            foreach ($charges as $charge) {
+
+                $data[] = [
                     "charge_id" => $model->id,
-                    "payment_assurance_id" => $charge['payment_assurance_id'],
+                    "assurance_id" => $charge['assurance_id'],
                     "price" => $charge['price'],
                 ];
-
-                $data[] = $price;
             }
 
             ChargeHasAssurance::query()->insert($data);
@@ -59,6 +54,7 @@ class ChargeService extends BaseService implements ChargeContract
 
             return $model->fresh();
         } catch (Exception $e) {
+            dd($e);
             DB::rollBack();
             return $e;
         }

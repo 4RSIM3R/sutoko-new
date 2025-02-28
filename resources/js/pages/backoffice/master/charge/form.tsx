@@ -8,24 +8,24 @@ import { IconCircleQuestionmarkFill } from "justd-icons";
 import { useState } from "react";
 
 type ChargeFormProps = {
-    payment: Assurance[];
+    assurance: Assurance[];
     charge?: Charge;
 }
 
-export default function ChargeForm({ payment, charge }: ChargeFormProps) {
+export default function ChargeForm({ assurance, charge }: ChargeFormProps) {
 
-    const [paymentCharge, setPaymentCharge] = useState<{ payment_assurance_id: any; price: any }[]>([]);
+    const [paymentCharge, setPaymentCharge] = useState<{ assurance_id: any; price: any }[]>([]);
     const { data, errors, processing, setData, post, put } = useForm<any>(charge);
 
     const handlePriceChange = (id: any, price: any) => {
         setPaymentCharge((prev) => {
-            const existingIndex = prev.findIndex((item) => item.payment_assurance_id === id);
+            const existingIndex = prev.findIndex((item) => item.assurance_id === id);
             if (existingIndex > -1) {
                 const updated = [...prev];
                 updated[existingIndex].price = price;
                 return updated;
             }
-            return [...prev, { payment_assurance_id: id, price }];
+            return [...prev, { assurance_id: id, price }];
         });
     };
 
@@ -69,17 +69,17 @@ export default function ChargeForm({ payment, charge }: ChargeFormProps) {
                 />
                 <TextField
                     className="col-span-12"
-                    label="Deskripsi"
-                    placeholder="Deskripsi"
-                    name="description"
-                    value={data.description}
+                    label="Description"
+                    placeholder="Description"
+                    name="desc"
+                    value={data.desc}
                     autoComplete="off"
-                    onChange={(v) => setData("description", v)}
-                    errorMessage={errors.description}
+                    onChange={(v) => setData("desc", v)}
+                    errorMessage={errors.desc}
                     isRequired
                 />
                 {
-                    payment.map(e => (
+                    (assurance ?? []).map(e => (
                         <>
                             <TextField
                                 className="col-span-6"

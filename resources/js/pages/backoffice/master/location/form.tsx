@@ -40,7 +40,7 @@ export default function LocationForm({ location }: LocationFormProps) {
             </div>
             <form onSubmit={onSubmit} className="grid grid-cols-12 gap-4 mt-4" >
                 <TextField
-                    className="col-span-12"
+                    className="col-span-6"
                     label="Name"
                     placeholder="Location Name"
                     name="name"
@@ -51,8 +51,8 @@ export default function LocationForm({ location }: LocationFormProps) {
                     isRequired
                 />
                 <TextField
-                    className="col-span-12"
-                    label="Capacity"
+                    className="col-span-6"
+                    label="Capacity / Day"
                     placeholder="Appointment Capacity"
                     name="capacity"
                     value={data.capacity}
@@ -62,19 +62,19 @@ export default function LocationForm({ location }: LocationFormProps) {
                     isRequired
                 />
                 <TextField
-                    className="col-span-12"
+                    className="col-span-6"
                     label="Fee"
                     placeholder="Administration Fee"
-                    name="fee"
-                    value={data.fee}
+                    name="administration_fee"
+                    value={data.administration_fee}
                     autoComplete="off"
-                    onChange={(v) => setData("fee", v)}
-                    errorMessage={errors.fee}
+                    onChange={(v) => setData("administration_fee", v)}
+                    errorMessage={errors.administration_fee}
                     isRequired
                 />
                 <Select
                     onSelectionChange={(v) => setData("physical_type_code", v.toString())}
-                    className="col-span-12"
+                    className="col-span-6"
                     label="Location Type"
                     placeholder="Select location type"
                 >
@@ -90,8 +90,8 @@ export default function LocationForm({ location }: LocationFormProps) {
                     </Select.List>
                 </Select>
                 <Select
-                    onSelectionChange={(v) => setData("encountery_type", v.toString())}
-                    className="col-span-12"
+                    onSelectionChange={(v) => setData("encounter_type", v.toString())}
+                    className="col-span-6"
                     label="Encounter Type"
                     placeholder="Select encounter type"
                 >
@@ -106,7 +106,7 @@ export default function LocationForm({ location }: LocationFormProps) {
                         }
                     </Select.List>
                 </Select>
-                <div>
+                <div className="col-span-12" > 
                     <Button type="submit" isDisabled={processing}>
                         Submit
                     </Button>

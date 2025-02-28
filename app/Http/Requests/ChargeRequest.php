@@ -23,9 +23,9 @@ class ChargeRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'description' =>  ['required', 'string', 'max:255'],
+            'desc' =>  ['required', 'string', 'max:255'],
             'charges' => ['required', 'array'],
-            'charges.*.payment_assurance_id' => ['required', 'exists:payment_assurances,id'],
+            'charges.*.assurance_id' => ['required', 'exists:assurances,id'],
             'charges.*.price' => ['required', 'numeric'],
         ];
     }
