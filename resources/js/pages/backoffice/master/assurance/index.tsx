@@ -1,25 +1,74 @@
-import { Button, buttonStyles, Menu, Pagination, Table } from "@/components/ui";
+import { BaseAction } from "@/components/base-action";
+import { Column, DataTable } from "@/components/data-table";
+import { Button } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Base } from "@/types/base";
-import { PaymentAssurance } from "@/types/payment-assurance";
-import { Link } from "@inertiajs/react";
+import { FormResponse } from "@/utils/constant/system";
+import { Link, useForm } from "@inertiajs/react";
+import axios from "axios";
 import { IconPlus } from "justd-icons";
+import { useState } from "react";
 
-type PaymentAssuranceIndexProps = {
-    payment: Base<PaymentAssurance[]>;
-}
 
-export default function PaymentAssuranceIndex({ payment }: PaymentAssuranceIndexProps) {
+export default function AssuranceIndex() {
+
+    const [filters, setFilters] = useState();
+    const [id, setId] = useState<any>();
+    const { delete: destroy } = useForm();
+
+    const onDelete = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+        destroy(route('backoffice.assurance.destroy', id), FormResponse);
+    };
+
+    const columns: Column<any>[] = [
+        {
+            id: 'id',
+            header: 'ID',
+            cell: (item) => item.satu_sehat_id,
+            isRowHeader: true,
+        },
+        {
+            id: 'name',
+            header: 'Name',
+            cell: (item) => item.name,
+        },
+        {
+            id: 'contact',
+            header: 'Contact',
+            cell: (item) => item.contact,
+        },
+        {
+            id: 'coverage',
+            header: 'Coverage',
+            cell: (item) => (
+                <Button size="extra-small" appearance="outline">0 Coverage</Button>
+            ),
+        },
+        {
+            id: 'actions',
+            header: 'Actions',
+            cell: (item) => (<BaseAction url="backoffice.assurance.show" id={item.id} setId={setId} onDelete={onDelete} />),
+            sortable: false
+        }
+    ];
+
+    const fetchData = async (params: Record<string, any>) => {
+        const response = await axios.get<Base<any[]>>(
+            route('backoffice.assurance.fetch', params)
+        );
+        return response.data;
+    };
 
     return (
         <div className="w-full" >
             <div className="flex flex-row justify-between" >
                 <div className="" >
-                    <h1 className="text-xl font-semibold" >Payment Method</h1>
-                    <p className="text-sm text-gray-500" >Manage all payment method</p>
+                    <h1 className="text-xl font-semibold" >Assurance</h1>
+                    <p className="text-sm text-gray-500" >Manage all Assurance</p>
                 </div>
                 <div>
-                    <Link href={route('backoffice.payment-assurance.create')}>
+                    <Link href={route('backoffice.assurance.create')}>
                         <Button appearance="outline" >
                             <IconPlus />
                             Add New
@@ -28,48 +77,15 @@ export default function PaymentAssuranceIndex({ payment }: PaymentAssuranceIndex
                 </div>
             </div>
             <div>
-                <Table className="my-4" >
-                    <Table.Header className="w-full" >
-                        <Table.Column isRowHeader>Nama</Table.Column>
-                        <Table.Column>Deskripsi</Table.Column>
-                        <Table.Column>ACTION</Table.Column>
-                    </Table.Header>
-                    <Table.Body>
-                        {
-                            payment.items.map((payment: PaymentAssurance) => (
-                                <Table.Row key={payment.name}>
-                                    <Table.Cell>{payment.name}</Table.Cell>
-                                    <Table.Cell>{payment.description}</Table.Cell>
-                                    <Table.Cell>
-                                        <Menu>
-                                            <Menu.Trigger className={buttonStyles({ appearance: "outline", size: "extra-small" })}>ACTION</Menu.Trigger>
-                                            <Menu.Content placement="bottom" className="sm:min-w-48">
-                                                <Menu.Item>Edit</Menu.Item>
-                                                <Menu.Item>Hapus</Menu.Item>
-                                            </Menu.Content>
-                                        </Menu>
-                                    </Table.Cell>
-                                </Table.Row>
-                            ))
-                        }
-                    </Table.Body>
-                </Table>
-                <Pagination>
-                    <Pagination.List>
-                        {
-                            payment.prev_page &&
-                            <Pagination.Item variant="previous" href={route('backoffice.payment-assurance.index', { page: payment.prev_page })} />
-                        }
-                        {
-                            payment.next_page &&
-                            <Pagination.Item variant="next" href={route('backoffice.payment-assurance.index', { page: payment.next_page })} />
-                        }
-                    </Pagination.List>
-                </Pagination>
+                <DataTable
+                    columns={columns}
+                    fetchData={fetchData}
+                    filters={filters ?? {}}
+                />
             </div>
         </div>
     )
 
 }
 
-PaymentAssuranceIndex.layout = (page: any) => <AppLayout children={page} />;
+AssuranceIndex.layout = (page: any) => <AppLayout children={page} />;

@@ -1,158 +1,219 @@
-import { Avatar, Button, Link, Menu, Separator, Sidebar } from "@/components/ui";
 import {
-    IconCalendar,
+    Avatar, Button, Link, Menu, Sidebar, SidebarContent,
+    SidebarDisclosure,
+    SidebarDisclosureGroup,
+    SidebarDisclosurePanel,
+    SidebarDisclosureTrigger,
+    SidebarFooter, SidebarHeader, SidebarInset, SidebarItem,
+    SidebarLabel,
+    SidebarNav,
+    SidebarProvider, SidebarTrigger
+} from "@/components/ui";
+import { PagePropsData } from "@/types";
+import { FormResponse } from "@/utils/constant/system";
+import { useForm, usePage } from "@inertiajs/react";
+import {
+    IconBrandHetzner,
+    IconCallIncoming,
     IconChevronLgDown,
-    IconCirclePerson,
-    IconCirclePlus,
-    IconDevicePhone,
-    IconDocumentChart,
-    IconGear,
-    IconGiroCard,
-    IconHome2,
-    IconInbox,
+
+    IconDashboard,
+
+    IconEnvelope,
     IconLogout,
-    IconMoneybag,
-    IconPaper,
-    IconPeople,
-    IconServerStack,
+    IconPencilBox,
+    IconPerson,
+    IconPlus,
     IconSettings,
-    IconShield,
-    IconSquarePlus
+    IconWindow
 } from "justd-icons";
 import { PropsWithChildren } from "react";
 import { Toaster } from "sonner";
 
+type MenuItem = {
+    label: string;
+    icon: any;
+    items: {
+        label: string;
+        href: string;
+        icon: any;
+    }[],
+}
+
 export function AppLayout({ children }: PropsWithChildren) {
+
+    const { post } = useForm();
+
+    const page = usePage<PagePropsData>().props;
+
+    const onLogout = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+        post(route('auth.logout'), FormResponse);
+    };
+
+    const menus: MenuItem[] = [
+        {
+            label: 'Master Data',
+            icon: IconPencilBox,
+            items: [
+                {
+                    label: 'Patient',
+                    href: route('backoffice.patient.index'),
+                    icon: IconPencilBox,
+                },
+                {
+                    label: 'Practioner',
+                    href: route('backoffice.practioner.index'),
+                    icon: IconPencilBox,
+                },
+                {
+                    label: 'Assurance',
+                    href: route('backoffice.assurance.index'),
+                    icon: IconPencilBox,
+                },
+                {
+                    label: 'Charge',
+                    href: route('backoffice.charge.index'),
+                    icon: IconPencilBox,
+                },
+                {
+                    label: 'Location',
+                    href: route('backoffice.location.index'),
+                    icon: IconPencilBox,
+                },
+                {
+                    label: 'Medicine',
+                    href: route('backoffice.medicine.index'),
+                    icon: IconPencilBox,
+                },
+            ],
+        },
+        {
+            label: 'Operational',
+            icon: IconWindow,
+            items: [
+                {
+                    label: 'Encounter',
+                    href: route('backoffice.encounter.index'),
+                    icon: IconWindow,
+                },
+            ],
+        },
+        {
+            label: 'Setting',
+            icon: IconSettings,
+            items: [
+                {
+                    label: 'Profile',
+                    href: route('backoffice.setting.profile.index'),
+                    icon: IconSettings,
+                },
+                {
+                    label: 'Application',
+                    href: route('backoffice.setting.application.index'),
+                    icon: IconSettings,
+                },
+            ],
+        },
+        {
+            label: 'Plugin',
+            icon: IconPlus,
+            items: [
+                {
+                    label: 'Schedule',
+                    href: '',
+                    icon: IconPlus,
+                },
+                {
+                    label: 'Appointment',
+                    href: '',
+                    icon: IconPlus,
+                },
+            ],
+        },
+    ];
+
     return (
-        <Sidebar.Provider>
-            <Sidebar collapsible="dock">
-                <Sidebar.Header>
+        <SidebarProvider className="bg-white" >
+            <Sidebar intent="default" collapsible="dock" className="bg-white" >
+                <SidebarHeader>
                     <Link
-                        className="flex items-center group-data-[collapsible=dock]:size-10 group-data-[collapsible=dock]:justify-center gap-x-2"
-                        href="/docs/components/layouts/sidebar"
+                        className="flex items-center gap-x-2 group-data-[collapsible=dock]:size-10 group-data-[collapsible=dock]:justify-center"
+                        href={route('backoffice.index')}
                     >
-                        <IconServerStack className="size-5" />
-                        <strong className="font-medium group-data-[collapsible=dock]:hidden">SUTOKO</strong>
+                        <IconBrandHetzner className="text-blue-800 size-4.5" />
+                        <SidebarLabel className="font-medium">SUTOKO</SidebarLabel>
                     </Link>
-                </Sidebar.Header>
-                <Sidebar.Content>
-                    <Sidebar.Section isExpanded={true} title="Master Data" className="text-black" >
-                        <Sidebar.Item icon={IconPeople} href={route('backoffice.patient.index')}>
-                            Pasien
-                        </Sidebar.Item>
-                        <Sidebar.Item icon={IconPeople} href={route('backoffice.practioner.index')}>
-                            Tenaga Kesehatan
-                        </Sidebar.Item>
-                        <Sidebar.Item icon={IconGiroCard} href={route('backoffice.payment-assurance.index')}>
-                            Metode Pembayaran
-                        </Sidebar.Item>
-                        <Sidebar.Item icon={IconPaper} href={route('backoffice.charge.index')}>
-                            Tindakan
-                        </Sidebar.Item>
-                        <Sidebar.Item icon={IconHome2} href={route('backoffice.location.index')}>
-                            Ruangan
-                        </Sidebar.Item>
-                        <Sidebar.Item icon={IconInbox} href={route('backoffice.medicine.index')}>
-                            Farmasi
-                        </Sidebar.Item>
-                    </Sidebar.Section>
-                    <Sidebar.Section isExpanded={true} title="Operasional" className="text-black" >
-                        <Sidebar.Item icon={IconDocumentChart} href={route('backoffice.encounter.index')}>
-                            Kunjungan Pasien
-                        </Sidebar.Item>
-                        <Sidebar.Item icon={IconDocumentChart} href="#">
-                            Rekam Medis
-                        </Sidebar.Item>
-                        <Sidebar.Item icon={IconDocumentChart} href="#">
-                            Farmasi
-                        </Sidebar.Item>
-                        <Sidebar.Item icon={IconMoneybag} href="#">
-                            Kasir
-                        </Sidebar.Item>
-                    </Sidebar.Section>
-                    <Sidebar.Section isExpanded={true} title="Setting" className="text-black" >
-                        <Sidebar.Item icon={IconPeople} href={route('backoffice.setting.profile.index')}>
-                            Profil
-                        </Sidebar.Item>
-                        <Sidebar.Item icon={IconGear} href={route('backoffice.setting.application.index')}>
-                            Aplikasi
-                        </Sidebar.Item>
-                    </Sidebar.Section>
-                    <Sidebar.Section isExpanded={true} title="Plugins" className="text-black" >
-                        <Sidebar.Item icon={IconCalendar} href="#">
-                            Jadwal Dokter
-                        </Sidebar.Item>
-                        <Sidebar.Item icon={IconDevicePhone} href="#">
-                            Antrian Online
-                        </Sidebar.Item>
-                    </Sidebar.Section>
-                </Sidebar.Content>
-                <Sidebar.Footer className="lg:flex lg:flex-row hidden items-center">
+                </SidebarHeader>
+
+                <SidebarContent>
+                    {menus.map((section, sectionIndex) => (
+                        <SidebarDisclosureGroup key={sectionIndex}>
+                            <SidebarDisclosure id={sectionIndex + 1}>
+                                <SidebarDisclosureTrigger>
+                                    <section.icon className="text-black size-4" />
+                                    <SidebarLabel className="font-medium text-black" > {section.label}</SidebarLabel>
+                                </SidebarDisclosureTrigger>
+                                <SidebarDisclosurePanel>
+                                    {section.items.map((item, itemIndex) => (
+                                        <SidebarItem key={itemIndex} href={item.href}>
+                                            {() => (
+                                                <>
+                                                    <item.icon className="hover:text-black size-4" />
+                                                    <SidebarLabel className="hover:text-black" >{item.label}</SidebarLabel>
+                                                </>
+                                            )}
+                                        </SidebarItem>
+                                    ))}
+                                </SidebarDisclosurePanel>
+                            </SidebarDisclosure>
+                        </SidebarDisclosureGroup>
+                    ))}
+                </SidebarContent>
+
+                <SidebarFooter>
                     <Menu>
-                        <Button appearance="plain" aria-label="Profile" slot="menu-trigger" className="group">
-                            <Avatar size="small" shape="square" src="/images/sidebar/profile-slash.jpg" />
-                            <span className="group-data-[collapsible=dock]:hidden flex items-center justify-center">
-                                Saul Hudson
-                                <IconChevronLgDown className="right-3 size-4 absolute group-pressed:rotate-180 transition-transform" />
-                            </span>
-                        </Button>
-                        <Menu.Content className="min-w-[--trigger-width]">
-                            <Menu.Item href="#">
-                                <IconCirclePerson />
-                                Profile
-                            </Menu.Item>
-                            <Menu.Item href="#">
-                                <IconSettings />
-                                Settings
-                            </Menu.Item>
-                            <Menu.Separator />
-                            <Menu.Item href="#">
-                                <IconLogout />
-                                Log out
+                        <Menu.Trigger aria-label="Profile" data-slot="menu-trigger">
+                            <Avatar shape="square" src="" />
+                            <div className="text-sm group-data-[collapsible=dock]:hidden">
+                                {page.auth?.user?.name ?? '-'}
+                                <span className="block -mt-0.5 text-muted-fg">{page.auth?.user?.email ?? '-'}</span>
+                            </div>
+                            <IconChevronLgDown className="absolute right-3 transition-transform size-4 group-pressed:rotate-180" />
+                        </Menu.Trigger>
+                        <Menu.Content placement="bottom right" className="sm:min-w-(--trigger-width)">
+                            <Menu.Section>
+                                <Menu.Header separator>
+                                    <span className="block">{page.auth?.user?.name ?? '-'}</span>
+                                </Menu.Header>
+                            </Menu.Section>
+
+                            <Menu.Item>
+                                <form onSubmit={onLogout} className="flex w-full items-center gap-x-2">
+                                    <IconLogout />
+                                    <button type="submit" className="flex w-full">
+                                        Log out
+                                    </button>
+                                </form>
                             </Menu.Item>
                         </Menu.Content>
                     </Menu>
-                </Sidebar.Footer>
-                <Sidebar.Rail />
+                </SidebarFooter>
             </Sidebar>
-            <Sidebar.Inset>
-                <header className="sticky justify-between sm:justify-start top-0 bg-bg h-[3.57rem] px-4 border-b flex items-center gap-x-2 bg-white">
-                    <span className="flex items-center gap-x-3">
-                        <Sidebar.Trigger className="-mx-2" />
-                        <Separator className="h-6 sm:block hidden" orientation="vertical" />
+            <SidebarInset className="overflow-hidden bg-white" >
+                <SidebarNav className="flex justify-between w-full" >
+                    <span className="flex gap-x-4 items-center justify-between w-full">
+                        <SidebarTrigger className="-mx-2" />
+                        <Button appearance="outline" size="extra-small" >
+                            <IconCallIncoming />
+                        </Button>
                     </span>
-                    <div className="flex sm:hidden items-center gap-x-2">
-                        <Menu>
-                            <Menu.Trigger aria-label="Profile" className="flex items-center gap-x-2 group">
-                                <Avatar size="small" shape="circle" src="/images/sidebar/profile-slash.jpg" />
-                                <IconChevronLgDown className="size-4 group-pressed:rotate-180 transition-transform" />
-                            </Menu.Trigger>
-                            <Menu.Content className="min-w-[--trigger-width]">
-                                <Menu.Item href="#">
-                                    <IconCirclePerson />
-                                    Profile
-                                </Menu.Item>
-                                <Menu.Item href="#">
-                                    <IconSettings />
-                                    Settings
-                                </Menu.Item>
-                                <Menu.Item href="#">
-                                    <IconShield />
-                                    Security
-                                </Menu.Item>
-                                <Menu.Item href="#">
-                                    <IconLogout />
-                                    Log out
-                                </Menu.Item>
-                            </Menu.Content>
-                        </Menu>
-                    </div>
-                </header>
-                <div className="p-4 lg:p-6">
+                </SidebarNav>
+                <div className="p-5 overflow-x-hidden h-full">
                     <Toaster />
                     {children}
                 </div>
-            </Sidebar.Inset>
-        </Sidebar.Provider>
+            </SidebarInset>
+        </SidebarProvider>
     );
 }

@@ -1,51 +1,25 @@
-import { Button, Textarea, TextField } from "@/components/ui";
+import { Button, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
-import { PaymentAssurance } from "@/types/payment-assurance";
-import { Link, useForm } from "@inertiajs/react";
-import { IconCircleQuestionmarkFill, IconPlus } from "justd-icons";
-import { toast } from "sonner";
+import { Assurance } from "@/types/payment-assurance";
+import { FormResponse } from "@/utils/constant/system";
+import { useForm } from "@inertiajs/react";
+import { IconCircleQuestionmarkFill } from "justd-icons";
 
-type PaymentAssuranceFormProps = {
-    payment?: PaymentAssurance;
+type AssuranceFormProps = {
+    payment?: Assurance;
 }
 
-export default function PaymentAssuranceForm({ payment }: PaymentAssuranceFormProps) {
+export default function AssuranceForm({ payment }: AssuranceFormProps) {
 
-    const { data, setData, post, processing, errors, reset } = useForm<PaymentAssurance>(payment);
+    const { data, setData, post, processing, errors } = useForm<any>(payment);
 
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         if (payment) {
-            post(route('backoffice.payment-assurance.store', payment), {
-                onSuccess: (_) => {
-                    toast("Data berhasil disimpan", {
-                        description: "Data berhasil disimpan",
-                        important: true,
-                    });
-                },
-                onError: (error) => {
-                    toast("Whoopsss....", {
-                        description: JSON.stringify(error),
-                        important: true,
-                    });
-                }
-            });
+            post(route('backoffice.payment-assurance.store', payment), FormResponse);
         } else {
-            post(route('backoffice.payment-assurance.store'), {
-                onSuccess: (_) => {
-                    toast("Data berhasil disimpan", {
-                        description: "Data berhasil disimpan",
-                        important: true,
-                    });
-                },
-                onError: (error) => {
-                    toast("Whoopsss....", {
-                        description: JSON.stringify(error),
-                        important: true,
-                    });
-                }
-            });
+            post(route('backoffice.payment-assurance.store'), FormResponse);
         }
 
     };
@@ -71,20 +45,19 @@ export default function PaymentAssuranceForm({ payment }: PaymentAssuranceFormPr
                     name="name"
                     value={data.name}
                     autoComplete="off"
-                    
                     onChange={(v) => setData("name", v)}
                     errorMessage={errors.name}
                     isRequired
                 />
-                <Textarea
+                <TextField
                     className="col-span-12"
-                    label="Deskripsi"
-                    placeholder="Deskripsi"
-                    name="description"
-                    value={data.description}
+                    label="Contact"
+                    placeholder="Contact"
+                    name="contact"
+                    value={data.contact}
                     autoComplete="off"
-                    onChange={(v) => setData("description", v)}
-                    errorMessage={errors.description}
+                    onChange={(v) => setData("contact", v)}
+                    errorMessage={errors.contact}
                     isRequired
                 />
                 <div className="col-span-12" >
@@ -96,4 +69,4 @@ export default function PaymentAssuranceForm({ payment }: PaymentAssuranceFormPr
 
 }
 
-PaymentAssuranceForm.layout = (page: any) => <AppLayout children={page} />;
+AssuranceForm.layout = (page: any) => <AppLayout children={page} />;

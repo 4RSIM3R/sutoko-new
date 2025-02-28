@@ -1,4 +1,4 @@
-export type PaymentAssurance = {
+export type Assurance = {
     id: number;
     name: string;
     description: string;

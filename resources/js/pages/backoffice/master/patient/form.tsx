@@ -2,9 +2,9 @@ import { Button, Select, Textarea, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Patient } from "@/types/patient";
 import { blood_group, education, gender, marital_status, occupation, religion } from "@/utils/constant";
+import { FormResponse } from "@/utils/constant/system";
 import { useForm } from "@inertiajs/react";
 import { IconCircleQuestionmarkFill } from "justd-icons";
-import { toast } from "sonner";
 
 type PatientFormProps = {
     patient?: Patient;
@@ -12,41 +12,15 @@ type PatientFormProps = {
 
 export default function PatientForm({ patient }: PatientFormProps) {
 
-    const { data, setData, post, processing, errors, reset } = useForm<Patient>(patient);
+    const { data, setData, post, processing, errors } = useForm<Patient>(patient);
 
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         if (patient) {
-            post(route('backoffice.patient.store', patient), {
-                onSuccess: (_) => {
-                    toast("Data berhasil disimpan", {
-                        description: "Data berhasil disimpan",
-                        important: true,
-                    });
-                },
-                onError: (error) => {
-                    toast("Whoopsss....", {
-                        description: JSON.stringify(error),
-                        important: true,
-                    });
-                }
-            });
+            post(route('backoffice.patient.store', patient), FormResponse);
         } else {
-            post(route('backoffice.patient.store'), {
-                onSuccess: (_) => {
-                    toast("Data berhasil disimpan", {
-                        description: "Data berhasil disimpan",
-                        important: true,
-                    });
-                },
-                onError: (error) => {
-                    toast("Whoopsss....", {
-                        description: JSON.stringify(error),
-                        important: true,
-                    });
-                }
-            });
+            post(route('backoffice.patient.store'), FormResponse);
         }
 
     };
@@ -117,7 +91,7 @@ export default function PatientForm({ patient }: PatientFormProps) {
                     name="birth_date"
                     value={data.birth_date}
                     autoComplete="off"
-                    
+
                     onChange={(v) => setData("birth_date", v.toString())}
                     errorMessage={errors.birth_date}
                     isRequired
@@ -219,7 +193,7 @@ export default function PatientForm({ patient }: PatientFormProps) {
                     type="tel"
                     value={data.phone_number}
                     autoComplete="off"
-                    
+
                     onChange={(v) => setData("phone_number", v)}
                     errorMessage={errors.phone_number}
                     isRequired
@@ -231,7 +205,7 @@ export default function PatientForm({ patient }: PatientFormProps) {
                     name="address"
                     value={data.address}
                     autoComplete="off"
-                    
+
                     onChange={(v) => setData("address", v)}
                     errorMessage={errors.address}
                     isRequired

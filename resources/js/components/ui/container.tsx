@@ -1,28 +1,26 @@
-import React from 'react';
-
-import { tv } from 'tailwind-variants';
+import { tv } from "tailwind-variants"
 
 const containerStyles = tv({
-    base: 'mx-auto w-full max-w-7xl',
-    variants: {
-        variant: {
-            constrained: 'container sm:px-6 lg:px-8',
-            'padded-content': 'px-4 sm:px-6 lg:px-8'
-        }
+  base: "@container mx-auto w-full max-w-7xl lg:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl)",
+  variants: {
+    intent: {
+      constrained: "sm:px-6 lg:px-8",
+      "padded-content": "px-4 sm:px-6 lg:px-8",
     },
-    defaultVariants: {
-        variant: 'padded-content'
-    }
-});
+  },
+  defaultVariants: {
+    intent: "padded-content",
+  },
+})
 
 interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-    variant?: 'constrained' | 'padded-content';
+  intent?: "constrained" | "padded-content"
+  ref?: React.Ref<HTMLDivElement>
 }
 
-const Container = React.forwardRef<HTMLDivElement, ContainerProps>(({ className, variant, ...props }, ref) => (
-    <div className={containerStyles({ variant, className })} {...props} ref={ref} />
-));
+const Container = ({ className, intent, ref, ...props }: ContainerProps) => (
+  <div className={containerStyles({ intent, className })} {...props} ref={ref} />
+)
 
-Container.displayName = 'Container';
-
-export { Container };
+export type { ContainerProps }
+export { Container }

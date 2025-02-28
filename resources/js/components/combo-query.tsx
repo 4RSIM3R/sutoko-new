@@ -114,7 +114,7 @@ export const ComboQuery = <T,>({
           <div className="p-2 text-red-500">Error: {(error as Error).message}</div>
         ) : (
           isOpen && (
-            <ComboBox.List isOpen>
+            <ComboBox.List>
               {items.map((item) => (
                 <ComboBox.Option key={getItemKey(item)} id={getItemKey(item)}>
                   {getItemLabel(item)}

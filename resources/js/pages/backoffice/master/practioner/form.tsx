@@ -1,14 +1,12 @@
-import { FilePicker } from "@/components/file-picker";
-import { Button, Card, Label, Select, Textarea, TextField } from "@/components/ui";
+import { Button, Card, Label, Select, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Practitioner } from "@/types/practioner";
 import { gender, practioner_role, religion, specialty } from "@/utils/constant";
+import { FormResponse } from "@/utils/constant/system";
 import { fetchRegencies } from "@/utils/select";
 import { useForm } from "@inertiajs/react";
 import { IconCircleQuestionmarkFill } from "justd-icons";
-import { useRef } from "react";
 import AsyncSelect from "react-select/async";
-import { toast } from "sonner";
 
 type PractionerFormProps = {
     practitioner?: Practitioner;
@@ -17,42 +15,14 @@ type PractionerFormProps = {
 export default function PractionerForm({ practitioner }: PractionerFormProps) {
 
     const { data, setData, post, processing, errors } = useForm<any>(practitioner);
-    const strRef = useRef<HTMLInputElement>(null);
-    const sipRef = useRef<HTMLInputElement>(null);
 
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         if (practitioner) {
-            post(route('backoffice.practioner.store', practitioner.id), {
-                onSuccess: (_) => {
-                    toast("Data berhasil disimpan", {
-                        description: "Data berhasil disimpan",
-                        important: true,
-                    });
-                },
-                onError: (error) => {
-                    toast("Whoopsss....", {
-                        description: JSON.stringify(error),
-                        important: true,
-                    });
-                }
-            });
+            post(route('backoffice.practioner.store', practitioner.id), FormResponse);
         } else {
-            post(route('backoffice.practioner.store'), {
-                onSuccess: (_) => {
-                    toast("Data berhasil disimpan", {
-                        description: "Data berhasil disimpan",
-                        important: true,
-                    });
-                },
-                onError: (error) => {
-                    toast("Whoopsss....", {
-                        description: JSON.stringify(error),
-                        important: true,
-                    });
-                }
-            });
+            post(route('backoffice.practioner.store'), FormResponse);
         }
 
     };

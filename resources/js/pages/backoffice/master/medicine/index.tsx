@@ -1,14 +1,15 @@
+import { BaseAction } from "@/components/base-action";
 import { ConfirmationDialog } from "@/components/confirmation-dialog";
 import { Column, DataTable } from "@/components/data-table";
-import { Button, buttonStyles, Menu, Pagination, Table, TextField } from "@/components/ui";
+import { Button, Menu, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Base } from "@/types/base";
 import { Medicine } from "@/types/medicine";
+import { FormResponse } from "@/utils/constant/system";
 import { Link, useForm } from "@inertiajs/react";
 import axios from "axios";
 import { IconEye, IconPlus, IconSearch, IconTrash } from "justd-icons";
 import { useState } from "react";
-import { toast } from "sonner";
 
 
 export default function MedicineIndex() {
@@ -19,10 +20,7 @@ export default function MedicineIndex() {
 
     const onDelete = (e: { preventDefault: () => void }) => {
         e.preventDefault();
-        destroy(route('backoffice.medicine.destroy', id), {
-            onSuccess: () => toast.success('Data deleted successfully'),
-            onError: (error) => toast('Whoopsss....', { description: JSON.stringify(error) }),
-        });
+        destroy(route('backoffice.medicine.destroy', id), FormResponse);
     };
 
     const columns: Column<Medicine>[] = [
@@ -30,7 +28,7 @@ export default function MedicineIndex() {
             id: 'id',
             header: 'ID',
             cell: (item) => item.id,
-            sortable: false,
+
             isRowHeader: true,
         },
         {
@@ -43,38 +41,22 @@ export default function MedicineIndex() {
             id: 'kfa_code',
             header: 'KFA Code',
             cell: (item) => item.kfa_code,
-            sortable: false,
+
         },
         {
             id: 'current_stock',
             header: 'Current Stock',
             cell: (item) => item.current_stock,
-            sortable: false,
+
         },
         {
             id: 'actions',
             header: 'Actions',
             cell: (item) => (
-                <Menu>
-                    <Menu.Trigger>
-                        <Button size="extra-small" appearance="outline">Action</Button>
-                    </Menu.Trigger>
-                    <Menu.Content>
-                        <Menu.Item href={route('backoffice.medicine.show', item.id)}>
-                            <IconEye />
-                            Detail
-                        </Menu.Item>
-                        <Menu.Item onAction={() => setId(item.id)}>
-                            <IconTrash />
-                            Delete
-                        </Menu.Item>
-                    </Menu.Content>
-                </Menu>
+                <BaseAction url="backoffice.medicine.show" id={item.id} setId={setId} onDelete={onDelete} />
             ),
-            sortable: false
         }
     ];
-
 
     const fetchData = async (params: Record<string, any>) => {
         const response = await axios.get<Base<Medicine[]>>(

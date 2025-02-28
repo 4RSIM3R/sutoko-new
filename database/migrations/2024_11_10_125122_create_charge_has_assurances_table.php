@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Charge;
-use App\Models\PaymentAssurance;
+use App\Models\Assurance;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('charge_has_assurances', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(PaymentAssurance::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(Assurance::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(Charge::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->decimal('price');
             $table->timestamps();

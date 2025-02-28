@@ -19,6 +19,6 @@ class ChargeHasAssurance extends Model
 
     public function assurance()
     {
-        return $this->belongsTo(PaymentAssurance::class, 'payment_assurance_id');
+        return $this->belongsTo(Assurance::class, 'payment_assurance_id');
     }
 }

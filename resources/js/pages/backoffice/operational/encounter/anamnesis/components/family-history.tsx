@@ -1,6 +1,7 @@
 import { Button, buttonStyles, Checkbox, Label, Modal, Select, Table, Textarea } from "@/components/ui"
 import { Encounter } from "@/types/encounter";
 import { family_member } from "@/utils/constant/hl7";
+import { FormResponse } from "@/utils/constant/system";
 import { fetchSnomed } from "@/utils/select"
 import { useForm } from "@inertiajs/react";
 import { useQuery } from "@tanstack/react-query";
@@ -28,7 +29,7 @@ type FamilyHistorySchema = {
 export const FamilyHistory = ({ encounter }: FamilyHistoryProps) => {
 
     const [local, setLocal] = useState<FamilyHistorySchema>();
-    
+
     const { setData, post, data } = useForm<FamilyHistorySchema>({
         contributed_to_death: false,
     } satisfies FamilyHistorySchema);
@@ -44,20 +45,7 @@ export const FamilyHistory = ({ encounter }: FamilyHistoryProps) => {
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
-        post(route('backoffice.encounter.family-history', { id: encounter.id }), {
-            onSuccess: (_) => {
-                toast("Data berhasil disimpan", {
-                    description: "Data berhasil disimpan",
-                    important: true,
-                });
-            },
-            onError: (error) => {
-                toast("Whoopsss....", {
-                    description: JSON.stringify(error),
-                    important: true,
-                });
-            }
-        });
+        post(route('backoffice.encounter.family-history', { id: encounter.id }), FormResponse);
     }
 
     return (

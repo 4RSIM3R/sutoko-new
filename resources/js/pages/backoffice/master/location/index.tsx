@@ -1,22 +1,74 @@
-import { Button, buttonStyles, Menu, Pagination, Table } from "@/components/ui";
+import { BaseAction } from "@/components/base-action";
+import { Column, DataTable } from "@/components/data-table";
+import { Button } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Base } from "@/types/base";
-import { Location } from "@/types/location";
-import { Link } from "@inertiajs/react";
+import { FormResponse } from "@/utils/constant/system";
+import { Link, useForm } from "@inertiajs/react";
+import axios from "axios";
 import { IconPlus } from "justd-icons";
+import { useState } from "react";
 
-type LocationIndexProps = {
-    locations: Base<Location[]>;
-}
+export default function LocationIndex() {
 
-export default function LocationIndex({ locations }: LocationIndexProps) {
+    const [filters, setFilters] = useState<Record<string, any>>({});
+    const [id, setId] = useState<any>();
+    const { delete: destroy } = useForm();
+
+    const onDelete = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+        destroy(route('backoffice.location.destroy', id), FormResponse);
+    };
+
+    const columns: Column<any>[] = [
+        {
+            id: 'id',
+            header: 'ID',
+            cell: (item) => item.id,
+            sortable: false,
+            isRowHeader: true,
+        },
+        {
+            id: 'trademark',
+            header: 'Trademark',
+            cell: (item) => item.trademark,
+            sortable: true
+        },
+        {
+            id: 'kfa_code',
+            header: 'KFA Code',
+            cell: (item) => item.kfa_code,
+            sortable: false,
+        },
+        {
+            id: 'current_stock',
+            header: 'Current Stock',
+            cell: (item) => item.current_stock,
+            sortable: false,
+        },
+        {
+            id: 'actions',
+            header: 'Actions',
+            cell: (item) => (
+                <BaseAction url="backoffice.medicine.show" id={item.id} setId={setId} onDelete={onDelete} />
+            ),
+            sortable: false
+        }
+    ];
+
+    const fetchData = async (params: Record<string, any>) => {
+        const response = await axios.get<Base<any[]>>(
+            route('backoffice.location.fetch', params)
+        );
+        return response.data;
+    };
 
     return (
         <div className="w-full" >
             <div className="flex flex-row justify-between" >
                 <div className="" >
                     <h1 className="text-xl font-semibold" >Charge Book</h1>
-                    <p className="text-sm text-gray-500" >Manage all payment method</p>
+                    <p className="text-sm text-gray-500" >Manage all charge book</p>
                 </div>
                 <div>
                     <Link href={route('backoffice.location.create')}>
@@ -28,55 +80,11 @@ export default function LocationIndex({ locations }: LocationIndexProps) {
                 </div>
             </div>
             <div>
-                <Table className="my-4" >
-                    <Table.Header className="w-full" >
-                        <Table.Column isRowHeader >ID</Table.Column>
-                        <Table.Column>Name</Table.Column>
-                        <Table.Column>Type</Table.Column>
-                        <Table.Column>Aksi</Table.Column>
-                    </Table.Header>
-                    <Table.Body>
-                        {
-                            locations.items.map((location: Location) => (
-                                <Table.Row key={location.satu_sehat_id} >
-                                    <Table.Cell>{location.satu_sehat_id}</Table.Cell>
-                                    <Table.Cell>{location.name}</Table.Cell>
-                                    <Table.Cell>{location.physical_type_name}</Table.Cell>
-                                    <Table.Cell>
-                                        <Menu>
-                                            <Menu.Trigger className={buttonStyles({ appearance: "outline", size: "extra-small" })}>ACTION</Menu.Trigger>
-                                            <Menu.Content placement="bottom" className="sm:min-w-48">
-                                                <Menu.Item>Riwayat Kunjungan</Menu.Item>
-                                                <Menu.Item>Daftarkan Kunjungan</Menu.Item>
-                                                <Menu.Separator />
-                                                <Menu.Submenu>
-                                                    <Menu.Item>Cetak</Menu.Item>
-                                                    <Menu.Content>
-                                                        <Menu.Item>Gelang Pasien</Menu.Item>
-                                                        <Menu.Item>Kartu Pasien</Menu.Item>
-                                                        <Menu.Item>General Consent</Menu.Item>
-                                                    </Menu.Content>
-                                                </Menu.Submenu>
-                                            </Menu.Content>
-                                        </Menu>
-                                    </Table.Cell>
-                                </Table.Row>
-                            ))
-                        }
-                    </Table.Body>
-                </Table>
-                <Pagination>
-                    <Pagination.List>
-                        {
-                            locations.prev_page &&
-                            <Pagination.Item variant="previous" href={route('backoffice.charge.index', { page: locations.prev_page })} />
-                        }
-                        {
-                            locations.next_page &&
-                            <Pagination.Item variant="next" href={route('backoffice.charge.index', { page: locations.next_page })} />
-                        }
-                    </Pagination.List>
-                </Pagination>
+                <DataTable
+                    columns={columns}
+                    fetchData={fetchData}
+                    filters={filters ?? {}}
+                />
             </div>
         </div>
     )

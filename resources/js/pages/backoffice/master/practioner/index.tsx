@@ -1,14 +1,15 @@
+import { BaseAction } from "@/components/base-action";
 import { ConfirmationDialog } from "@/components/confirmation-dialog";
 import { Column, DataTable } from "@/components/data-table";
-import { Button, Menu, TextField } from "@/components/ui";
+import { Button, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Base } from "@/types/base";
 import { Practitioner } from "@/types/practioner";
+import { FormResponse } from "@/utils/constant/system";
 import { Link, useForm } from "@inertiajs/react";
 import axios from "axios";
-import { IconEye, IconPlus, IconSearch, IconTrash } from "justd-icons";
+import { IconPlus, IconSearch } from "justd-icons";
 import { useState } from "react";
-import { toast } from "sonner";
 
 
 export default function PractionerIndex() {
@@ -19,62 +20,40 @@ export default function PractionerIndex() {
 
     const onDelete = (e: { preventDefault: () => void }) => {
         e.preventDefault();
-        destroy(route('backoffice.practioner.destroy', id), {
-            onSuccess: () => toast.success('Data deleted successfully'),
-            onError: (error) => toast('Whoopsss....', { description: JSON.stringify(error) }),
-        });
+        destroy(route('backoffice.practioner.destroy', id), FormResponse);
     };
 
-    const columns: Column<Practitioner>[] = [
-        {
-            id: 'id',
-            header: 'ID',
-            cell: (item) => item.id,
-            sortable: false,
-            isRowHeader: true,
-        },
-        {
-            id: 'name',
-            header: 'Name',
-            cell: (item) => item.name,
-            sortable: true
-        },
+    const columns: Column<any>[] = [
         {
             id: 'satu_sehat_id',
             header: 'Satu Sehat ID',
             cell: (item) => item.satu_sehat_id,
-            sortable: false,
+            isRowHeader: true,
+        },
+        {
+            id: 'nip',
+            header: 'NIP',
+            cell: (item) => item.nip,
+        },
+        {
+            id: 'name',
+            header: 'Name',
+            cell: (item) => `${item.prefix}, ${item.name} ${item.suffix}`,
+            sortable: true
         },
         {
             id: 'occupation',
             header: 'Occupation',
-            cell: (item) => <span>{item.occupation.toUpperCase()}</span>,
+            cell: (item) => item.occupation,
             sortable: true,
         },
         {
             id: 'actions',
             header: 'Actions',
-            cell: (item) => (
-                <Menu>
-                    <Menu.Trigger>
-                        <Button size="extra-small" appearance="outline">Action</Button>
-                    </Menu.Trigger>
-                    <Menu.Content>
-                        <Menu.Item href={route('backoffice.practioner.show', item.id)}>
-                            <IconEye />
-                            Detail
-                        </Menu.Item>
-                        <Menu.Item onAction={() => setId(item.id)}>
-                            <IconTrash />
-                            Delete
-                        </Menu.Item>
-                    </Menu.Content>
-                </Menu>
-            ),
+            cell: (item) => (<BaseAction url="backoffice.practioner.show" id={item.id} setId={setId} onDelete={onDelete} />),
             sortable: false
         }
     ];
-
 
     const fetchData = async (params: Record<string, any>) => {
         const response = await axios.get<Base<Practitioner[]>>(

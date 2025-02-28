@@ -2,6 +2,7 @@ import { Button, Select, Textarea, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Location } from "@/types/location";
 import { location_type } from "@/utils/constant";
+import { FormResponse } from "@/utils/constant/system";
 import { useForm } from "@inertiajs/react";
 import { IconCircleQuestionmarkFill } from "justd-icons";
 import { toast } from "sonner";
@@ -18,35 +19,9 @@ export default function LocationForm({ location }: LocationFormProps) {
         e.preventDefault();
 
         if (location) {
-            put(route('backoffice.location.store'), {
-                onSuccess: (_) => {
-                    toast("Data berhasil disimpan", {
-                        description: "Data berhasil disimpan",
-                        important: true,
-                    });
-                },
-                onError: (error) => {
-                    toast("Whoopsss....", {
-                        description: JSON.stringify(error),
-                        important: true,
-                    });
-                }
-            });
+            put(route('backoffice.location.store'), FormResponse);
         } else {
-            post(route('backoffice.location.store'), {
-                onSuccess: (_) => {
-                    toast("Data berhasil disimpan", {
-                        description: "Data berhasil disimpan",
-                        important: true,
-                    });
-                },
-                onError: (error) => {
-                    toast("Whoopsss....", {
-                        description: JSON.stringify(error),
-                        important: true,
-                    });
-                }
-            });
+            post(route('backoffice.location.store'), FormResponse);
         }
     };
 
@@ -71,7 +46,6 @@ export default function LocationForm({ location }: LocationFormProps) {
                     name="name"
                     value={data.name}
                     autoComplete="off"
-                    
                     onChange={(v) => setData("name", v)}
                     errorMessage={errors.name}
                     isRequired

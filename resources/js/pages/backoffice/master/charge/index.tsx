@@ -1,15 +1,10 @@
-import { Button, buttonStyles, Menu, Pagination, Table } from "@/components/ui";
+import { DataTable } from "@/components/data-table";
+import { Button } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
-import { Base } from "@/types/base";
-import { Charge } from "@/types/charge";
 import { Link } from "@inertiajs/react";
 import { IconPlus } from "justd-icons";
 
-type ChargeIndexProps = {
-    charges: Base<Charge[]>;
-}
-
-export default function ChargeIndex({ charges }: ChargeIndexProps) {
+export default function ChargeIndex() {
 
     return (
         <div className="w-full" >
@@ -28,63 +23,11 @@ export default function ChargeIndex({ charges }: ChargeIndexProps) {
                 </div>
             </div>
             <div>
-                <Table className="my-4" >
-                    <Table.Header className="w-full" >
-                        <Table.Column isRowHeader >ID</Table.Column>
-                        <Table.Column>Name</Table.Column>
-                        <Table.Column>Pricing</Table.Column>
-                        <Table.Column>Action</Table.Column>
-                    </Table.Header>
-                    <Table.Body>
-                        {
-                            charges.items.map((patient: any) => (
-                                <Table.Row key={patient.id} >
-                                    <Table.Cell>{patient.id}</Table.Cell>
-                                    <Table.Cell>{patient.name}</Table.Cell>
-                                    <Table.Cell>
-                                        <ul className="list-disc" >
-                                            {
-                                                patient.charge_has_assurances.map((e: any) => (
-                                                    <li>{e.assurance.name} : {e.price}</li>
-                                                ))
-                                            }
-                                        </ul>
-                                    </Table.Cell>
-                                    <Table.Cell>
-                                        <Menu>
-                                            <Menu.Trigger className={buttonStyles({ appearance: "outline", size: "extra-small" })}>ACTION</Menu.Trigger>
-                                            <Menu.Content placement="bottom" className="sm:min-w-48">
-                                                <Menu.Item>Riwayat Kunjungan</Menu.Item>
-                                                <Menu.Item>Daftarkan Kunjungan</Menu.Item>
-                                                <Menu.Separator />
-                                                <Menu.Submenu>
-                                                    <Menu.Item>Cetak</Menu.Item>
-                                                    <Menu.Content>
-                                                        <Menu.Item>Gelang Pasien</Menu.Item>
-                                                        <Menu.Item>Kartu Pasien</Menu.Item>
-                                                        <Menu.Item>General Consent</Menu.Item>
-                                                    </Menu.Content>
-                                                </Menu.Submenu>
-                                            </Menu.Content>
-                                        </Menu>
-                                    </Table.Cell>
-                                </Table.Row>
-                            ))
-                        }
-                    </Table.Body>
-                </Table>
-                <Pagination>
-                    <Pagination.List>
-                        {
-                            charges.prev_page &&
-                            <Pagination.Item variant="previous" href={route('backoffice.charge.index', { page: charges.prev_page })} />
-                        }
-                        {
-                            charges.next_page &&
-                            <Pagination.Item variant="next" href={route('backoffice.charge.index', { page: charges.next_page })} />
-                        }
-                    </Pagination.List>
-                </Pagination>
+                <DataTable
+                    columns={columns}
+                    fetchData={fetchData}
+                    filters={filters}
+                />
             </div>
         </div>
     )

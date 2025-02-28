@@ -1,113 +1,84 @@
-import * as React from 'react';
+"use client"
 
-import { IconCheck, IconHamburger } from 'justd-icons';
+import { IconCheck, IconHamburger } from "justd-icons"
+import type {
+  ListBoxItemProps as ListBoxItemPrimitiveProps,
+  ListBoxProps,
+} from "react-aria-components"
 import {
-    ListBoxItem as ListBoxItemPrimitive,
-    ListBox as ListBoxPrimitive,
-    type ListBoxItemProps as ListBoxItemPrimitiveProps,
-    type ListBoxProps as ListBoxPrimitiveProps
-} from 'react-aria-components';
-import { tv } from 'tailwind-variants';
+  ListBoxItem as ListBoxItemPrimitive,
+  ListBox as ListBoxPrimitive,
+  composeRenderProps,
+} from "react-aria-components"
 
-import { DropdownItemDetails, DropdownSection } from './dropdown';
-import { cn, cr } from './primitive';
+import { cn } from "@/utils/classes"
+import { DropdownItemDetails, DropdownLabel, DropdownSection, dropdownItemStyles } from "./dropdown"
 
-const listBoxStyles = tv({
-    base: 'flex max-h-96 [&::-webkit-scrollbar]:size-0.5 [scrollbar-width:thin] w-full gap-y-1 min-w-72 flex-col overflow-y-auto rounded-xl border p-1 shadow-lg outline-none'
-});
-
-interface ListBoxProps<T> extends ListBoxPrimitiveProps<T> {
-    className?: string;
-}
-
-const ListBox = <T extends object>({ children, className, ...props }: ListBoxProps<T>) => (
-    <ListBoxPrimitive {...props} className={listBoxStyles({ className })}>
-        {children}
-    </ListBoxPrimitive>
-);
-
-const listBoxItemStyles = tv({
-    base: 'lbi cursor-pointer relative rounded-[calc(var(--radius)-1px)] p-2 text-base outline-none lg:text-sm',
-    variants: {
-        isFocusVisible: {
-            true: 'bg-secondary [&:focus-visible_[slot=label]]:text-accent-fg [&:focus-visible_[slot=description]]:text-accent-fg/70 text-secondary-fg'
-        },
-        isHovered: {
-            true: 'bg-accent [&:hover_[slot=label]]:text-accent-fg [&:hover_[slot=description]]:text-accent-fg/70 text-accent-fg [&_.text-muted-fg]:text-accent-fg/80'
-        },
-        isFocused: {
-            true: '[&_[data-slot=icon]]:text-accent-fg [&_[data-slot=label]]:text-accent-fg [&_.text-muted-fg]:text-accent-fg/80 bg-accent text-accent-fg'
-        },
-        isSelected: {
-            true: '[&_[data-slot=icon]]:text-accent-fg [&_[data-slot=label]]:text-accent-fg [&_.text-muted-fg]:text-accent-fg/80 bg-accent text-accent-fg'
-        },
-        isDragging: { true: 'cursor-grabbing bg-secondary text-secondary-fg' },
-        isDisabled: {
-            true: 'opacity-70 cursor-default text-muted-fg'
-        }
-    }
-});
+const ListBox = <T extends object>({ className, ...props }: ListBoxProps<T>) => (
+  <ListBoxPrimitive
+    {...props}
+    className={composeRenderProps(className, (className) =>
+      cn(
+        [
+          "flex max-h-96 w-full min-w-56 flex-col gap-y-1 overflow-y-auto rounded-xl border p-1 shadow-lg outline-hidden [scrollbar-width:thin] [&::-webkit-scrollbar]:size-0.5",
+          "grid grid-cols-[auto_1fr] overflow-auto *:[[role='group']+[role=group]]:mt-4 *:[[role='group']+[role=separator]]:mt-1",
+        ],
+        className,
+      ),
+    )}
+  />
+)
 
 interface ListBoxItemProps<T extends object> extends ListBoxItemPrimitiveProps<T> {
-    className?: string;
+  className?: string
 }
 
 const ListBoxItem = <T extends object>({ children, className, ...props }: ListBoxItemProps<T>) => {
-    const textValue = typeof children === 'string' ? children : undefined;
+  const textValue = typeof children === "string" ? children : undefined
 
-    return (
-        <ListBoxItemPrimitive
-            textValue={textValue}
-            {...props}
-            className={cr(className, (className, renderProps) =>
-                listBoxItemStyles({
-                    ...renderProps,
-                    className
-                })
-            )}
-        >
-            {(values) => (
-                <div className="flex items-center gap-2">
-                    <>
-                        {values.allowsDragging && (
-                            <IconHamburger
-                                className={cn(
-                                    'size-4 shrink-0 text-muted-fg transition',
-                                    values.isFocused && 'text-fg',
-                                    values.isDragging && 'text-fg',
-                                    values.isSelected && 'text-accent-fg/70'
-                                )}
-                            />
-                        )}
-                        <div className="flex flex-col">
-                            {typeof children === 'function' ? children(values) : children}
+  return (
+    <ListBoxItemPrimitive
+      textValue={textValue}
+      {...props}
+      className={composeRenderProps(className, (className, renderProps) =>
+        dropdownItemStyles({
+          ...renderProps,
+          className,
+        }),
+      )}
+    >
+      {({ allowsDragging, isSelected, isFocused, isDragging }) => (
+        <>
+          {allowsDragging && (
+            <IconHamburger
+              className={cn(
+                "size-4 shrink-0 text-muted-fg transition",
+                isFocused && "text-fg",
+                isDragging && "text-fg",
+                isSelected && "text-accent-fg/70",
+              )}
+            />
+          )}
+          {isSelected && <IconCheck className="-mx-0.5 mr-2" data-slot="checked-icon" />}
+          {typeof children === "string" ? <DropdownLabel>{children}</DropdownLabel> : children}
+        </>
+      )}
+    </ListBoxItemPrimitive>
+  )
+}
 
-                            {values.isSelected && (
-                                <span className="animate-in absolute right-2 top-3 lg:top-2.5">
-                                    <IconCheck />
-                                </span>
-                            )}
-                        </div>
-                    </>
-                </div>
-            )}
-        </ListBoxItemPrimitive>
-    );
-};
+type ListBoxSectionProps = React.ComponentProps<typeof DropdownSection>
+const ListBoxSection = ({ className, ...props }: ListBoxSectionProps) => {
+  return (
+    <DropdownSection className={cn(className, "[&_.lbi:last-child]:-mb-1.5 gap-y-1")} {...props} />
+  )
+}
 
-type ListBoxPickerProps<T> = ListBoxProps<T>;
+const ListBoxItemDetails = DropdownItemDetails
 
-const ListBoxPicker = <T extends object>({ className, ...props }: ListBoxPickerProps<T>) => {
-    return <ListBoxPrimitive className={cn('max-h-72 overflow-auto p-1 outline-none', className)} {...props} />;
-};
+ListBox.Section = ListBoxSection
+ListBox.ItemDetails = ListBoxItemDetails
+ListBox.Item = ListBoxItem
 
-const Section = ({ className, ...props }: React.ComponentProps<typeof DropdownSection>) => {
-    return <DropdownSection className={cn(className, '[&_.lbi:last-child]:-mb-1.5 gap-y-1')} {...props} />;
-};
-
-ListBox.Section = Section;
-ListBox.ItemDetails = DropdownItemDetails;
-ListBox.Item = ListBoxItem;
-ListBox.Picker = ListBoxPicker;
-
-export { ListBox, listBoxStyles, type ListBoxPickerProps };
+export type { ListBoxItemProps, ListBoxSectionProps }
+export { ListBox }

@@ -1,19 +1,20 @@
-import * as React from "react"
+"use client"
 
 import {
   TextArea as TextAreaPrimitive,
   TextField as TextFieldPrimitive,
   type TextFieldProps as TextFieldPrimitiveProps,
-  type ValidationResult
+  type ValidationResult,
+  composeRenderProps,
 } from "react-aria-components"
 import { tv } from "tailwind-variants"
 
 import { Description, FieldError, Label } from "./field"
-import { cr, ctr, focusStyles } from "./primitive"
+import { composeTailwindRenderProps, focusStyles } from "./primitive"
 
 const textareaStyles = tv({
   extend: focusStyles,
-  base: "w-full min-w-0 rounded-lg border border-input bg-bg px-2.5 py-2 text-base shadow-sm outline-none transition duration-200 disabled:bg-secondary disabled:opacity-50 sm:text-sm"
+  base: "field-sizing-content max-h-96 min-h-16 w-full min-w-0 rounded-lg border border-input px-2.5 py-2 text-base shadow-xs outline-hidden transition duration-200 data-disabled:opacity-50 sm:text-sm",
 })
 
 interface TextareaProps extends TextFieldPrimitiveProps {
@@ -34,15 +35,18 @@ const Textarea = ({
   ...props
 }: TextareaProps) => {
   return (
-    <TextFieldPrimitive {...props} className={ctr(className, "group flex flex-col")}>
-      {label && <Label className="mb-1.5">{label}</Label>}
+    <TextFieldPrimitive
+      {...props}
+      className={composeTailwindRenderProps(className, "group flex flex-col gap-y-1.5")}
+    >
+      {label && <Label>{label}</Label>}
       <TextAreaPrimitive
         placeholder={placeholder}
-        className={cr(className, (className, renderProps) =>
+        className={composeRenderProps(className, (className, renderProps) =>
           textareaStyles({
             ...renderProps,
-            className
-          })
+            className,
+          }),
         )}
       />
       {description && <Description>{description}</Description>}
@@ -51,4 +55,5 @@ const Textarea = ({
   )
 }
 
-export { Textarea, type TextareaProps }
+export type { TextareaProps }
+export { Textarea }

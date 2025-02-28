@@ -1,6 +1,7 @@
 import { Button, buttonStyles, Checkbox, Label, Modal, Select, Table, Textarea } from "@/components/ui"
 import { Encounter } from "@/types/encounter"
 import { allergy_type } from "@/utils/constant"
+import { FormResponse } from "@/utils/constant/system"
 import { fetchSnomed } from "@/utils/select"
 import { useForm } from "@inertiajs/react"
 import { useQuery } from "@tanstack/react-query"
@@ -37,20 +38,7 @@ export const AllergyHistory = ({ encounter }: AllergyHistoryProps) => {
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
-        post(route('backoffice.encounter.allergy-history', { id: encounter.id }), {
-            onSuccess: (_) => {
-                toast("Data berhasil disimpan", {
-                    description: "Data berhasil disimpan",
-                    important: true,
-                });
-            },
-            onError: (error) => {
-                toast("Whoopsss....", {
-                    description: JSON.stringify(error),
-                    important: true,
-                });
-            }
-        });
+        post(route('backoffice.encounter.allergy-history', { id: encounter.id }), FormResponse);
     }
 
     return (

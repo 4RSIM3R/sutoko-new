@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ChargeRequest;
 use App\Models\Charge;
 use App\Models\ChargeHasAssurance;
-use App\Models\PaymentAssurance;
+use App\Models\Assurance;
 use App\Utils\WebResponse;
 use Exception;
 use Illuminate\Http\Request;

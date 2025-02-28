@@ -2,7 +2,7 @@ import { CustomSelect } from "@/components/custom-select";
 import { Button, Checkbox, Label } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Encounter } from "@/types/encounter";
-import { fetchLocation, fetchPatient, fetchPaymentAssurance, fetchPractioner } from "@/utils/select";
+import { fetchLocation, fetchPatient, fetchAssurance, fetchPractioner } from "@/utils/select";
 import { useForm } from "@inertiajs/react";
 import { IconCircleQuestionmarkFill } from "justd-icons";
 import { useState } from "react";
@@ -119,7 +119,7 @@ export default function EncounterForm() {
                     <AsyncSelect
                         className="col-span-6 text-black"
                         cacheOptions
-                        loadOptions={fetchPaymentAssurance}
+                        loadOptions={fetchAssurance}
                         defaultOptions
                         defaultValue={{ value: encounter?.payment_assurance_id, label: encounter?.payment_assurance_name }}
                         isClearable

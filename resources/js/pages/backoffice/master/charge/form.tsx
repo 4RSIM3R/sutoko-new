@@ -1,7 +1,8 @@
 import { Button, Select, TextField } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Charge } from "@/types/charge";
-import { PaymentAssurance } from "@/types/payment-assurance";
+import { Assurance } from "@/types/payment-assurance";
+import { FormResponse } from "@/utils/constant/system";
 import { toats_error, toats_success } from "@/utils/toast";
 import { Link, useForm } from "@inertiajs/react";
 import { IconCircleQuestionmarkFill, IconPlus } from "justd-icons";
@@ -9,7 +10,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 type ChargeFormProps = {
-    payment: PaymentAssurance[];
+    payment: Assurance[];
     charge?: Charge;
 }
 
@@ -36,15 +37,9 @@ export default function ChargeForm({ payment, charge }: ChargeFormProps) {
         data['charges'] = paymentCharge;
 
         if (charge) {
-            put(route('backoffice.patient.store', charge), {
-                onSuccess: (_) => toats_success(),
-                onError: (error) => toats_error(JSON.stringify(error)),
-            });
+            put(route('backoffice.patient.store', charge), FormResponse);
         } else {
-            post(route('backoffice.charge.store'), {
-                onSuccess: (_) => toats_success(),
-                onError: (error) => toats_error(JSON.stringify(error)),
-            });
+            post(route('backoffice.charge.store'), FormResponse);
         }
 
     };
@@ -70,7 +65,6 @@ export default function ChargeForm({ payment, charge }: ChargeFormProps) {
                     name="name"
                     value={data.name}
                     autoComplete="off"
-
                     onChange={(v) => setData("name", v)}
                     errorMessage={errors.name}
                     isRequired
@@ -104,7 +98,6 @@ export default function ChargeForm({ payment, charge }: ChargeFormProps) {
                         </>
                     ))
                 }
-
                 <div className="col-span-12" >
                     <Button isDisabled={processing} type="submit">Submit</Button>
                 </div>

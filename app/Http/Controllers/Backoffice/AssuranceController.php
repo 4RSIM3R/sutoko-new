@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Backoffice;
 
-use App\Contract\Backoffice\PaymentAssuranceContract;
+use App\Contract\Backoffice\AssuranceContract;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PaymentAssuranceRequest;
-use App\Models\PaymentAssurance;
+use App\Http\Requests\AssuranceRequest;
+use App\Models\Assurance;
 use App\Utils\WebResponse;
 use Exception;
 use Illuminate\Http\Request;
@@ -13,19 +13,19 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Inertia\Inertia;
 
-class PaymentAssuranceController extends Controller
+class AssuranceController extends Controller
 {
 
-    protected PaymentAssuranceContract $service;
+    protected AssuranceContract $service;
 
-    public function __construct(PaymentAssuranceContract $service)
+    public function __construct(AssuranceContract $service)
     {
         $this->service = $service;
     }
 
     public function index()
     {
-        return Inertia::render('backoffice/master/payment_assurance/index');
+        return Inertia::render('backoffice/master/assurance/index');
     }
 
     public function fetch()
@@ -39,11 +39,11 @@ class PaymentAssuranceController extends Controller
         return Inertia::render('backoffice/master/assurance/form');
     }
 
-    public function store(PaymentAssuranceRequest $request)
+    public function store(AssuranceRequest $request)
     {
         $payload = $request->all();
         $data = $this->service->create($payload);
-        return WebResponse::inertia($data, 'backoffice.payment-assurance.index');
+        return WebResponse::inertia($data, 'backoffice.assurance.index');
     }
 
     public function show($id)
@@ -52,16 +52,16 @@ class PaymentAssuranceController extends Controller
         return Inertia::render('backoffice/master/assurance/form', ["assurance" => $data]);
     }
 
-    public function update($id, PaymentAssuranceRequest $request)
+    public function update($id, AssuranceRequest $request)
     {
         $payload = $request->all();
         $data = $this->service->update($id, $payload);
-        return WebResponse::inertia($data, 'backoffice.payment-assurance.index');
+        return WebResponse::inertia($data, 'backoffice.assurance.index');
     }
 
     public function destroy($id)
     {
         $data = $this->service->destroy($id);
-        return WebResponse::inertia($data, 'backoffice.payment-assurance.index');
+        return WebResponse::inertia($data, 'backoffice.assurance.index');
     }
 }

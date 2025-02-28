@@ -1,6 +1,6 @@
 import { Location } from "./location";
 import { Patient } from "./patient";
-import { PaymentAssurance } from "./payment-assurance";
+import { Assurance } from "./payment-assurance";
 import { Practitioner } from "./practioner";
 
 export type Encounter = {
@@ -24,5 +24,5 @@ export type Encounter = {
     patient?: Patient | null;
     practioner?: Practitioner | null;
     location?: Location | null;
-    payment_assurance?: PaymentAssurance | null;
+    payment_assurance?: Assurance | null;
 };

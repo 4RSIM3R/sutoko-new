@@ -1,110 +1,147 @@
-import * as React from 'react';
+"use client"
 
-import type { Placement } from '@react-types/overlays';
-import { IconChevronLgDown } from 'justd-icons';
-import type { ButtonProps } from 'react-aria-components';
+import { cn } from "@/utils/classes"
+import { IconChevronLgDown } from "justd-icons"
+import type {
+  ListBoxProps,
+  PopoverProps,
+  SelectProps as SelectPrimitiveProps,
+  ValidationResult,
+} from "react-aria-components"
 import {
-    Button,
-    Select as SelectPrimitive,
-    type SelectProps as SelectPrimitiveProps,
-    SelectValue,
-    type ValidationResult
-} from 'react-aria-components';
-import { tv } from 'tailwind-variants';
-
-import { DropdownItem, DropdownItemDetails, DropdownSection } from './dropdown';
-import { Description, FieldError, Label } from './field';
-import { ListBox } from './list-box';
-import { Popover } from './popover';
-import { cr, ctr, focusStyles } from './primitive';
+  Button,
+  Select as SelectPrimitive,
+  SelectValue,
+  composeRenderProps,
+} from "react-aria-components"
+import { tv } from "tailwind-variants"
+import {
+  DropdownItem,
+  DropdownItemDetails,
+  DropdownLabel,
+  DropdownSection,
+  DropdownSeparator,
+} from "./dropdown"
+import { Description, FieldError, Label } from "./field"
+import { ListBox } from "./list-box"
+import { PopoverContent } from "./popover"
+import { composeTailwindRenderProps, focusStyles } from "./primitive"
 
 const selectTriggerStyles = tv({
-    extend: focusStyles,
-    base: [
-        'btr group-disabled:bg-secondary [&_[data-slot=icon]]:size-4 group-disabled:opacity-50 focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/20 group-open:border-primary group-open:ring-4 group-open:ring-primary/20 flex h-10 w-full cursor-default items-center gap-4 rounded-lg border border-input bg-bg py-2 pl-3 pr-2 text-start shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition dark:shadow-none'
-    ],
-    variants: {
-        isDisabled: {
-            false: 'text-fg group-invalid:border-danger group-invalid:ring-danger/20 forced-colors:group-invalid:border-[Mark]',
-            true: 'bg-secondary text-muted-fg forced-colors:border-[GrayText] forced-colors:text-[GrayText]'
-        }
-    }
-});
+  extend: focusStyles,
+  base: [
+    "btr flex h-10 w-full cursor-default items-center gap-4 gap-x-2 rounded-lg border border-input py-2 pr-2 pl-3 text-start shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition **:data-[slot=icon]:size-4 group-data-disabled:opacity-50 dark:shadow-none",
+    "group-data-open:border-ring/70 group-data-open:ring-4 group-data-open:ring-ring/20",
+    "text-fg group-data-invalid:border-danger group-data-invalid:ring-danger/20 forced-colors:group-data-invalid:border-[Mark]",
+  ],
+  variants: {
+    isDisabled: {
+      true: "opacity-50 forced-colors:border-[GrayText] forced-colors:text-[GrayText]",
+    },
+  },
+})
 
 interface SelectProps<T extends object> extends SelectPrimitiveProps<T> {
-    label?: string;
-    description?: string;
-    errorMessage?: string | ((validation: ValidationResult) => string);
-    items?: Iterable<T>;
-    className?: string;
+  label?: string
+  description?: string
+  errorMessage?: string | ((validation: ValidationResult) => string)
+  items?: Iterable<T>
+  className?: string
 }
 
 const Select = <T extends object>({
-    label,
-    description,
-    errorMessage,
-    children,
-    className,
-    ...props
+  label,
+  description,
+  errorMessage,
+  className,
+  ...props
 }: SelectProps<T>) => {
-    return (
-        <SelectPrimitive {...props} className={ctr(className, 'group flex w-full flex-col gap-1')}>
-            {label &&
-                <Label>{label} {props.isRequired && <span className="text-red-500 ml-0.5">*</span>}</Label>
-            }
-            <>{children}</>
-            {description && <Description>{description}</Description>}
-            <FieldError>{errorMessage}</FieldError>
-        </SelectPrimitive>
-    );
-};
-
-interface ListProps<T extends object> {
-    items?: Iterable<T>;
-    placement?: Placement;
-    children: React.ReactNode | ((item: T) => React.ReactNode);
-    className?: string;
+  return (
+    <SelectPrimitive
+      {...props}
+      className={composeTailwindRenderProps(className, "group flex w-full flex-col gap-y-1.5")}
+    >
+      {(values) => (
+        <>
+          {label && <Label>{label}</Label>}
+          {typeof props.children === "function" ? props.children(values) : props.children}
+          {description && <Description>{description}</Description>}
+          <FieldError>{errorMessage}</FieldError>
+        </>
+      )}
+    </SelectPrimitive>
+  )
 }
 
-const List = <T extends object>({ className, children, items, placement }: ListProps<T>) => {
-    return (
-        <Popover.Picker className={className} trigger="Select" placement={placement}>
-            <ListBox.Picker aria-label="items" items={items}>
-                {children}
-            </ListBox.Picker>
-        </Popover.Picker>
-    );
-};
-
-interface TriggerProps extends ButtonProps {
-    prefix?: React.ReactNode;
-    className?: string;
+interface SelectListProps<T extends object>
+  extends ListBoxProps<T>,
+    Pick<PopoverProps, "placement"> {
+  items?: Iterable<T>
+  popoverClassName?: PopoverProps["className"]
 }
 
-const Trigger = ({ className, ...props }: TriggerProps) => {
-    return (
-        <Button
-            className={cr(className, (className, renderProps) =>
-                selectTriggerStyles({
-                    ...renderProps,
-                    className
-                })
-            )}
-        >
-            {props.prefix && <span className="-mr-1">{props.prefix}</span>}
-            <SelectValue className="flex-1 [&_[slot=description]]:hidden text-base placeholder-shown:text-muted-fg lg:text-sm" />
-            <IconChevronLgDown
-                aria-hidden
-                className="text-muted-fg shrink-0 size-4 duration-300 group-open:rotate-180 group-open:text-fg group-disabled:opacity-50 forced-colors:text-[ButtonText] forced-colors:group-disabled:text-[GrayText]"
-            />
-        </Button>
-    );
-};
+const SelectList = <T extends object>({
+  children,
+  items,
+  className,
+  popoverClassName,
+  ...props
+}: SelectListProps<T>) => {
+  return (
+    <PopoverContent
+      showArrow={false}
+      respectScreen={false}
+      className={cn("sm:min-w-(--trigger-width)", popoverClassName)}
+      placement={props.placement}
+    >
+      <ListBox className={cn("border-0", className)} items={items} {...props}>
+        {children}
+      </ListBox>
+    </PopoverContent>
+  )
+}
 
-Select.OptionDetails = DropdownItemDetails;
-Select.Option = DropdownItem;
-Select.Section = DropdownSection;
-Select.Trigger = Trigger;
-Select.List = List;
+interface SelectTriggerProps extends React.ComponentProps<typeof Button> {
+  prefix?: React.ReactNode
+  className?: string
+}
 
-export { Select };
+const SelectTrigger = ({ className, ...props }: SelectTriggerProps) => {
+  return (
+    <Button
+      className={composeRenderProps(className, (className, renderProps) =>
+        selectTriggerStyles({
+          ...renderProps,
+          className,
+        }),
+      )}
+    >
+      {props.prefix && <span className="-mr-1">{props.prefix}</span>}
+      <SelectValue
+        data-slot="select-value"
+        className="*:data-[slot=icon]:-mx-0.5 *:data-[slot=avatar]:-mx-0.5 *:data-[slot=avatar]:*:-mx-0.5 grid flex-1 grid-cols-[auto_1fr] items-center text-base data-placeholder:text-muted-fg *:data-[slot=avatar]:*:mr-2 *:data-[slot=avatar]:mr-2 *:data-[slot=icon]:mr-2 sm:text-sm [&_[slot=description]]:hidden"
+      />
+      <IconChevronLgDown
+        aria-hidden
+        className="size-4 shrink-0 text-muted-fg duration-300 group-data-open:rotate-180 group-data-open:text-fg group-data-disabled:opacity-50 forced-colors:text-[ButtonText] forced-colors:group-data-disabled:text-[GrayText]"
+      />
+    </Button>
+  )
+}
+
+const SelectSection = DropdownSection
+const SelectSeparator = DropdownSeparator
+const SelectLabel = DropdownLabel
+const SelectOptionDetails = DropdownItemDetails
+const SelectOption = DropdownItem
+
+Select.OptionDetails = SelectOptionDetails
+Select.Option = SelectOption
+Select.Label = SelectLabel
+Select.Separator = SelectSeparator
+Select.Section = SelectSection
+Select.Trigger = SelectTrigger
+Select.List = SelectList
+
+export type { SelectProps, SelectTriggerProps }
+export { Select }

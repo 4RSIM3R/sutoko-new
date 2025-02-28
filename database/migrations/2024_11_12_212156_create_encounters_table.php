@@ -2,7 +2,7 @@
 
 use App\Models\Location;
 use App\Models\Patient;
-use App\Models\PaymentAssurance;
+use App\Models\Assurance;
 use App\Models\Practioner;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,14 +20,14 @@ return new class extends Migration
             $table->foreignIdFor(Patient::class);
             $table->foreignIdFor(Practioner::class);
             $table->foreignIdFor(Location::class);
-            $table->foreignIdFor(PaymentAssurance::class);
+            $table->foreignIdFor(Assurance::class);
             $table->string('satu_sehat_id');
             $table->string('status');
             $table->boolean('send_questionnaire')->default(false);
             $table->json('response')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['patient_id', 'practioner_id', 'payment_assurance_id']);
+            $table->index(['patient_id', 'practioner_id', 'assurance_id']);
         });
     }
 

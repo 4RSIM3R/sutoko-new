@@ -95,7 +95,7 @@ export const fetchLocation = async (search: any): Promise<SelectOption[]> => {
     }));
 };
 
-export const fetchPaymentAssurance = async (search: any): Promise<SelectOption[]> => {
+export const fetchAssurance = async (search: any): Promise<SelectOption[]> => {
     const response = await axios.get(route("backoffice.payment-assurance.fetch"), {
         params: { name: search },
     });
