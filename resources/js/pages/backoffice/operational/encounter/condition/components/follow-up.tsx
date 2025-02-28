@@ -10,7 +10,7 @@ export const FollowUp = ({ encounter }: FollowUpProps) => {
 
     return (
         <div className="w-full" >
-<div className="flex flex-row justify-between" >
+            <div className="flex flex-row justify-between" >
                 <div className="" >
                     <h1 className="text-xl font-semibold">Follow Up {encounter.patient?.name}</h1>
                     <p className="text-sm text-gray-500 mt-0.5">Practioner : {encounter.practioner?.name}</p>

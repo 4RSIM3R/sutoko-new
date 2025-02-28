@@ -9,4 +9,11 @@ class Bill extends Model
 {
     /** @use HasFactory<\Database\Factories\BillFactory> */
     use HasFactory;
+
+    protected $guarded = [];
+
+    public function encounter()
+    {
+        return $this->belongsTo(Encounter::class);
+    }
 }

@@ -15,7 +15,7 @@ class SatuSehatError
 
         switch ($status) {
             case 400:
-                return new Exception("Bad Request - {$response->body()}. Status Code: {$status}");
+                return new Exception("Bad Request - {$response->json()['issue'][0]["details"]["text"]}. Status Code: {$status}");
             case 401:
                 return new Exception("Unauthorized - Invalid token. Status Code: {$status}");
             case 404:

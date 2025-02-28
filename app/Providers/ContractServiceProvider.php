@@ -7,6 +7,7 @@ use App\Contract\Backoffice\LocationContract;
 use App\Contract\Backoffice\MedicineContract;
 use App\Contract\Backoffice\PatientContract;
 use App\Contract\Backoffice\AssuranceContract;
+use App\Contract\Backoffice\EncounterContract;
 use App\Contract\Backoffice\PractionerContract;
 use App\Contract\BaseContract;
 use App\Contract\Plugins\AppointmentContract;
@@ -16,6 +17,7 @@ use App\Service\Backoffice\LocationService;
 use App\Service\Backoffice\MedicineService;
 use App\Service\Backoffice\PatientService;
 use App\Service\Backoffice\AssuranceService;
+use App\Service\Backoffice\EncounterService;
 use App\Service\Backoffice\PractionerService;
 use App\Service\BaseService;
 use App\Service\Plugins\AppointmentService;
@@ -43,6 +45,7 @@ class ContractServiceProvider extends ServiceProvider
         $this->app->bind(ChargeContract::class, ChargeService::class);
         $this->app->bind(AssuranceContract::class, AssuranceService::class);
         $this->app->bind(LocationContract::class, LocationService::class);
+        $this->app->bind(EncounterContract::class, EncounterService::class);
 
         /**
          * Plugin Service Contract.

@@ -77,7 +77,7 @@ export const fetchPatient = async (search: any): Promise<SelectOption[]> => {
         params: { name: search },
     });
 
-    return response.data.map((e: any) => ({
+    return response.data.items.map((e: any) => ({
         value: e.id,
         label: `${e.name} - ${e.nik}`,
     }));
@@ -89,21 +89,27 @@ export const fetchLocation = async (search: any): Promise<SelectOption[]> => {
         params: { name: search },
     });
 
-    return response.data.map((e: any) => ({
+    return response.data.items.map((e: any) => ({
         value: e.id,
         label: e.name,
     }));
 };
 
 export const fetchAssurance = async (search: any): Promise<SelectOption[]> => {
-    const response = await axios.get(route("backoffice.payment-assurance.fetch"), {
+    const response = await axios.get(route("backoffice.assurance.fetch"), {
         params: { name: search },
     });
 
-    return response.data.map((e: any) => ({
+    return response.data.items.map((e: any) => ({
         value: e.id,
         label: e.name,
     }));
+};
+
+export const fetchEncounter = async (params: Record<string, any>): Promise<SelectOption[]> => {
+    const response = await axios.get(route("backoffice.encounter.fetch"), params);
+
+    return response.data;
 };
 
 export const fetchIcd10 = async (search: any): Promise<SelectOption[]> => {

@@ -25,8 +25,8 @@ class EncounterRequest extends FormRequest
             'patient_id' => ['required', 'exists:patients,id'],
             'practioner_id' => ['required', 'exists:practioners,id'],
             'location_id' => ['required', 'exists:locations,id'],
-            'payment_assurance_id' => ['required', 'exists:payment_assurances,id'],
-            'send_questionnaire' => ['required', 'boolean'],
+            'assurance_id' => ['required', 'exists:assurances,id'],
+            'sync_satu_sehat' => ['boolean'],
         ];
     }
 }

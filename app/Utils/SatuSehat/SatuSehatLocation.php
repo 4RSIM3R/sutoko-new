@@ -69,11 +69,20 @@ class SatuSehatLocation
 
     public function create($token, $payload)
     {
-        $response = Http::withHeaders([
-            "Content-Type" => "application/json",
-            "Authorization" => "Bearer $token",
-        ])->post(sprintf("%s/Location", config('satu_sehat.base_url')), $payload);
+        try {
 
-        return $response->json()["id"];
+            $response = Http::withHeaders([
+                "Content-Type" => "application/json",
+                "Authorization" => "Bearer $token",
+            ])->post(sprintf("%s/Location", config('satu_sehat.base_url')), $payload);
+
+            if ($response->failed()) throw SatuSehatError::handle($response);
+
+            $json = $response->json();
+
+            return $json;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 }

@@ -45,7 +45,6 @@ class ChargeController extends Controller
     {
         $payload = $request->validated();
         $data = $this->service->create($payload);
-        dd($data);
         return WebResponse::response($data, 'backoffice.charge.index');
     }
 

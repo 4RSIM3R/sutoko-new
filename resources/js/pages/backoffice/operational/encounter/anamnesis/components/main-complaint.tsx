@@ -1,5 +1,6 @@
 import { Button, Checkbox, Label, Textarea, TextField } from "@/components/ui"
 import { Encounter } from "@/types/encounter";
+import { FormResponse } from "@/utils/constant/system";
 import { fetchSnomed } from "@/utils/select";
 import { useForm } from "@inertiajs/react";
 import { useQuery } from "@tanstack/react-query";
@@ -66,20 +67,7 @@ export const MainComplaint = ({ encounter }: MainComplaintProps) => {
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
-        post(route('backoffice.encounter.complaint', { id: encounter.id }), {
-            onSuccess: (_) => {
-                toast("Data berhasil disimpan", {
-                    description: "Data berhasil disimpan",
-                    important: true,
-                });
-            },
-            onError: (error) => {
-                toast("Whoopsss....", {
-                    description: JSON.stringify(error),
-                    important: true,
-                });
-            }
-        });
+        post(route('backoffice.encounter.complaint', { id: encounter.id }), FormResponse);
     }
 
     return (

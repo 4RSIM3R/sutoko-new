@@ -19,8 +19,8 @@ export default function ConditionIndex({ encounter }: ObservationIndexProps) {
 
             <Tabs className="" aria-label="Anamnesis Form" >
                 <Tabs.List>
-                    <Tabs.Tab id="diagnose">Diagnosa</Tabs.Tab>
-                    <Tabs.Tab id="service">Tindakan</Tabs.Tab>
+                    <Tabs.Tab id="diagnose">Diagnosa (ICD 10) </Tabs.Tab>
+                    <Tabs.Tab id="service">Tindakan (ICD 9)</Tabs.Tab>
                     <Tabs.Tab id="nutrition">Nutrisi / Diet</Tabs.Tab>
                     <Tabs.Tab id="medication">Peresepan Obat</Tabs.Tab>
                     <Tabs.Tab id="follow-up">Rencana Tindak Lanjut</Tabs.Tab>

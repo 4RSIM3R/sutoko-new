@@ -1,49 +1,23 @@
 import { CustomSelect } from "@/components/custom-select";
 import { Button, Checkbox, Label } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
-import { Encounter } from "@/types/encounter";
+import { FormResponse } from "@/utils/constant/system";
 import { fetchLocation, fetchPatient, fetchAssurance, fetchPractioner } from "@/utils/select";
 import { useForm } from "@inertiajs/react";
 import { IconCircleQuestionmarkFill } from "justd-icons";
 import { useState } from "react";
 import AsyncSelect from "react-select/async";
-import { toast } from "sonner";
-
-type EncounterFormSchema = {
-    patient_id?: any;
-    patient_name?: any;
-    practioner_id?: any;
-    practioner_name?: any;
-    location_id?: any;
-    location_name?: any;
-    payment_assurance_id?: any;
-    payment_assurance_name?: any;
-    send_questionnaire?: boolean;
-}
 
 export default function EncounterForm() {
 
-    const [encounter, setEncounter] = useState<EncounterFormSchema>({})
+    const [encounter, setEncounter] = useState<any>({})
 
-    const { data, setData, post, errors, put } = useForm();
+    const { data, setData, post } = useForm();
 
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
-        post(route('backoffice.encounter.store'), {
-            onSuccess: (_) => {
-                toast("Data berhasil disimpan", {
-                    description: "Data berhasil disimpan",
-                    important: true,
-                });
-            },
-            onError: (error) => {
-                toast("Whoopsss....", {
-                    description: JSON.stringify(error),
-                    important: true,
-                });
-            }
-        });
+        post(route('backoffice.encounter.store'), FormResponse);
     }
 
     return (
@@ -60,15 +34,7 @@ export default function EncounterForm() {
                 </div>
             </div>
             <form onSubmit={onSubmit} className="mt-4 grid grid-cols-12 gap-4">
-                {/* <CustomSelect
-                    label="Patient"
-                    name="patient_id"
-                    options={fetchPatient()}
-                    onChange={(value) => {
-                        setEncounter({ ...encounter, patient_id: value?.value, patient_name: value?.label })
-                        setData({ ...data, patient_id: value?.value });
-                    }}
-                /> */}
+       
                 <CustomSelect
                     className="col-span-6"
                     label="Patient"
@@ -111,7 +77,7 @@ export default function EncounterForm() {
                             setEncounter({ ...encounter, practioner_id: value?.value, practioner_name: value?.label })
                             setData({ ...data, practioner_id: value?.value });
                         }}
-                        placeholder="Search for a praction..."
+                        placeholder="Search for a practioner..."
                     />
                 </div>
                 <div className="col-span-6" >
@@ -121,11 +87,11 @@ export default function EncounterForm() {
                         cacheOptions
                         loadOptions={fetchAssurance}
                         defaultOptions
-                        defaultValue={{ value: encounter?.payment_assurance_id, label: encounter?.payment_assurance_name }}
+                        defaultValue={{ value: encounter?.assurance_id, label: encounter?.assurance_name }}
                         isClearable
                         onChange={(value) => {
-                            setEncounter({ ...encounter, payment_assurance_id: value?.value, payment_assurance_name: value?.label })
-                            setData({ ...data, payment_assurance_id: value?.value });
+                            setEncounter({ ...encounter, assurance_id: value?.value, assurance_name: value?.label })
+                            setData({ ...data, assurance_id: value?.value });
                         }}
                         placeholder="Search for a payment assurance..."
                     />
@@ -133,8 +99,8 @@ export default function EncounterForm() {
                 <div className="col-span-12" >
                     <Checkbox
                         onChange={(val) => {
-                            setEncounter({ ...encounter, send_questionnaire: val })
-                            setData({ ...data, send_questionnaire: val });
+                            setEncounter({ ...encounter, sync_satu_sehat: val })
+                            setData({ ...data, sync_satu_sehat: val });
                         }}
                     >
                         Sinkorinisasi Dengan Satu Sehat

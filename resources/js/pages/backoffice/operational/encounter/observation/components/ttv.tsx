@@ -1,5 +1,6 @@
 import { Button, buttonStyles, Label, Modal, TextField } from "@/components/ui"
 import { Encounter } from "@/types/encounter"
+import { FormResponse } from "@/utils/constant/system"
 import { fetchSnomed } from "@/utils/select"
 import { useForm } from "@inertiajs/react"
 import { useQuery } from "@tanstack/react-query"
@@ -30,31 +31,11 @@ export const TTV = ({ encounter }: TTVProps) => {
     const [local, setLocal] = useState<TTVFormSchema>();
     const { data, setData, post } = useForm<TTVFormSchema>();
 
-    // const query = useQuery({
-    //     queryKey: ["vital-sign", encounter.id],
-    //     queryFn: async () => {
-    //         const response = await axios.get(route('backoffice.encounter.vital-sign', { id: encounter.id }));
-    //         return response;
-    //     }
-    // });
 
     const onSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
-        post(route('backoffice.encounter.vital-sign', { id: encounter.id }), {
-            onSuccess: (_) => {
-                toast("Data berhasil disimpan", {
-                    description: "Data berhasil disimpan",
-                    important: true,
-                });
-            },
-            onError: (error) => {
-                toast("Whoopsss....", {
-                    description: JSON.stringify(error),
-                    important: true,
-                });
-            }
-        });
+        post(route('backoffice.encounter.vital-sign', { id: encounter.id }), FormResponse);
     }
 
     return (

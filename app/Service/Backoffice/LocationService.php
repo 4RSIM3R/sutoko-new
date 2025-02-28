@@ -41,7 +41,8 @@ class LocationService extends BaseService implements LocationContract
             $token = SatuSehatAuth::token();
             $response = $client->create($token, $compose);
 
-            $payload["satu_sehat_id"] = $response;
+            $payloads["satu_sehat_id"] = $response["id"];
+            $payloads["response"] = $response;
 
             $result = Location::create($payloads);
 

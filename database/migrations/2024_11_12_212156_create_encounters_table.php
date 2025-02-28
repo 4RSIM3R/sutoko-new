@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignIdFor(Assurance::class);
             $table->string('satu_sehat_id');
             $table->string('status');
-            $table->boolean('send_questionnaire')->default(false);
+            $table->boolean('sync_satu_sehat')->default(true);
             $table->json('response')->nullable();
             $table->timestamps();
             $table->softDeletes();

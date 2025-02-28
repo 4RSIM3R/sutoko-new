@@ -15,6 +15,9 @@ return new class extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Encounter::class)->constrained();
+            $table->string('type');
+            $table->string('desc');
+            $table->integer('amount');
             $table->timestamps();
         });
     }

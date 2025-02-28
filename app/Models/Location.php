@@ -23,4 +23,8 @@ class Location extends Model
     ];
 
     protected $guarded = [];
+
+    protected $casts = [
+        'response' => 'array',
+    ];
 }

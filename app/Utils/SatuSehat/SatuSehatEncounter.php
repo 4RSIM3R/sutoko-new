@@ -6,6 +6,7 @@ use App\Models\Encounter;
 use App\Models\Location;
 use App\Models\Patient;
 use App\Models\Practioner;
+use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 
@@ -86,12 +87,20 @@ class SatuSehatEncounter
 
     public function create($token, $payload)
     {
-        $response = Http::withHeaders([
-            "Content-Type" => "application/json",
-            "Authorization" => "Bearer $token",
-        ])->post(sprintf("%s/Encounter", config('satu_sehat.base_url')), $payload);
+        try {
+            $response = Http::withHeaders([
+                "Content-Type" => "application/json",
+                "Authorization" => "Bearer $token",
+            ])->post(sprintf("%s/Encounter", config('satu_sehat.base_url')), $payload);
 
-        return $response->json()["id"];
+            if ($response->failed()) throw SatuSehatError::handle($response);
+
+            $json = $response->json();
+            
+            return $json["id"];
+        } catch (Exception  $e) {
+            throw $e;
+        }
     }
 
     public function update($token, $payload)

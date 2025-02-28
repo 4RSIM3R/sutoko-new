@@ -1,21 +1,128 @@
-import { Button, buttonStyles, Menu, Pagination, Table } from "@/components/ui";
+import { Column, DataTable } from "@/components/data-table";
+import { Button, buttonStyles, Menu, Modal } from "@/components/ui";
 import { AppLayout } from "@/layouts/app-layout";
 import { Base } from "@/types/base";
 import { Encounter } from "@/types/encounter";
 import { Link } from "@inertiajs/react";
+import axios from "axios";
 import {
     IconCheck,
+    IconEye,
     IconGlasses,
     IconPencilBox,
     IconPlus,
     IconSearchSketchbook
 } from "justd-icons";
+import { useState } from "react";
 
 type EncounterIndexProps = {
     encounters: Base<Encounter[]>
 }
 
 export default function EncounterIndex({ encounters }: EncounterIndexProps) {
+
+    const [filters, setFilters] = useState<Record<string, any>>({});
+
+    const columns: Column<any>[] = [
+        {
+            id: 'id',
+            header: 'ID',
+            cell: (item) => item.satu_sehat_id,
+            isRowHeader: true,
+        },
+        {
+            id: 'patient',
+            header: 'Patient',
+            cell: (item) => item.patient.name,
+        },
+        {
+            id: 'practioner',
+            header: 'Practioner',
+            cell: (item) => item.practioner.name,
+        },
+        {
+            id: 'location',
+            header: 'Location',
+            cell: (item) => item.location.name,
+        },
+        {
+            id: 'bills',
+            header: 'Bills',
+            cell: (item) => (
+                <Modal>
+                    <Button size="extra-small" appearance="outline">
+                        <IconEye />
+                        Detail
+                    </Button>
+                    <Modal.Content>
+                        <Modal.Header>
+                            <Modal.Title>Detail</Modal.Title>
+                            <Modal.Description>
+                                Detail
+                            </Modal.Description>
+                        </Modal.Header>
+                        <Modal.Body className="px-4 pb-4" >
+                            {
+                                item.bills.map((e: any) => (
+                                    <div key={e.id} className="flex flex-row justify-between" >
+                                        <div className="flex flex-col gap-1" >
+                                            <div className="text-sm font-medium">{e.type}</div>
+                                            <div className="text-xs text-gray-500">{e.desc}</div>
+                                        </div>
+                                        <div className="text-sm font-medium">{e.amount}</div>
+                                    </div>
+                                ))
+                            }
+                        </Modal.Body>
+                    </Modal.Content>
+                </Modal>
+            ),
+        },
+        {
+            id: 'actions',
+            header: 'Actions',
+            cell: (item) => (
+                <Menu>
+                    <Menu.Trigger className={buttonStyles({ appearance: "outline", size: "extra-small" })}>ACTION</Menu.Trigger>
+                    <Menu.Content placement="bottom" className="sm:min-w-48">
+                        <Menu.Item>
+                            <Link className="flex flex-row items-center gap-2" href={`${route('backoffice.encounter.anamnesis', { id: item.id })}`}>
+                                <IconPencilBox />
+                                Anamnesis
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <Link className="flex flex-row items-center gap-2" href={`${route('backoffice.encounter.observation', { id: item.id })}`}>
+                                <IconGlasses />
+                                Observasi
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <Link className="flex flex-row items-center gap-2" href={`${route('backoffice.encounter.diagnose', { id: item.id })}`}>
+                                <IconSearchSketchbook />
+                                Diagnosis
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <Link className="flex flex-row items-center gap-2 font-medium" href="">
+                                <IconCheck />
+                                Selesai
+                            </Link>
+                        </Menu.Item>
+                    </Menu.Content>
+                </Menu>
+            ),
+            sortable: false
+        }
+    ];
+
+    const fetchData = async (params: Record<string, any>) => {
+        const response = await axios.get<Base<any[]>>(
+            route('backoffice.encounter.fetch', params)
+        );
+
+        return response.data;
+    }
 
     return (
         <div className="w-full">
@@ -25,7 +132,7 @@ export default function EncounterIndex({ encounters }: EncounterIndexProps) {
                     <p className="text-sm text-gray-500" >Manage encounter and medical record</p>
                 </div>
                 <div className="flex" >
-                    
+
                     <Link href={route('backoffice.encounter.create')}>
                         <Button appearance="outline" >
                             <IconPlus />
@@ -35,82 +142,11 @@ export default function EncounterIndex({ encounters }: EncounterIndexProps) {
                 </div>
             </div>
             <div className="my-4" >
-                <Table className="my-4" >
-                    <Table.Header className="w-full" >
-                        <Table.Column isRowHeader >Satu Sehat ID</Table.Column>
-                        <Table.Column>Pasien</Table.Column>
-                        <Table.Column>Dokter</Table.Column>
-                        <Table.Column>Ruangan</Table.Column>
-                        <Table.Column>Status</Table.Column>
-                        <Table.Column>Action</Table.Column>
-                    </Table.Header>
-                    <Table.Body>
-                        {
-                            encounters.items.map((e: Encounter) => (
-                                <Table.Row key={e.id} >
-                                    <Table.Cell>{e.satu_sehat_id}</Table.Cell>
-                                    <Table.Cell>{e.patient?.name}</Table.Cell>
-                                    <Table.Cell>{e.practioner?.name}</Table.Cell>
-                                    <Table.Cell>{e.location?.name}</Table.Cell>
-                                    <Table.Cell>
-                                        <Button className="capitalize" size="extra-small">
-                                            {e.status}
-                                        </Button>
-                                    </Table.Cell>
-                                    <Table.Cell>
-                                        <Menu>
-                                            <Menu.Trigger className={buttonStyles({ appearance: "outline", size: "extra-small" })}>ACTION</Menu.Trigger>
-                                            <Menu.Content placement="bottom" className="sm:min-w-48">
-                                                <Menu.Item>
-                                                    <Link className="flex flex-row items-center gap-2" href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
-                                                        <IconPencilBox />
-                                                        Anamnesis
-                                                    </Link>
-                                                </Menu.Item>
-                                                <Menu.Item>
-                                                    <Link className="flex flex-row items-center gap-2" href={`${route('backoffice.encounter.observation', { id: e.id })}`}>
-                                                        <IconGlasses />
-                                                        Observasi
-                                                    </Link>
-                                                </Menu.Item>
-                                                <Menu.Item>
-                                                    <Link className="flex flex-row items-center gap-2" href={`${route('backoffice.encounter.diagnose', { id: e.id })}`}>
-                                                        <IconSearchSketchbook />
-                                                        Diagnosis
-                                                    </Link>
-                                                </Menu.Item>
-                                                {/* <Menu.Item>
-                                                    <Link className="flex flex-row items-center gap-2" href={`${route('backoffice.encounter.medication', { id: e.id })}`}>
-                                                        <IconPlus />
-                                                        Resep Obat
-                                                    </Link>
-                                                </Menu.Item> */}
-                                                <Menu.Item>
-                                                    <Link className="flex flex-row items-center gap-2 font-medium" href={`${route('backoffice.encounter.anamnesis', { id: e.id })}`}>
-                                                        <IconCheck />
-                                                        Selesai
-                                                    </Link>
-                                                </Menu.Item>
-                                            </Menu.Content>
-                                        </Menu>
-                                    </Table.Cell>
-                                </Table.Row>
-                            ))
-                        }
-                    </Table.Body>
-                </Table>
-                <Pagination>
-                    <Pagination.List>
-                        {
-                            encounters.prev_page &&
-                            <Pagination.Item variant="previous" href={route('backoffice.encounter.index', { page: encounters.prev_page })} />
-                        }
-                        {
-                            encounters.next_page &&
-                            <Pagination.Item variant="next" href={route('backoffice.encounter.index', { page: encounters.next_page })} />
-                        }
-                    </Pagination.List>
-                </Pagination>
+                <DataTable
+                    columns={columns}
+                    fetchData={fetchData}
+                    filters={filters ?? {}}
+                />
             </div>
         </div>
     )

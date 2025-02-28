@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Backoffice;
 
+use App\Contract\Backoffice\EncounterContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EncounterRequest;
 use App\Models\Encounter;
 use App\Models\Patient;
 use App\Utils\SatuSehat\SatuSehatAuth;
 use App\Utils\SatuSehat\SatuSehatEncounter;
+use App\Utils\WebResponse;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,22 +18,23 @@ use Illuminate\Support\Str;
 
 class EncounterController extends Controller
 {
+    
+    protected EncounterContract $service;
 
-    public function index(Request $request)
+    public function __construct(EncounterContract $service)
     {
-        $page = $request->get('page', 1);
+        $this->service = $service;
+    }
 
-        $encounters = Encounter::query()->with(['patient', 'location', 'practioner'])->paginate(page: $page);
+    public function index()
+    {
+        return Inertia::render('backoffice/operational/encounter/index');
+    }
 
-        $encounters = [
-            "prev_page" => $encounters->currentPage() > 1 ? $encounters->currentPage() - 1 : null,
-            "items" => $encounters->items(),
-            "next_page" => $encounters->hasMorePages() ? $encounters->currentPage() + 1 : null,
-        ];
-
-        return Inertia::render('backoffice/operational/encounter/index', [
-            'encounters' => $encounters,
-        ]);
+    public function fetch()
+    {
+        $data = $this->service->all(['name'], ['name'], true, relation: ['patient', 'location', 'practioner', 'bills']);
+        return response()->json($data);
     }
 
     public function create()
@@ -42,29 +45,8 @@ class EncounterController extends Controller
     public function store(EncounterRequest $request)
     {
         $payload = $request->validated();
-        $payload["satu_sehat_id"] = (string) Str::uuid();
-
-        $encounter = new SatuSehatEncounter();
-        $compose = $encounter->compose_arrived($payload);        
-
-        try {
-            DB::beginTransaction();
-
-            $token = SatuSehatAuth::token();
-
-            $satu_sehat_id =  $encounter->create($token, $compose);
-
-            $payload["status"] = "arrived";
-            $payload["satu_sehat_id"] = $satu_sehat_id;
-
-            Encounter::query()->create($payload);
-
-            DB::commit();
-            return Inertia::location(route('backoffice.encounter.index'));
-        } catch (Exception $exception) {
-            DB::rollBack();
-            return back()->withErrors('errors', $exception->getMessage());
-        }
+        $data = $this->service->create($payload);
+        return WebResponse::response($data, 'backoffice.encounter.index');
     }
 
     public function anamnesis($id)
